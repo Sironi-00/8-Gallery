@@ -1,0 +1,19 @@
+header {
+    background: #079;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header a {
+    color: #FFF;
+    padding: 0.25rem;
+    margin: 0.125rem;
+}
+header a:hover {
+    background-color: #0003;
+    color: #FFF;
+    padding: 0.25rem;
+    margin: 0.125rem;
+}
