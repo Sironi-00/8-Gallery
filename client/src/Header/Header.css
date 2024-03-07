@@ -1,19 +1,36 @@
 header {
-    background: #079;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid #DDD;
+}
+header a.logo {
+    color: unset;
+    text-decoration: none;
 }
 
-header a {
-    color: #FFF;
-    padding: 0.25rem;
-    margin: 0.125rem;
+header .actions {
+    display: flex;
 }
-header a:hover {
-    background-color: #0003;
+header .actions button {
+    background-color: #0000;
+}
+
+nav {
+    display: flex;
+}
+nav a, nav button {
     color: #FFF;
-    padding: 0.25rem;
+    padding: 0.25rem 0.5rem;
     margin: 0.125rem;
+    display: flex;
+}
+nav a:hover, nav button:hover {
+    background-color: #0003;
+}
+nav a:active, nav button:active {
+    scale: 0.9;
+}
+nav a.active {
+    border-bottom: 1px solid #FFF;
 }

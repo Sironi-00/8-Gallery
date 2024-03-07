@@ -1,11 +1,55 @@
 :root {
+  --color-fg-main: #F4F8FA;
+  --color-fg-secondary: #A0B0C0;
+  --color-fg-transparent: #FFF4;
+  --color-fg-dark: #2b2a33;
+  --color-fg-error: #eb4b4b;
+  
+  --color-bg-main: #031A33;
+  --color-bg-secondary: #355286;
+  --color-bg-transparent: #0373;
+  --color-bg-dark: #000B;
+
+
+  --fg-main: #F4F8FA;
+  --bg-main: #031A33;
+  --bg-secondary: #355286;
+  --bg-secondary: #2b2a33;
+  --bg-transparent: #0001;
+  --accent: #1ad;
+  --accent: lime;
+  --bg-dark: #000;
+
+  --rounded-borders: 0.35rem;
+
+  
+  /* 
+  #07E478; green light
+  #4C054A; purple dark
+  #355286; # light fading blue
+  #F111E5; bright magenta
+  #CF3258; # light red 
+  #11008C; # bright deep blue 
+  #E11F5D; # light red 
+  #812BF1;  bright purple
+  #2335D9; light blue
+  #A5B8C5; # bright gray
+  #32ECB9; # light bright green
+  #031A33; ### dark deep blue
+  #C71E5F; ## dark magenta
+  #67A1D0; light bright blue
+  #B81246; ## deep tomato red
+  #4B6B76; ### gray = support
+   */
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: #eee;
+  background-color: #031A33;
+  background: linear-gradient(180deg, #031A33, #031A3F, #031A33) no-repeat;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,37 +63,16 @@
   padding: 0;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+body {
+  /* background: #079; */
+  padding: 0.5rem 1rem 0.25rem;
+  height: 100vh;
+  max-height: 100dvh;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  border: none;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
 @media (prefers-color-scheme: light) {
