@@ -69,6 +69,17 @@ body {
   height: 100vh;
   max-height: 100dvh;
 }
+#root {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+main {
+  height: 100%;
+  overflow: auto;
+}
 
 button {
   border: none;
@@ -86,4 +97,10 @@ button {
   button {
     background-color: #f9f9f9;
   }
+}
+
+img {
+  display: block;
+  /* max-width: auto; */
+  /* max-width: 420px; */
 }

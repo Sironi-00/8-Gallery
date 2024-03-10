@@ -1,0 +1,7 @@
+.home-page .images {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    flex: auto 1 1;
+    gap: 2px;
+}

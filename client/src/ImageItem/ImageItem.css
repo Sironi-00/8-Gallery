@@ -1,5 +1,24 @@
 .image-item {
     margin: 0.5rem 0;
-    padding: 0 0.5rem;
-    border-left: 1px solid #FFF;
+    background-color: #0002;
+    position: relative;
+}
+
+.image-item img {
+    width: 500px;
+    height: 380px;
+    object-fit: cover;
+    object-position: 50% 12%;
+}
+.image-item .image-attr {
+    padding: 0.25rem 0.5rem;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+.image-item .image-attr:hover {
+    background-color: #0004;
+    opacity: 1;
+    border: 0.25rem solid #0006;
 }

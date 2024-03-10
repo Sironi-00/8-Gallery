@@ -1,3 +1,4 @@
+import "./Home.css";
 import { useEffect, useState } from "react";
 import { fetchData } from "../Api/Api";
 import ImageItem from "../ImageItem/ImageItem";
