@@ -2,6 +2,7 @@ import "./Home.css";
 import { useEffect, useState } from "react";
 import { fetchData } from "../Api/Api";
 import ImageItem from "../ImageItem/ImageItem";
+import ViewOptions from "../ViewOptions/ViewOptions";
 
 export default function Home() {
     const [itemsState, setItemsState] = useState([]);
@@ -16,7 +17,7 @@ export default function Home() {
 
     return (
         <div className="home-page">
-            <h2>Home {itemsState.length}</h2>
+            <ViewOptions location="Home" />
             <div className="images">
                 {
                     itemsState.map((item) => <ImageItem key={item.id} data={item} />)

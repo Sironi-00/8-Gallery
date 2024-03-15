@@ -22,3 +22,11 @@
     opacity: 1;
     border: 0.25rem solid #0006;
 }
+
+.image-item .image-attr .image-text {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    background-color: #0009;
+}

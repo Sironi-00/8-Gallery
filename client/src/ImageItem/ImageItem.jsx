@@ -7,12 +7,15 @@ export default function ImageItem({data}) {
     return (
         <div id={id} className="image-item">
             <div className="image-attr">
-                <p>
-                    {author}'s {name}
-                </p>
-                <p>{description}</p>
+                <div className="image-text">
+                    <p>
+                        {author}'s - {name}
+                    </p>
+                    <p>{description}</p>
+                    <a href={url} target="_blank">Url</a>
+                </div>
             </div>
-            <img src={url} alt={"Image: " + {name}} />
+            <img src={url} alt={"Image: " + {name}} loading="lazy" />
         </div>
     );
 }
