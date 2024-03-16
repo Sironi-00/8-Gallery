@@ -2,15 +2,14 @@ import "./ImageItem.css";
 
 export default function ImageItem({data}) {
     const { id, name, url, author, description } = data;
-    console.log(data)
 
     return (
         <div id={id} className="image-item">
             <div className="image-attr">
                 <div className="image-text">
-                    <p>
+                    <h3>
                         {author}'s - {name}
-                    </p>
+                    </h3>
                     <p>{description}</p>
                     <a href={url} target="_blank">Url</a>
                 </div>

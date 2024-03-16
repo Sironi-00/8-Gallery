@@ -1,12 +1,14 @@
 .image-item {
-    margin: 0.5rem 0;
+    margin: 0.25rem;
     background-color: #0002;
     position: relative;
+    max-width: 460px;
+    max-height: 340px;
 }
 
 .image-item img {
-    width: 500px;
-    height: 380px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: 50% 12%;
 }

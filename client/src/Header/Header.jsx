@@ -4,6 +4,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import Person2RoundedIcon from "@mui/icons-material/Person2Rounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import SearchBar from "../SearchBar/SearchBar";
+import LockRoundedIcon from '@mui/icons-material/LockRounded';
 
 export default function Header() {
     return (
@@ -24,6 +25,9 @@ export default function Header() {
                     </NavLink>
                     <NavLink to="/authors">
                         <Person2RoundedIcon />
+                    </NavLink>
+                    <NavLink to="/login">
+                        <LockRoundedIcon />
                     </NavLink>
                 </nav>
             </div>
