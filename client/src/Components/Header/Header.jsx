@@ -8,13 +8,14 @@ import Person2RoundedIcon from "@mui/icons-material/Person2Rounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import LockRoundedIcon from "@mui/icons-material/LockRounded";
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import AllInclusiveRoundedIcon from '@mui/icons-material/AllInclusiveRounded';
 
 export default function Header() {
     return (
         <header>
             <div>
                 <a href="." className="logo">
-                    <h1>Infinity Gallery</h1>
+                    <h1><AllInclusiveRoundedIcon id="logo-icon"/> Gallery</h1>
                 </a>
             </div>
             <SearchBar />

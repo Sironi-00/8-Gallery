@@ -1,5 +1,3 @@
-import Brightness4RoundedIcon from '@mui/icons-material/Brightness4Rounded';
-
 export default function PreferenceModal() {
     const closeDialog = ({target}) => {
         if (target.id === "preference-modal") {
