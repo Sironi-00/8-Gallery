@@ -1,22 +1,25 @@
 import "./Header.css";
+import SearchBar from "../SearchBar/SearchBar";
+
 import { NavLink } from "react-router-dom";
+
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import Person2RoundedIcon from "@mui/icons-material/Person2Rounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-import SearchBar from "../SearchBar/SearchBar";
-import LockRoundedIcon from '@mui/icons-material/LockRounded';
+import LockRoundedIcon from "@mui/icons-material/LockRounded";
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 
 export default function Header() {
     return (
         <header>
             <div>
-              <a href="." className="logo">
-                <h1>Infinity Gallery</h1>
-              </a>
+                <a href="." className="logo">
+                    <h1>Infinity Gallery</h1>
+                </a>
             </div>
             <SearchBar />
             <div className="actions">
-                <button>
+                <button title="Upload Image" onClick={() => document.querySelector("#upload-modal").showModal()}>
                     <AddCircleOutlineRoundedIcon />
                 </button>
                 <nav>
@@ -29,6 +32,9 @@ export default function Header() {
                     <NavLink to="/login">
                         <LockRoundedIcon />
                     </NavLink>
+                    <button title="Preference" onClick={() => document.querySelector("#preference-modal").showModal()}>
+                        <SettingsRoundedIcon />
+                    </button>
                 </nav>
             </div>
         </header>

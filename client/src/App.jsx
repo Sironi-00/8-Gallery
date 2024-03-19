@@ -1,8 +1,8 @@
-import Authors from "./Authors/Authors";
-import Home from "./Home/Home";
-import Login from "./Login/Login";
-import Register from "./Register/Register";
 import Root from "./Root/Root";
+import Home from "./Pages/Home/Home";
+import Authors from "./Pages/Authors/Authors";
+import Login from "./Pages/Login/Login";
+import Register from "./Pages/Register/Register";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 

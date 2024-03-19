@@ -1,8 +1,8 @@
 import "./Authors.css";
 import { useEffect, useState } from "react";
-import ViewOptions from "../ViewOptions/ViewOptions";
-import { fetchAuthors } from "../Api/Api";
-import AuthorItem from "../AuthorItem/AuthorItem";
+import ViewOptions from "../../Components/ViewOptions/ViewOptions";
+import { fetchAuthors } from "../../Api/Api";
+import AuthorItem from "../../Components/AuthorItem/AuthorItem";
 
 export default function Authors() {
     const [authorState, setAuthorState] = useState([]);

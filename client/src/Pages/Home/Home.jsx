@@ -1,8 +1,8 @@
 import "./Home.css";
 import { useEffect, useState } from "react";
-import { fetchData, fetchDataByAuthor } from "../Api/Api";
-import ImageItem from "../ImageItem/ImageItem";
-import ViewOptions from "../ViewOptions/ViewOptions";
+import { fetchData, fetchDataByAuthor } from "../../Api/Api";
+import ImageItem from "../../Components/ImageItem/ImageItem";
+import ViewOptions from "../../Components/ViewOptions/ViewOptions";
 import { useParams } from "react-router-dom";
 
 export default function Home() {

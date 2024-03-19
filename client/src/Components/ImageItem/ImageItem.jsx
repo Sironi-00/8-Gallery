@@ -12,6 +12,9 @@ export default function ImageItem({data}) {
                     </h3>
                     <p>{description}</p>
                     <a href={url} target="_blank">Url</a>
+                    <button title="Edit Image" onClick={() => document.querySelector("#edit-image-modal").showModal()}>
+                    Edit
+                </button>
                 </div>
             </div>
             <img src={url} alt={"Image: " + {name}} loading="lazy" />
