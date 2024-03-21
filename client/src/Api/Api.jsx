@@ -42,3 +42,24 @@ export const fetchAuthors = async () => {
     }
     return false;
 };
+
+export const uploadImage = async (imageObject) => {
+    const formData = new FormData();
+    formData.append("name", imageObject.name)
+    formData.append("author", imageObject.author)
+    formData.append("description", imageObject.description)
+    formData.append("file", imageObject.file)
+    
+    let res = await fetch("http://localhost:3000/test", {
+        method: "POST",
+        headers: {
+            // 'content-type': 'multipart/form-data'
+        }, body: formData
+    });
+
+    if (res.ok) {
+        let data = await res.json();
+        return data; 
+    }
+    return false;
+}
