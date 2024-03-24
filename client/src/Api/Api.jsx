@@ -50,7 +50,7 @@ export const uploadImage = async (imageObject) => {
     formData.append("description", imageObject.description)
     formData.append("file", imageObject.file)
     
-    let res = await fetch("http://localhost:3000/test", {
+    let res = await fetch("http://localhost:3000/api/upload", {
         method: "POST",
         headers: {
             // 'content-type': 'multipart/form-data'

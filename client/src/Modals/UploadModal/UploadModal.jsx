@@ -29,7 +29,7 @@ export default function UploadModal() {
     }
 
     return (
-        <dialog id="upload-modal" className="modal" onClick={closeDialog} open>
+        <dialog id="upload-modal" className="modal" onClick={closeDialog} >
             <div className="dialog-body">
                 <h2>Upload Image</h2>
                 <form onSubmit={handleImageUpload}>

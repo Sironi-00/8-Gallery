@@ -1,4 +1,6 @@
 import "./ImageItem.css";
+import { Link } from "react-router-dom";
+
 
 export default function ImageItem({ data }) {
     const { id, name, url, author, description } = data;
@@ -8,7 +10,7 @@ export default function ImageItem({ data }) {
             <div className="image-attr">
                 <div className="image-text">
                     <h3>
-                        {author}'s - {name}
+                        <Link to={"/"+author}>{author}</Link>'s - {name}
                     </h3>
                     <p>{description}</p>
                     <a href={url} target="_blank">
