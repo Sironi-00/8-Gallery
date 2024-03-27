@@ -1,115 +1,30 @@
-const Database = [{
-        id: "13qgA",
-        name: "Test image",
-        url: "https://images3.alphacoders.com/133/1337500.png",
-        author: "user-1",
-        description: "[PH]image description",
-    },
-    {
-        id: "14dxE",
-        name: "Test image 2",
-        url: "https://images7.alphacoders.com/133/1330715.png",
-        author: "user-2",
-        description: "[PH]image description",
-    },
-    {
-        id: "15dxE",
-        name: "Test image 3",
-        url: "https://mfiles.alphacoders.com/979/979445.jpg",
-        author: "user-3",
-        description: "[PH]image description",
-    },
-    {
-        id: "16dxE",
-        name: "Test image 4",
-        url: "https://mfiles.alphacoders.com/763/763794.png",
-        author: "user-4",
-        description: "[PH]image description",
-    },
-    {
-        id: "17qgA",
-        name: "Test image 5",
-        url: "https://images3.alphacoders.com/134/1345266.png",
-        author: "user-1",
-        description: "[PH]image description",
-    },
-    {
-        id: "18dxE",
-        name: "Test image 6",
-        url: "https://images2.alphacoders.com/521/521718.jpg",
-        author: "user-2",
-        description: "[PH]image description",
-    },
-    {
-        id: "19dxE",
-        name: "Test image 7",
-        url: "https://images8.alphacoders.com/133/1330260.png",
-        author: "user-3",
-        description: "[PH]image description",
-    },
-    {
-        id: "11dxC",
-        name: "Test image 8",
-        url: "https://images7.alphacoders.com/131/1312115.jpg",
-        author: "user-4",
-        description: "[PH]image description",
-    },
-    {
-        id: "12qgC",
-        name: "Test image 9",
-        url: "https://images3.alphacoders.com/133/1337500.png",
-        author: "user-1",
-        description: "[PH]image description",
-    },
-    {
-        id: "13dxC",
-        name: "Test image 10",
-        url: "https://images7.alphacoders.com/133/1330715.png",
-        author: "user-2",
-        description: "[PH]image description",
-    },
-    {
-        id: "14dxC",
-        name: "Test image 11",
-        url: "https://mfiles.alphacoders.com/979/979445.jpg",
-        author: "user-3",
-        description: "[PH]image description",
-    },
-    {
-        id: "15dxC",
-        name: "Test image 12",
-        url: "https://mfiles.alphacoders.com/763/763794.png",
-        author: "user-4",
-        description: "[PH]image description",
-    },
-    {
-        id: "16qgC",
-        name: "Test image 13",
-        url: "https://images3.alphacoders.com/134/1345266.png",
-        author: "user-1",
-        description: "[PH]image description",
-    },
-    {
-        id: "17dxE",
-        name: "Test image 14",
-        url: "https://images2.alphacoders.com/521/521718.jpg",
-        author: "user-2",
-        description: "[PH]image description",
-    },
-    {
-        id: "18dxC",
-        name: "Test image 15",
-        url: "https://images8.alphacoders.com/133/1330260.png",
-        author: "user-3",
-        description: "[PH]image description",
-    },
-    {
-        id: "19dxC",
-        name: "Test image 16",
-        url: "https://images7.alphacoders.com/131/1312115.jpg",
-        author: "user-4",
-        description: "[PH]image description",
-    },
-]
+const mariadb = require("mariadb");
 
-module.exports = Database;
+const envVar = {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+};
+
+const Pool = mariadb.createPool({
+    ...envVar,
+    connectionLimit: 5
+});
+
+module.exports = Pool;
+
+const asyncFunction = async () => {
+    let conn;
+    try {
+        conn = await Pool.getConnection();
+        const rows = await conn.query("SELECT 1 as val");
+        console.log(rows); //[ {val: 1}, meta: ... ]
+        const res = await conn.query("INSERT INTO myTable value (?, ?)", [1, "mariadb"]);
+        console.log(res); // { affectedRows: 1, insertId: 1, warningStatus: 0 }
+    } catch (err) {
+        throw err;
+    } finally {
+        if (conn) return conn.end();
+    }
+};

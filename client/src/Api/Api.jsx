@@ -63,3 +63,16 @@ export const uploadImage = async (imageObject) => {
     }
     return false;
 }
+
+export const deleteImage = async (id) => {
+    let res = await fetch(`http://localhost:3000/api/${id}`, {
+        method: "DELETE",
+    });
+
+    if (res.ok) {
+        let data = await res.json();
+        console.log(data)
+        return data; 
+    }
+    return false;
+}

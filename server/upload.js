@@ -1,4 +1,7 @@
 const express = require("express");
+const Pool = require("./Database");
+const { v4: uuidv4 } = require('uuid');
+
 const uploadRouter = express.Router();
 
 const multer  = require('multer');
@@ -11,20 +14,27 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage});
 
-uploadRouter.post("/", upload.single("file"), (req, res, next) => {
-    const {name, author, description} = req.body;
+uploadRouter.post("/",upload.single("file"), async (req, res, next) => {
     const file = req.file;
-
-    const imageObject = {
-        id: `${name}+${file.filename}`,
-        name,
-        author,
-        description,
+    
+    const payload = {
+        id: uuidv4(),
+        artistId: req.body.author,
+        name: req.body.name,
+        description: req.body.description,
         url: "http://localhost:3000/images/" + file.originalname
     }
-    console.log(imageObject)
     
-    require("./Database").push(imageObject);
+    let conn;
+    try {
+        conn = await Pool.getConnection();
+        const rows = await conn.query("INSERT INTO images (id, artistId, name, description, url) VALUES (?, ?, ?, ?, ?)", [payload.id, payload.artistId, payload.name, payload.description, payload.url]);
+        res.json(rows);
+    } catch (err) {
+        throw err;
+    } finally {
+        if (conn) return conn.end();
+    }
     
     res.send({
         status: "Success",
