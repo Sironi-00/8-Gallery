@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { uploadImage } from "../../Api/Api";
+import { useNavigate } from "react-router-dom";
 
 export default function UploadModal() {
+    const navigate = useNavigate();
     const [imageObject, setImageObject] = useState({
         name: "Altra",
         description: "The saint of Altra",
@@ -16,13 +18,12 @@ export default function UploadModal() {
 
     const handleImageUpload = async (e) => {
         e.preventDefault();
-        console.log(imageObject);
         
         const author = "user-1";
         const upload = await uploadImage({...imageObject, author});
+        
         if (upload) {
-            console.log(upload)
-            console.log("File success fully uploaded")
+            navigate(`/${upload.id}`);
         } else {
             console.log("Failed to upload")
         }

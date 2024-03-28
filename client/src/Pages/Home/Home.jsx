@@ -15,7 +15,6 @@ export default function Home() {
             let data;
 
             if (author) {
-                console.log(author)
                 data = await fetchDataByAuthor(author);
             } else {
                 data = await fetchData();
@@ -27,12 +26,16 @@ export default function Home() {
         return setItemsState([]);
     }, [author]);
 
+    const deleteItem = (id) => {
+        setItemsState(prev => prev.filter(item => item.id !== id))
+    }
+
     return (
         <div className="home-page">
             <ViewOptions location="Home" />
             <div className="images">
                 {itemsState.map((item) => (
-                    <ImageItem key={item.id} data={item} />
+                    <ImageItem key={item.id} data={item} deleteItem={deleteItem} />
                 ))}
             </div>
         </div>

@@ -3,8 +3,17 @@ import "./ImageItem.css";
 import { Link } from "react-router-dom";
 
 
-export default function ImageItem({ data }) {
+export default function ImageItem({ data, deleteItem }) {
     const { id, name, url, artist, description } = data;
+
+    const handleDelete = async () => {
+        const res = await deleteImage(id);
+        if (res) {
+            deleteItem(id)
+        } else {
+            console.log("Error: could not delete image")
+        }
+    } 
 
     return (
         <div id={id} className="image-item">
@@ -20,7 +29,7 @@ export default function ImageItem({ data }) {
                     <button title="Edit Image" onClick={() => document.querySelector("#edit-image-modal").showModal()}>
                         Edit
                     </button>
-                    <button title="Delete Image" onClick={() => deleteImage(id)}>
+                    <button title="Delete Image" onClick={handleDelete}>
                         Delete
                     </button>
                 </div>

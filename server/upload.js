@@ -14,8 +14,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage});
 
-uploadRouter.post("/",upload.single("file"), async (req, res, next) => {
+uploadRouter.post("/", upload.single("file"), async (req, res, next) => {
     const file = req.file;
+
+    if (!file) {
+        res.status(400).send({message: "invalid file"})
+    }
     
     const payload = {
         id: uuidv4(),
@@ -28,18 +32,14 @@ uploadRouter.post("/",upload.single("file"), async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("INSERT INTO images (id, artistId, name, description, url) VALUES (?, ?, ?, ?, ?)", [payload.id, payload.artistId, payload.name, payload.description, payload.url]);
-        res.json(rows);
+        const rows = await conn.query("INSERT INTO images (id, artistId, name, description, url) VALUES (?, ?, ?, ?, ?) RETURNING id", [payload.id, payload.artistId, payload.name, payload.description, payload.url]);
+        res.send(rows[0]);
     } catch (err) {
-        throw err;
+        console.error(err);
+        res.send(err)
     } finally {
         if (conn) return conn.end();
     }
-    
-    res.send({
-        status: "Success",
-        data: imageObject
-    })
 });
 
 module.exports = uploadRouter;

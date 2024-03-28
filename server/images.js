@@ -33,11 +33,11 @@ ImagesRouter.delete("/:id", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("DELETE FROM images WHERE id = ?", [req.params.id]);
-        // console.log(rows)
-        res.sendStatus(204);
+        const rows = await conn.query("DELETE FROM images WHERE id = ? returning name", [req.params.id]);
+        res.sendStatus(204)
     } catch (err) {
-        throw err;
+        console.error(err);
+        res.sendStatus(400);
     } finally {
         if (conn) return conn.end();
     }

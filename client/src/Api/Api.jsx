@@ -70,9 +70,7 @@ export const deleteImage = async (id) => {
     });
 
     if (res.ok) {
-        let data = await res.json();
-        console.log(data)
-        return data; 
+        return true;
     }
     return false;
 }
