@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { uploadImage } from "../../Api/Api";
 import { useNavigate } from "react-router-dom";
 
+import { AppContext } from '../../ContextProvider/ContextProvider'
+
 export default function UploadModal() {
     const navigate = useNavigate();
+    
+    const { currentUser } = useContext(AppContext);
+
     const [imageObject, setImageObject] = useState({
         name: "Altra",
         description: "The saint of Altra",
@@ -19,11 +24,13 @@ export default function UploadModal() {
     const handleImageUpload = async (e) => {
         e.preventDefault();
         
-        const author = "user-1";
-        const upload = await uploadImage({...imageObject, author});
+        if (!currentUser || !currentUser.name) {
+            return
+        }
+        const upload = await uploadImage({...imageObject, author: currentUser.id});
         
         if (upload) {
-            navigate(`/${upload.id}`);
+            // navigate(`/${upload.id}`);
         } else {
             console.log("Failed to upload")
         }
@@ -33,6 +40,7 @@ export default function UploadModal() {
         <dialog id="upload-modal" className="modal" onClick={closeDialog} >
             <div className="dialog-body">
                 <h2>Upload Image</h2>
+                {currentUser?.name && <p>Artist: <strong>{currentUser.name}</strong></p>}
                 <form onSubmit={handleImageUpload}>
                     <input type="text" placeholder="Name" value={imageObject.name} onChange={({target}) => setImageObject(prev => ({...prev, name: target.value}))} />
                     <br />

@@ -10,7 +10,8 @@ ImagesRouter.get("/", async (req, res, next) => {
         const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id;");
         res.json(rows);
     } catch (err) {
-        throw err;
+        console.error(err);
+        res.sendStatus(400);
     } finally {
         if (conn) return conn.end();
     }
@@ -23,7 +24,8 @@ ImagesRouter.get("/:author", async (req, res, next) => {
         const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id WHERE users.name = ?", [req.params.author]);
         res.json(rows);
     } catch (err) {
-        throw err;
+        console.error(err);
+        res.sendStatus(400);
     } finally {
         if (conn) return conn.end();
     }

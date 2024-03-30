@@ -19,6 +19,7 @@ uploadRouter.post("/", upload.single("file"), async (req, res, next) => {
 
     if (!file) {
         res.status(400).send({message: "invalid file"})
+        return;
     }
     
     const payload = {

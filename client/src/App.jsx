@@ -5,6 +5,7 @@ import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ContextProvider from "./ContextProvider/ContextProvider";
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,9 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <>
-    <RouterProvider router={router} />
+    <ContextProvider>
+      <RouterProvider router={router} />
+    </ContextProvider>
     </>
   )
 }

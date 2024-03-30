@@ -29,7 +29,7 @@ export const fetchDataByAuthor = async (author) => {
 };
 
 export const fetchAuthors = async () => {
-    let res = await fetch("http://localhost:3000/api/authors", {
+    let res = await fetch("http://localhost:3000/api/user", {
         method: "GET",
         headers: {
             'content-type': 'application/json'
@@ -62,7 +62,7 @@ export const uploadImage = async (imageObject) => {
         return data; 
     }
     return false;
-}
+};
 
 export const deleteImage = async (id) => {
     let res = await fetch(`http://localhost:3000/api/${id}`, {
@@ -73,4 +73,19 @@ export const deleteImage = async (id) => {
         return true;
     }
     return false;
+};
+
+export const userLogin = async (user) => {
+    let res = await fetch(`http://localhost:3000/api/user/login`, {
+        method: "POST",
+        headers: {
+            'content-type': 'application/json'
+        }, body: JSON.stringify(user)
+    });
+
+    if (res.ok) {
+        let data = await res.json();
+        return data; 
+    }
+    return false;    
 }

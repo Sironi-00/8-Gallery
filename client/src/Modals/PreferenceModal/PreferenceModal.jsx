@@ -1,4 +1,10 @@
+import { useContext } from "react";
+import { AppContext } from "../../ContextProvider/ContextProvider";
+
+
 export default function PreferenceModal() {
+    const { currentUser } = useContext(AppContext);
+
     const closeDialog = ({target}) => {
         if (target.id === "preference-modal") {
             target.close();
@@ -9,6 +15,7 @@ export default function PreferenceModal() {
             <div className="dialog-body">
                 <h2>Preference Modal</h2>
                 <p>(#) visible when logged in</p>
+                <h3>Active User: {currentUser?.name}</h3>
                 <form >
                     Edit Theme
                     <br />
