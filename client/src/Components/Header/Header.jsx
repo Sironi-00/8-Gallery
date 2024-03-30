@@ -14,7 +14,7 @@ import { useContext } from "react";
 import { AppContext } from "../../ContextProvider/ContextProvider";
 
 export default function Header() {
-    const currentUser = useContext(AppContext);
+    const { currentUser } = useContext(AppContext);
 
     return (
         <header>
