@@ -1,12 +1,15 @@
 import "./Home.css";
-import { useEffect, useState } from "react";
-import { fetchData, fetchDataByAuthor } from "../../Api/Api";
+import { useContext, useEffect, useState } from "react";
+import { fetchData, fetchDataByAuthor, fetchSearch } from "../../Api/Api";
 import ImageItem from "../../Components/ImageItem/ImageItem";
 import ViewOptions from "../../Components/ViewOptions/ViewOptions";
 import { useParams } from "react-router-dom";
+import { SearchContext } from "../../ContextProvider/ContextProvider";
 
 export default function Home() {
     const [itemsState, setItemsState] = useState([]);
+
+    const { searchString, } = useContext(SearchContext);
 
     const { author } = useParams();
 
@@ -14,7 +17,9 @@ export default function Home() {
         const loadData = async () => {
             let data;
 
-            if (author) {
+            if (searchString && searchString.length > 2) {
+                data = await fetchSearch(searchString);
+            } else if (author) {
                 data = await fetchDataByAuthor(author);
             } else {
                 data = await fetchData();
@@ -24,7 +29,7 @@ export default function Home() {
         loadData();
 
         return setItemsState([]);
-    }, [author]);
+    }, [author, searchString]);
 
     const deleteItem = (id) => {
         setItemsState(prev => prev.filter(item => item.id !== id))
@@ -37,6 +42,9 @@ export default function Home() {
                 {itemsState.map((item) => (
                     <ImageItem key={item.id} data={item} deleteItem={deleteItem} />
                 ))}
+                {
+                    itemsState.length < 1 && <p>No Content</p>
+                }
             </div>
         </div>
     );

@@ -1,20 +1,26 @@
 import { createContext, useState } from "react";
 
 export const AppContext = createContext({
-        name: null,
-        id: null
-    }
-);
+    name: null,
+    id: null,
+});
+export const SearchContext = createContext("");
 
-export default function ContextProvider({children}) {
+export default function ContextProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
-    return <>
-    <AppContext.Provider value={{
-        currentUser, setCurrentUser
-    }}>
-        {
-            children
-        }
-    </AppContext.Provider>
-    </>
+    const [searchString, setSearchString] = useState("");
+    return (
+        <>
+            <SearchContext.Provider value={{ searchString, setSearchString }}>
+                <AppContext.Provider
+                    value={{
+                        currentUser,
+                        setCurrentUser,
+                    }}
+                >
+                    {children}
+                </AppContext.Provider>
+            </SearchContext.Provider>
+        </>
+    );
 }

@@ -29,10 +29,10 @@ export default function ImageItem({ data, deleteItem }) {
                     <a href={url} target="_blank">
                         Url
                     </a>
-                    <button title="Edit Image" onClick={() => document.querySelector("#edit-image-modal").showModal()}>
-                        Edit
-                    </button>
                     {currentUser?.id == artistId &&(<>
+                        <button title="Edit Image" onClick={() => document.querySelector("#edit-image-modal").showModal()}>
+                            Edit
+                        </button>
                         <button title="Delete Image" onClick={handleDelete}>
                             Delete
                         </button>

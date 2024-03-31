@@ -89,3 +89,18 @@ export const userLogin = async (user) => {
     }
     return false;    
 }
+
+export const fetchSearch = async (searchString) => {
+    let res = await fetch(`http://localhost:3000/api/search/?q=${searchString}`, {
+        method: "GET",
+        headers: {
+            'content-type': 'application/json'
+        },
+    });
+
+    if (res.ok) {
+        let data = await res.json();
+        return data;
+    }
+    return [];
+}

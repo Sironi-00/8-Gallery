@@ -17,6 +17,27 @@ ImagesRouter.get("/", async (req, res, next) => {
     }
 });
 
+ImagesRouter.get("/search", async (req, res, next) => {
+    const { q } = req.query;
+
+    if (!q || q.length < 3) {
+        res.sendStatus(404);
+        return;
+    }
+
+    let conn;
+    try {
+        conn = await Pool.getConnection();
+        const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id WHERE users.name LIKE ? OR images.id LIKE ? OR images.name LIKE ? OR images.description LIKE ? OR images.url LIKE ?", [`%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`,]);
+        res.json(rows);
+    } catch (err) {
+        console.error(err);
+        res.sendStatus(400);
+    } finally {
+        if (conn) return conn.end();
+    }
+});
+
 ImagesRouter.get("/:artist", async (req, res, next) => {
     let conn;
     try {
