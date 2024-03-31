@@ -17,11 +17,11 @@ ImagesRouter.get("/", async (req, res, next) => {
     }
 });
 
-ImagesRouter.get("/:author", async (req, res, next) => {
+ImagesRouter.get("/:artist", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id WHERE users.name = ?", [req.params.author]);
+        const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id WHERE users.name = ?", [req.params.artist]);
         res.json(rows);
     } catch (err) {
         console.error(err);
@@ -35,7 +35,7 @@ ImagesRouter.delete("/:id", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("DELETE FROM images WHERE id = ? returning name", [req.params.id]);
+        const rows = await conn.query("DELETE FROM images WHERE id = ? AND artistId = ? returning name", [req.params.id, req.query.artistId]);
         res.sendStatus(204)
     } catch (err) {
         console.error(err);

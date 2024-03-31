@@ -64,8 +64,8 @@ export const uploadImage = async (imageObject) => {
     return false;
 };
 
-export const deleteImage = async (id) => {
-    let res = await fetch(`http://localhost:3000/api/${id}`, {
+export const deleteImage = async ({id, artistId}) => {
+    let res = await fetch(`http://localhost:3000/api/${id}?artistId=${artistId}`, {
         method: "DELETE",
     });
 

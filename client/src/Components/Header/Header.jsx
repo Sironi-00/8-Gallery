@@ -44,9 +44,12 @@ export default function Header() {
                     <NavLink to="/authors">
                         <Person2RoundedIcon />
                     </NavLink>
-                    <NavLink to="/login">
-                        <LockRoundedIcon />
-                    </NavLink>
+                    {!currentUser?.name && (<>
+                        <NavLink to="/login">
+                            <LockRoundedIcon />
+                        </NavLink>
+                    </>)
+                    }
                     <button title="Preference" onClick={() => document.querySelector("#preference-modal").showModal()}>
                         <SettingsRoundedIcon />
                     </button>

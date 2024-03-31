@@ -10,7 +10,7 @@ export default function Login() {
 
     const [user, setUser] = useState({
         name: "[PH]artist_1",
-        password: ""
+        password: "secret"
     });
 
     const handleLogin = async (e) => {

@@ -1,19 +1,22 @@
+import { useContext } from "react";
 import { deleteImage } from "../../Api/Api";
 import "./ImageItem.css";
 import { Link } from "react-router-dom";
+import { AppContext } from "../../ContextProvider/ContextProvider";
 
 
 export default function ImageItem({ data, deleteItem }) {
-    const { id, name, url, artist, description } = data;
+    const { currentUser } = useContext(AppContext);
+    const { id, name, url, artist, artistId, description } = data;
 
     const handleDelete = async () => {
-        const res = await deleteImage(id);
+        const res = await deleteImage({id, artistId: currentUser?.id});
         if (res) {
             deleteItem(id)
         } else {
             console.log("Error: could not delete image")
         }
-    } 
+    }
 
     return (
         <div id={id} className="image-item">
@@ -29,9 +32,12 @@ export default function ImageItem({ data, deleteItem }) {
                     <button title="Edit Image" onClick={() => document.querySelector("#edit-image-modal").showModal()}>
                         Edit
                     </button>
-                    <button title="Delete Image" onClick={handleDelete}>
-                        Delete
-                    </button>
+                    {currentUser?.id == artistId &&(<>
+                        <button title="Delete Image" onClick={handleDelete}>
+                            Delete
+                        </button>
+                    </>) 
+                    }
                 </div>
             </div>
             <img src={url} alt={"Image: " + { name }} loading="lazy" />
