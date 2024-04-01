@@ -1,9 +1,7 @@
 import Header from "../Components/Header/Header"
 import { Outlet } from "react-router-dom";
 
-import UploadModal from "../Modals/UploadModal/UploadModal";
-import PreferenceModal from "../Modals/PreferenceModal/PreferenceModal";
-import EditImageModal from "../Modals/EditImageModal/EditImageModal";
+import Modals from "../Modals/Modals";
 
 export default function Root() {
   return (
@@ -12,9 +10,7 @@ export default function Root() {
     <main>
       <Outlet/>
     </main>
-    <UploadModal/>
-    <PreferenceModal/>
-    <EditImageModal />
+    <Modals/>
     </>
   )
 }
