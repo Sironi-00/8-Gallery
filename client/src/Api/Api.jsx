@@ -90,6 +90,21 @@ export const userLogin = async (user) => {
     return false;    
 }
 
+export const userRegister = async (user) => {
+    let res = await fetch(`http://localhost:3000/api/user/register`, {
+        method: "POST",
+        headers: {
+            'content-type': 'application/json'
+        }, body: JSON.stringify(user)
+    });
+
+    if (res.ok) {
+        let data = await res.json();
+        return data; 
+    }
+    return false;    
+}
+
 export const fetchSearch = async (searchString) => {
     let res = await fetch(`http://localhost:3000/api/search/?q=${searchString}`, {
         method: "GET",
@@ -103,4 +118,19 @@ export const fetchSearch = async (searchString) => {
         return data;
     }
     return [];
+}
+
+export const userEmail = async (emailObject) => {
+    let res = await fetch(`http://localhost:3000/api/user/email`, {
+        method: "POST",
+        headers: {
+            'content-type': 'application/json'
+        }, body: JSON.stringify(emailObject)
+    });
+
+    if (res.ok) {
+        let data = await res.json();
+        return data; 
+    }
+    return false;    
 }

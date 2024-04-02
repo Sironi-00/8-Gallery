@@ -59,11 +59,7 @@ UserRouter.post("/register", async (req, res, next) => {
             email: rows[0].email
 
         }
-        if (rows[0].password === password) {
-            res.json(activeUser);
-        } else {
-            res.sendStatus(404);
-        }
+        res.json(activeUser);
         
     } catch (err) {
         console.error(err);
@@ -71,6 +67,16 @@ UserRouter.post("/register", async (req, res, next) => {
     } finally {
         if (conn) return conn.end();
     }
+});
+
+UserRouter.post("/email", async (req, res, next) => {
+    const { name, artistId, email, message } = req.body;
+    res.send({
+        "from": name,
+        "to": artistId,
+        email,
+        message
+    })
 });
 
 
