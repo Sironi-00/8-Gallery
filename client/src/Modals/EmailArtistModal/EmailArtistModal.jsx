@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { userEmail } from "../../Api/Api";
+import { useEffect, useState } from "react";
+import { userEmail, userName } from "../../Api/Api";
 import { useSearchParams } from "react-router-dom";
 
 export default function EmailArtistModal() {
@@ -9,7 +9,7 @@ export default function EmailArtistModal() {
         name: "",
         email: "",
         message: "",
-        artistId: queryString.get("aid"),
+        artist: "",
     });
 
     const closeDialog = ({target}) => {
@@ -37,12 +37,34 @@ export default function EmailArtistModal() {
         }
     }
 
+    const artistId = queryString.get("aid");
+    useEffect(() => {
+        const loadModal = async () => {
+            const res = await userName(artistId);
+            if (res) {
+                setEmailObject({
+                    name: "",
+                    email: "",
+                    message: "",
+                    artist: res.name
+                });
+            } else {
+                console.log("Failed to get username")
+            }
+
+        }
+        if (artistId && artistId.length > 0) {
+            loadModal();
+        }
+    }, [artistId]);
+
     return (
         <dialog id="email-artist-modal" className="modal" onClick={closeDialog}>
             <div className="dialog-body">
                 <h2>Email Artist Modal</h2>
                 <p>To ensure our user's privacy we will send an email on your behalf</p>
                 <form onSubmit={handleEmailArtist}>
+                    <p>Sending to <strong>{emailObject.artist}</strong></p>
                     <input type="text" placeholder="Your Name(s)" value={emailObject.name} onChange={({target}) => setEmailObject(prev => ({...prev, name: target.value}))} />
                     <br />
                     <input type="email" placeholder="email" value={emailObject.email} onChange={({target}) => setEmailObject(prev => ({...prev, email: target.value}))}/>

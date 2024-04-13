@@ -1,6 +1,6 @@
 import "./Home.css";
 import { useContext, useEffect, useState } from "react";
-import { fetchData, fetchDataByAuthor, fetchSearch } from "../../Api/Api";
+import { fetchImages, fetchImagesByAuthor, fetchSearch } from "../../Api/Api";
 import ImageItem from "../../Components/ImageItem/ImageItem";
 import ViewOptions from "../../Components/ViewOptions/ViewOptions";
 import { useParams } from "react-router-dom";
@@ -20,9 +20,9 @@ export default function Home() {
             if (searchString && searchString.length > 2) {
                 data = await fetchSearch(searchString);
             } else if (author) {
-                data = await fetchDataByAuthor(author);
+                data = await fetchImagesByAuthor(author);
             } else {
-                data = await fetchData();
+                data = await fetchImages();
             }
             setItemsState(data);
         };

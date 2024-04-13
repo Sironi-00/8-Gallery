@@ -79,5 +79,20 @@ UserRouter.post("/email", async (req, res, next) => {
     })
 });
 
+UserRouter.get("/name", async (req, res, next) => {
+    let conn;
+    try {
+        conn = await Pool.getConnection();
+        const rows = await conn.query("SELECT id, name FROM users WHERE id = ?", [req.query.id]);
+        
+        res.send(rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.sendStatus(400);
+    } finally {
+        if (conn) return conn.end();
+    }
+});
+
 
 module.exports = UserRouter;

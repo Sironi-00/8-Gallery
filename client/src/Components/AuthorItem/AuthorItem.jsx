@@ -7,9 +7,8 @@ export default function AuthorItem({ data }) {
     
     const handleEmail = () => {
         setQueryString(`aid=${id}`)
-        const asd = document.querySelector("#email-artist-modal")
-        asd.showModal()
-        console.log(asd)
+        const messageModal = document.querySelector("#email-artist-modal")
+        messageModal.showModal()
     }
 
     return <div className="author-item">

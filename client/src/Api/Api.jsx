@@ -1,4 +1,4 @@
-export const fetchData = async () => {
+export const fetchImages = async () => {
     let res = await fetch("http://localhost:3000/api", {
         method: "GET",
         headers: {
@@ -13,7 +13,7 @@ export const fetchData = async () => {
     return false;
 };
 
-export const fetchDataByAuthor = async (author) => {
+export const fetchImagesByAuthor = async (author) => {
     let res = await fetch(`http://localhost:3000/api/${author}`, {
         method: "GET",
         headers: {
@@ -133,4 +133,15 @@ export const userEmail = async (emailObject) => {
         return data; 
     }
     return false;    
+}
+export const userName = async (artistId) => {
+    let res = await fetch(`http://localhost:3000/api/user/name?id=${artistId}`, {
+        method: "GET",
+    });
+
+    if (res.ok) {
+        let data = await res.json();
+        return data;
+    }
+    return false;
 }
