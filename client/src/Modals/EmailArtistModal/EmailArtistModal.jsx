@@ -40,7 +40,8 @@ export default function EmailArtistModal() {
 
     const artistId = queryString.get("aid");
     useEffect(() => {
-        const loadModal = async () => {
+        if (!artistId || artistId.length < 1) return
+        (async () => {
             const res = await userName(artistId);
             if (res) {
                 setEmailObject({
@@ -52,11 +53,7 @@ export default function EmailArtistModal() {
             } else {
                 console.log("Failed to get username")
             }
-
-        }
-        if (artistId && artistId.length > 0) {
-            loadModal();
-        }
+        })()
     }, [artistId]);
 
     return (

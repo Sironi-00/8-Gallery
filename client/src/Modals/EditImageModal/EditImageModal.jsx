@@ -5,17 +5,21 @@ import { AppContext } from "../../ContextProvider/ContextProvider";
 
 export default function EditImageModal() {
     const { currentUser } = useContext(AppContext)
-    const [imageObject, setImageObject] = useState({});
+    const [imageObject, setImageObject] = useState({
+        name: "",
+        description: "",
+        artist: "",
+        id: "",
+        artistId: ""
+    });
     const [queryString, setQueryString] = useSearchParams();
 
     const imageId = queryString.get("iid");
     useEffect(() => {
-        if (!imageId || imageId.length < 1) return
+        if (!currentUser || !imageId || imageId.length < 1) return
         (async () => {
-            console.log(imageId)
             const res = await fetchImagesById(imageId);
             if (res) {
-                console.log(res)
                 setImageObject({
                     id: imageId,
                     name: res.name,
@@ -44,6 +48,9 @@ export default function EditImageModal() {
         if (res) {
             console.log(res)
             console.log("Image Updated")
+            
+            setQueryString("")
+            document.getElementById("edit-image-modal").close()
         } else {
             console.log("Failed to update image")
         }
@@ -54,7 +61,7 @@ export default function EditImageModal() {
             <div className="dialog-body">
                 <h2>Edit Image Modal</h2>
                 <form onSubmit={handleImageUpdate}>
-                    <p>Artist: {imageObject.artist}</p>
+                    {/* <p>Artist: {imageObject.artist}</p> */}
                     <input type="text" value={imageObject.name} onChange={({target}) => setImageObject(prev => ({...prev, name: target.value }))} placeholder="Name" />
                     <br />
                     <textarea name="description" value={imageObject.description} onChange={({target}) => setImageObject(prev => ({...prev, description: target.value }))} cols="30" rows="10" placeholder="Image description"></textarea>
