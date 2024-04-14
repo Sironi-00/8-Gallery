@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 export default function AuthorItem({ data }) {
     const { id, name, likes, uploads, } = data;
     
-    const [_, setQueryString] = useSearchParams();
+    const [, setQueryString] = useSearchParams();
     
     const handleEmail = () => {
         setQueryString(`aid=${id}`)
@@ -12,6 +12,6 @@ export default function AuthorItem({ data }) {
     }
 
     return <div className="author-item">
-        <p><strong><Link to={"/"+name}>{name}</Link></strong> Images: {uploads} <button onClick={handleEmail}>Email</button></p>
+        <p><strong><Link to={"/artist/"+name}>{name}</Link></strong> Images: {uploads} <button onClick={handleEmail}>Email</button></p>
     </div>;
 }

@@ -1,5 +1,5 @@
 export const fetchImages = async () => {
-    let res = await fetch("http://localhost:3000/api", {
+    let res = await fetch("http://localhost:3000/api/images", {
         method: "GET",
         headers: {
             'content-type': 'application/json'
@@ -14,7 +14,22 @@ export const fetchImages = async () => {
 };
 
 export const fetchImagesByAuthor = async (author) => {
-    let res = await fetch(`http://localhost:3000/api/${author}`, {
+    let res = await fetch(`http://localhost:3000/api/images/by/${author}`, {
+        method: "GET",
+        headers: {
+            'content-type': 'application/json'
+        },
+    });
+
+    if (res.ok) {
+        let data = await res.json();
+        return data; 
+    }
+    return false;
+};
+
+export const fetchImagesById = async (id) => {
+    let res = await fetch(`http://localhost:3000/api/images/${id}`, {
         method: "GET",
         headers: {
             'content-type': 'application/json'
@@ -64,8 +79,24 @@ export const uploadImage = async (imageObject) => {
     return false;
 };
 
+export const updateImage = async (imageObject) => {
+    let res = await fetch(`http://localhost:3000/api/images/${imageObject.id}`, {
+        method: "PATCH",
+        headers: {
+            'content-type': 'application/json'
+        }, body: JSON.stringify(imageObject)
+    });
+
+    if (res.ok) {
+        let data = await res.json();
+        return data; 
+    }
+    return false;
+};
+
+
 export const deleteImage = async ({id, artistId}) => {
-    let res = await fetch(`http://localhost:3000/api/${id}?artistId=${artistId}`, {
+    let res = await fetch(`http://localhost:3000/api/images/${id}?artistId=${artistId}`, {
         method: "DELETE",
     });
 
@@ -106,7 +137,7 @@ export const userRegister = async (user) => {
 }
 
 export const fetchSearch = async (searchString) => {
-    let res = await fetch(`http://localhost:3000/api/search/?q=${searchString}`, {
+    let res = await fetch(`http://localhost:3000/api/images/search/?q=${searchString}`, {
         method: "GET",
         headers: {
             'content-type': 'application/json'

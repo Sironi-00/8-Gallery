@@ -15,7 +15,7 @@ const uploadRouter = require("./upload");
 app.use("/api/upload", uploadRouter)
 
 const ImagesRouter = require("./images");
-app.use("/api", ImagesRouter);
+app.use("/api/images", ImagesRouter);
 
 // get images
 app.use("/images", express.static("images"));

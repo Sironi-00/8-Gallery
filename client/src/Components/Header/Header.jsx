@@ -19,7 +19,7 @@ export default function Header() {
     return (
         <header>
             <div>
-                <a href="." className="logo">
+                <a href="/" className="logo">
                     <h1>
                         <AllInclusiveRoundedIcon id="logo-icon" /> Gallery
                     </h1>
@@ -41,7 +41,7 @@ export default function Header() {
                     <NavLink to="/">
                         <HomeRoundedIcon />
                     </NavLink>
-                    <NavLink to="/authors">
+                    <NavLink to="/artist">
                         <Person2RoundedIcon />
                     </NavLink>
                     {!currentUser?.name && (<>

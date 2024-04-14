@@ -18,20 +18,21 @@ export default function EmailArtistModal() {
         }
     };
 
-    const handleEmailArtist = async (e) => {
+    const handleSendEmail = async (e) => {
         e.preventDefault();
 
         const res = await userEmail(emailObject);
         if (res) {
+            console.log("Email Sent")
+
             setEmailObject({
                 name: "",
                 email: "",
                 message: "",
                 artistId: ""
             });
-            setQueryString("")
+            setQueryString("");
             document.getElementById("email-artist-modal").close()
-            console.log("Email Sent")
         } else {
             console.log("Failed: to send email");
         }
@@ -63,7 +64,7 @@ export default function EmailArtistModal() {
             <div className="dialog-body">
                 <h2>Email Artist Modal</h2>
                 <p>To ensure our user's privacy we will send an email on your behalf</p>
-                <form onSubmit={handleEmailArtist}>
+                <form onSubmit={handleSendEmail}>
                     <p>Sending to <strong>{emailObject.artist}</strong></p>
                     <input type="text" placeholder="Your Name(s)" value={emailObject.name} onChange={({target}) => setEmailObject(prev => ({...prev, name: target.value}))} />
                     <br />

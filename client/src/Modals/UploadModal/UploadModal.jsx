@@ -27,10 +27,11 @@ export default function UploadModal() {
         if (!currentUser || !currentUser.name) {
             return
         }
-        const upload = await uploadImage({...imageObject, author: currentUser.id});
+        const res = await uploadImage({...imageObject, author: currentUser.id});
         
-        if (upload) {
-            navigate(`/`);
+        if (res) {
+            document.getElementById("upload-modal").close()
+            navigate(``);
         } else {
             console.log("Failed to upload")
         }

@@ -16,7 +16,7 @@ const router = createBrowserRouter([
         path: "",
         element: <Home/>
       }, {
-        path: "authors", 
+        path: "artist", 
         element: <Authors />
       }, {
         path: "login", 
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
         path: "register", 
         element: <Register />
       }, {
-        path: ":author",
+        path: "artist/:author",
         element: <Home/>
       },
     ]

@@ -19,15 +19,16 @@ export default function PreferenceModal() {
             target.close();
         }
     };
+
+    const handleLogout = () => {
+        setCurrentUser(null);
+        document.getElementById("preference-modal").close()
+    }
+
     return (
         <dialog id="preference-modal" className="modal" onClick={closeDialog}>
             <div className="dialog-body">
                 <h2>Preference Modal</h2>
-                {currentUser?.name && (
-                    <p>
-                        Welcome: <strong>{currentUser?.name}</strong>
-                    </p>
-                )}
                 <button>Theme</button>
                 <br />
                 
@@ -81,16 +82,16 @@ export default function PreferenceModal() {
                         )}
                         {!editMode && (
                             <>
-                                <p>Name {currentUser?.name || user.name}</p>
-                                <p>Email {currentUser?.email || user.email}</p>
+                                <p>Name: <strong>{currentUser?.name || user.name}</strong></p>
+                                <p>Email: <strong>{currentUser?.email || user.email}</strong></p>
                             </>
                         )}
                     </>
                 )}
-                {currentUser?.name? <button onClick={() => setCurrentUser(null)}>Logout</button>:
+                {currentUser?.name? <button onClick={handleLogout}>Logout</button>:
                         <>
                         <br />
-                        <Link to="/login">Login</Link>
+                        <Link to="/login" onClick={handleLogout}>Login</Link>
                         </>}
                 <form method="dialog">
                     <button>Close</button>
