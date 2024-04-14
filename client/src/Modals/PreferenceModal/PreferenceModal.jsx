@@ -92,7 +92,10 @@ export default function PreferenceModal() {
                         <>
                         <br />
                         <Link to="/login" onClick={handleLogout}>Login</Link>
-                        </>}
+                        </>
+                }
+                <br />
+                <a href="https://github.com/Sironi-00/8-Gallery" target="_blank">source code</a>
                 <form method="dialog">
                     <button>Close</button>
                 </form>
