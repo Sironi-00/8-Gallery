@@ -1,5 +1,7 @@
 const express = require("express");
 const Pool = require("./Database");
+const fs = require("fs");
+const path = require("path");
 
 const ImagesRouter = express.Router();
 
@@ -11,13 +13,13 @@ ImagesRouter.get("/", async (req, res, next) => {
         res.json(rows);
     } catch (err) {
         console.error(err);
-        res.sendStatus(400);
+        next(err);
     } finally {
         if (conn) return conn.end();
     }
 });
 
-ImagesRouter.get("/:id", async (req, res, next) => {
+ImagesRouter.get("id/:id", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
@@ -25,7 +27,7 @@ ImagesRouter.get("/:id", async (req, res, next) => {
         res.json(rows[0]);
     } catch (err) {
         console.error(err);
-        res.sendStatus(400);
+        next(err);
     } finally {
         if (conn) return conn.end();
     }
@@ -33,7 +35,7 @@ ImagesRouter.get("/:id", async (req, res, next) => {
 
 ImagesRouter.get("/search", async (req, res, next) => {
     const { q } = req.query;
-
+    
     if (!q || q.length < 3) {
         res.sendStatus(404);
         return;
@@ -46,7 +48,7 @@ ImagesRouter.get("/search", async (req, res, next) => {
         res.json(rows);
     } catch (err) {
         console.error(err);
-        res.sendStatus(400);
+        next(err);
     } finally {
         if (conn) return conn.end();
     }
@@ -60,7 +62,7 @@ ImagesRouter.get("/by/:artist", async (req, res, next) => {
         res.json(rows);
     } catch (err) {
         console.error(err);
-        res.sendStatus(400);
+        next(err);
     } finally {
         if (conn) return conn.end();
     }
@@ -70,11 +72,25 @@ ImagesRouter.delete("/:id", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("DELETE FROM images WHERE id = ? AND artistId = ? RETURNING name", [req.params.id, req.query.artistId]);
-        res.sendStatus(204)
+        const rows = await conn.query("DELETE FROM images WHERE id = ? AND artistId = ? RETURNING name, url", [req.params.id, req.query.artistId]);
+        
+        if (rows.length < 1) {
+            res.sendStatus(404);
+            return;
+        }
+        const urlToName = ({url}) => {
+            const urlArr = url.split("/");
+            return urlArr[urlArr.length - 1];
+        }
+        const deleteFileName = urlToName(rows[0]);
+        let deleteErr = null; 
+        fs.unlink(path.join("./images/", deleteFileName), (err) => deleteErr = err);
+
+        if (deleteErr) next(deleteErr);
+        else res.sendStatus(204)
     } catch (err) {
         console.error(err);
-        res.sendStatus(400);
+        next(err);
     } finally {
         if (conn) return conn.end();
     }
@@ -86,13 +102,12 @@ ImagesRouter.patch("/:id", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        // const rows = await conn.query("UPDATE images SET name = ?, description = ? WHERE (id = ?) RETURNING name;", [name, description, id]);
-        const rows = await conn.query("UPDATE images SET name = ?, description = ? WHERE (id = ?);", [name, description, id]);
-        console.log(rows)
+        await conn.query("UPDATE images SET name = ?, description = ? WHERE (id = ?);", [name, description, id]);
+        const rows = await conn.query("SELECT * FROM images WHERE (id = ?);", [id]);
         res.send(rows[0])
     } catch (err) {
         console.error(err);
-        res.sendStatus(400);
+        next(err);
     } finally {
         if (conn) return conn.end();
     }

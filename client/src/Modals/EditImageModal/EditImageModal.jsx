@@ -31,7 +31,7 @@ export default function EditImageModal() {
                 console.log("Failed to get image")
             }
         })()
-    }, [imageId]);
+    }, [imageId, currentUser, currentUser?.id]);
 
     const closeDialog = ({target}) => {
         if (target.id === "edit-image-modal") {
@@ -46,9 +46,17 @@ export default function EditImageModal() {
         
         const res = await updateImage(imageObject);
         if (res) {
+            setImageObject({
+                id: "",
+                name: "",
+                description: "",
+                artist: "",
+                artistId: ""
+            })
+
             console.log(res)
             console.log("Image Updated")
-            
+
             setQueryString("")
             document.getElementById("edit-image-modal").close()
         } else {

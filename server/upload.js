@@ -37,7 +37,7 @@ uploadRouter.post("/", upload.single("file"), async (req, res, next) => {
         res.send(rows[0]);
     } catch (err) {
         console.error(err);
-        res.send(err)
+        next(err);
     } finally {
         if (conn) return conn.end();
     }

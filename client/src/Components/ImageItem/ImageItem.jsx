@@ -47,7 +47,7 @@ export default function ImageItem({ data, deleteItem }) {
                     }
                 </div>
             </div>
-            <img src={url} alt={"Image: " + { name }} loading="lazy" />
+            <img src={url} alt={"Image: " +  name } loading="lazy" />
         </div>
     );
 }

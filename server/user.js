@@ -13,7 +13,7 @@ UserRouter.get("/", async (req, res, next) => {
         res.send(rows);
     } catch (err) {
         console.error(err);
-        res.sendStatus(400);
+        next(err);
     } finally {
         if (conn) return conn.end();
     }
@@ -40,7 +40,7 @@ UserRouter.post("/login", async (req, res, next) => {
         
     } catch (err) {
         console.error(err);
-        res.sendStatus(400);
+        next(err);
     } finally {
         if (conn) return conn.end();
     }
@@ -63,7 +63,7 @@ UserRouter.post("/register", async (req, res, next) => {
         
     } catch (err) {
         console.error(err);
-        res.sendStatus(400);
+        next(err);
     } finally {
         if (conn) return conn.end();
     }
@@ -88,7 +88,7 @@ UserRouter.get("/name", async (req, res, next) => {
         res.send(rows[0]);
     } catch (err) {
         console.error(err);
-        res.sendStatus(400);
+        next(err);
     } finally {
         if (conn) return conn.end();
     }

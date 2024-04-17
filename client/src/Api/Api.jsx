@@ -29,7 +29,7 @@ export const fetchImagesByAuthor = async (author) => {
 };
 
 export const fetchImagesById = async (id) => {
-    let res = await fetch(`http://localhost:3000/api/images/${id}`, {
+    let res = await fetch(`http://localhost:3000/api/images/id/${id}`, {
         method: "GET",
         headers: {
             'content-type': 'application/json'
@@ -60,7 +60,8 @@ export const fetchAuthors = async () => {
 
 export const uploadImage = async (imageObject) => {
     const formData = new FormData();
-    formData.append("name", imageObject.name)
+    console.log(imageObject)
+    formData.append("name", imageObject.name || imageObject?.file?.name)
     formData.append("author", imageObject.author)
     formData.append("description", imageObject.description)
     formData.append("file", imageObject.file)
