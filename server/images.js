@@ -9,7 +9,7 @@ ImagesRouter.get("/", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id;");
+        const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id ORDER BY likes, upload_date, name;");
         res.json(rows);
     } catch (err) {
         console.error(err);
@@ -19,7 +19,7 @@ ImagesRouter.get("/", async (req, res, next) => {
     }
 });
 
-ImagesRouter.get("id/:id", async (req, res, next) => {
+ImagesRouter.get("/id/:id", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();

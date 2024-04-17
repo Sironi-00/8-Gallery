@@ -6,6 +6,7 @@ import Register from "./Pages/Register/Register";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ContextProvider from "./ContextProvider/ContextProvider";
+import Image from "./Pages/Image/Image";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,10 @@ const router = createBrowserRouter([
       }, {
         path: "artist/:author",
         element: <Home/>
-      },
+      }, {
+        path: "image/:id",
+        element: <Image />
+      }
     ]
   }
 ]);

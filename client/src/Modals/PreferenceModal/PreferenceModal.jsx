@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AppContext } from "../../ContextProvider/ContextProvider";
 
 export default function PreferenceModal() {
-    const { currentUser, setCurrentUser } = useContext(AppContext);
+    const { currentUser, updateCurrentUser } = useContext(AppContext);
 
     const [editMode, setEditMode] = useState(false);
 
@@ -21,7 +21,7 @@ export default function PreferenceModal() {
     };
 
     const handleLogout = () => {
-        setCurrentUser(null);
+        updateCurrentUser(null);
         document.getElementById("preference-modal").close()
     }
 

@@ -13,7 +13,8 @@ CREATE TABLE images (
     name varchar(255) NOT NULL,
     description varchar(255),
     url varchar(255) NOT NULL,
-    upload_date datetime
+    upload_date datetime,
+    likes INT DEFAULT 0
 );
 
 -- ALTER TABLE images

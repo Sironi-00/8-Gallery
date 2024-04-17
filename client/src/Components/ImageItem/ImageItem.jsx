@@ -9,7 +9,7 @@ export default function ImageItem({ data, deleteItem }) {
     const [, setQueryString] = useSearchParams();
     const { currentUser } = useContext(AppContext);
 
-    const { id, name, url, artist, artistId, description } = data;
+    const { id, name, url, artist, artistId, description, upload_date, likes } = data;
 
     const handleDelete = async () => {
         const res = await deleteImage({id, artistId: currentUser?.id});
@@ -30,12 +30,19 @@ export default function ImageItem({ data, deleteItem }) {
             <div className="image-attr">
                 <div className="image-text">
                     <h3>
-                        <Link to={"/artist/"+ artist}>{artist}</Link>'s - {name}
+                        <Link to={"/artist/"+ artist}>{artist}</Link>'s - 
+                        <Link to={`/image/${id}`}> {name}</Link>
                     </h3>
                     <p>{description}</p>
                     <a href={url} target="_blank">
                         Url
                     </a>
+                    <p>
+                        {upload_date && new Date(upload_date).toLocaleTimeString([], { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })} 
+                    </p>
+                    <button title="Like">
+                        {likes}
+                    </button>
                     {currentUser?.id == artistId &&(<>
                         <button title="Edit Image" onClick={handleEditImage}>
                             Edit

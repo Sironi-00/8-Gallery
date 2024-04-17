@@ -26,6 +26,10 @@ UserRouter.post("/login", async (req, res, next) => {
         conn = await Pool.getConnection();
         const rows = await conn.query("SELECT id, name, password, email FROM users WHERE name = ?", [username]);
         
+        if (rows.length < 1) {
+            res.sendStatus(401);
+            return;
+        }
         const activeUser = {
             id: rows[0].id,
             name: rows[0].name,
@@ -35,7 +39,7 @@ UserRouter.post("/login", async (req, res, next) => {
         if (rows[0].password === password) {
             res.json(activeUser);
         } else {
-            res.sendStatus(404);
+            res.sendStatus(401);
         }
         
     } catch (err) {

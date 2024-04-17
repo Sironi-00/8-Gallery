@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { fetchImagesById, updateImage } from "../../Api/Api";
+import { fetchImageById, updateImage } from "../../Api/Api";
 import { AppContext } from "../../ContextProvider/ContextProvider";
 
 export default function EditImageModal() {
@@ -18,7 +18,7 @@ export default function EditImageModal() {
     useEffect(() => {
         if (!currentUser || !imageId || imageId.length < 1) return
         (async () => {
-            const res = await fetchImagesById(imageId);
+            const res = await fetchImageById(imageId);
             if (res) {
                 setImageObject({
                     id: imageId,

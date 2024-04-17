@@ -6,7 +6,7 @@ import { AppContext } from "../../ContextProvider/ContextProvider";
 export default function Register() {
     const navigate = useNavigate();
     
-    const { setCurrentUser } = useContext(AppContext);
+    const { updateCurrentUser } = useContext(AppContext);
 
     const [user, setUser] = useState({
         name: "",
@@ -19,7 +19,7 @@ export default function Register() {
         e.preventDefault();
         const res = await userRegister(user);
         if (res) {
-            setCurrentUser(res);
+            updateCurrentUser(res);
             navigate("/");
         }
          else {
@@ -36,6 +36,8 @@ export default function Register() {
                     placeholder="Name"
                     value={user.name}
                     onChange={({ target }) => setUser((prev) => ({ ...prev, name: target.value }))}
+                    minLength="3" pattern="\S{3,20}"
+                    required
                 />
                 <br />
                 <input
@@ -43,6 +45,8 @@ export default function Register() {
                     placeholder="Email"
                     value={user.email}
                     onChange={({ target }) => setUser((prev) => ({ ...prev, email: target.value }))}
+                    minLength="3"
+                    required
                 />
                 <br />
                 <input
@@ -50,6 +54,8 @@ export default function Register() {
                     placeholder="Password"
                     value={user.password}
                     onChange={({ target }) => setUser((prev) => ({ ...prev, password: target.value }))}
+                    minLength="4"
+                    required
                 />
                 {user.password.length > 0 && (
                     <>
@@ -59,6 +65,8 @@ export default function Register() {
                             placeholder="Confirm Password"
                             value={user.confirmPassword}
                             onChange={({ target }) => setUser((prev) => ({ ...prev, confirmPassword: target.value }))}
+                            minLength="4"
+                            required
                         />
                     </>
                 )}

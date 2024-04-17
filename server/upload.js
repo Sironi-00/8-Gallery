@@ -33,7 +33,8 @@ uploadRouter.post("/", upload.single("file"), async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("INSERT INTO images (id, artistId, name, description, url) VALUES (?, ?, ?, ?, ?) RETURNING id", [payload.id, payload.artistId, payload.name, payload.description, payload.url]);
+        const curDateTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        const rows = await conn.query("INSERT INTO images (id, artistId, name, description, url, upload_date) VALUES (?, ?, ?, ?, ?, ?) RETURNING id", [payload.id, payload.artistId, payload.name, payload.description, payload.url, curDateTime]);
         res.send(rows[0]);
     } catch (err) {
         console.error(err);

@@ -31,7 +31,7 @@ export default function UploadModal() {
         
         if (res) {
             document.getElementById("upload-modal").close()
-            // navigate(``);
+            navigate(`/image/${res.id}`);
             setImageObject({
                 name: "",
                 description: "",
@@ -47,16 +47,16 @@ export default function UploadModal() {
                 <h2>Upload Image</h2>
                 {currentUser?.name && <p>Artist: <strong>{currentUser.name}</strong></p>}
                 <form onSubmit={handleImageUpload}>
-                    <input type="text" placeholder="Name" value={imageObject.name} onChange={({target}) => setImageObject(prev => ({...prev, name: target.value}))} title="Leave empty to use image file name" />
+                    <input type="text" placeholder="Name" value={imageObject.name} onChange={({target}) => setImageObject(prev => ({...prev, name: target.value}))} minLength="3" autoFocus />
                     <br />
-                    <textarea name="description" cols="30" rows="10" placeholder="Image description" value={imageObject.description} onChange={({target}) => setImageObject(prev => ({...prev, description: target.value}))}></textarea>
+                    <textarea name="description" cols="30" rows="10" placeholder="Image description" value={imageObject.description} onChange={({target}) => setImageObject(prev => ({...prev, description: target.value}))} minLength="3"></textarea>
                     <br />
-                    <input id="file-uploader" name="image" type="file" accept="image/*" onChange={({target}) => setImageObject(prev => ({...prev, file: target.files[0]}))}  />
+                    <input id="file-uploader" name="image" type="file" accept="image/*" onChange={({target}) => setImageObject(prev => ({...prev, file: target.files[0]}))} required />
                     {
                         imageObject.file && <img className="img-sm" src={URL.createObjectURL(imageObject.file)} alt={"Image: " + imageObject.name} />
                     }
                     <br />
-                    <input type="submit" value="Submit" />
+                    { imageObject.name.length > 0 && <input type="submit" value="Submit" /> }
                 </form>
                 <form method="dialog">
                     <button>Close</button>
