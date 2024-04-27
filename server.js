@@ -10,13 +10,13 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-const UserRouter = require("./user");
+const UserRouter = require("./Routes/user");
 app.use("/api/user", UserRouter);
 
-const uploadRouter = require("./upload");
+const uploadRouter = require("./Routes/upload");
 app.use("/api/upload", uploadRouter)
 
-const ImagesRouter = require("./images");
+const ImagesRouter = require("./Routes/images");
 app.use("/api/images", ImagesRouter);
 
 app.use((err, req, res, next) => {
@@ -35,6 +35,12 @@ app.use((err, req, res, next) => {
 
 // get images
 app.use("/images", express.static("images"));
+
+app.use(express.static('public'));
+
+app.use("/*", (req, res, next) => {
+    res.sendFile(path.join(__dirname, "public/index.html"))
+});
 
 PORT = 3000;
 app.listen(PORT, () => console.log(`listening on http://localhost:${PORT}`));

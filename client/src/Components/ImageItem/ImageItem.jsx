@@ -4,6 +4,7 @@ import "./ImageItem.css";
 import { Link, useSearchParams } from "react-router-dom";
 import { AppContext } from "../../ContextProvider/ContextProvider";
 
+import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
 
 export default function ImageItem({ data, deleteItem }) {
     const [, setQueryString] = useSearchParams();
@@ -12,49 +13,55 @@ export default function ImageItem({ data, deleteItem }) {
     const { id, name, url, artist, artistId, description, upload_date, likes } = data;
 
     const handleDelete = async () => {
-        const res = await deleteImage({id, artistId: currentUser?.id});
+        const res = await deleteImage({ id, artistId: currentUser?.id });
         if (res) {
-            deleteItem(id)
+            deleteItem(id);
         } else {
-            console.log("Error: could not delete image")
+            console.log("Error: could not delete image");
         }
-    }
+    };
 
     const handleEditImage = () => {
-        setQueryString(`iid=${id}`)
+        setQueryString(`iid=${id}`);
         document.querySelector("#edit-image-modal").showModal();
-    }
+    };
 
     return (
         <div id={id} className="image-item">
             <div className="image-attr">
                 <div className="image-text">
                     <h3>
-                        <Link to={"/artist/"+ artist}>{artist}</Link>'s - 
-                        <Link to={`/image/${id}`}> {name}</Link>
+                        <Link to={"/artist/" + artist}>{artist}</Link>'s -<Link to={`/image/${id}`}> {name}</Link>
                     </h3>
                     <p>{description}</p>
-                    <a href={url} target="_blank">
-                        Url
-                    </a>
                     <p>
-                        {upload_date && new Date(upload_date).toLocaleTimeString([], { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })} 
+                        {upload_date &&
+                            new Date(upload_date).toLocaleTimeString([], {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                            })}
                     </p>
-                    <button title="Like">
-                        {likes}
+                    <button>
+                        <ThumbUpAltRoundedIcon /> {likes}
                     </button>
-                    {currentUser?.id == artistId &&(<>
-                        <button title="Edit Image" onClick={handleEditImage}>
-                            Edit
-                        </button>
-                        <button title="Delete Image" onClick={handleDelete}>
-                            Delete
-                        </button>
-                    </>) 
-                    }
+                    {currentUser?.id == artistId && (
+                        <>
+                            <button title="Edit Image" onClick={handleEditImage}>
+                                Edit
+                            </button>
+                            <button title="Delete Image" onClick={handleDelete}>
+                                Delete
+                            </button>
+                        </>
+                    )}
                 </div>
             </div>
-            <img src={url} alt={"Image: " +  name } loading="lazy" />
+            <Link to={`/image/${id}`}>
+                <img src={url} alt={"Image: " + name} loading="lazy" />
+            </Link>
         </div>
     );
 }
