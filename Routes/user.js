@@ -20,8 +20,9 @@ UserRouter.get("/", async (req, res, next) => {
 });
 
 UserRouter.post("/login", async (req, res, next) => {
-    let conn;
     const { name: username, password } = req.body;
+    
+    let conn;
     try {
         conn = await Pool.getConnection();
         const rows = await conn.query("SELECT id, name, password, email FROM users WHERE name = ?", [username]);
@@ -51,8 +52,9 @@ UserRouter.post("/login", async (req, res, next) => {
 });
 
 UserRouter.post("/register", async (req, res, next) => {
-    let conn;
     const { name, password, email, } = req.body;
+
+    let conn;
     try {
         conn = await Pool.getConnection();
         const rows = await conn.query("INSERT INTO users (id, name, password, email) VALUES (?, ?, ?, ?) RETURNING  id, name, email", [uuidv4(), name, password, email]);
@@ -83,11 +85,13 @@ UserRouter.post("/email", async (req, res, next) => {
     })
 });
 
-UserRouter.get("/name", async (req, res, next) => {
+UserRouter.get("/name/:id", async (req, res, next) => {
+    const { id } = req.params;
+
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("SELECT id, name FROM users WHERE id = ?", [req.query.id]);
+        const rows = await conn.query("SELECT id, name FROM users WHERE id = ?", [id]);
         
         res.send(rows[0]);
     } catch (err) {

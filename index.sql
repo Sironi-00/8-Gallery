@@ -14,7 +14,14 @@ CREATE TABLE images (
     description varchar(255),
     url varchar(255) NOT NULL,
     upload_date datetime,
-    likes INT DEFAULT 0
+    likes INT DEFAULT 0,
+    views INT DEFAULT 0
+);
+
+CREATE TABLE votes (
+    imageId varchar(255),
+    userId varchar(255),
+    PRIMARY KEY (imageId, userId)
 );
 
 -- ALTER TABLE images

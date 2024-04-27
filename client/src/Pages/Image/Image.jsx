@@ -2,7 +2,11 @@ import "./Image.css";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { AppContext } from "../../ContextProvider/ContextProvider";
-import { fetchImageById, deleteImage } from "../../Api/Api";
+import { fetchImageById, deleteImage, incrementView, upvoteImage } from "../../Api/Api";
+
+import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
+
 
 export default function Image() {
     const navigate = useNavigate();
@@ -21,6 +25,17 @@ export default function Image() {
         }
     };
 
+    const handleUpvote = async () => {
+        if (!currentUser || !currentUser.id) return;
+        
+        const res = await upvoteImage({ id, userId: currentUser?.id });
+        if (res) {
+            setImageObject(prev => ({...prev, likes: res.likes}))
+        } else {
+            console.log("Error: could not vote image");
+        }
+    };
+
     const handleEditImage = () => {
         setQueryString(`iid=${id}`);
         document.querySelector("#edit-image-modal").showModal();
@@ -34,6 +49,8 @@ export default function Image() {
             } else {
                 console.log("Failed to display img obj");
             }
+            
+            incrementView(id);
         })();
     }, [id]);
 
@@ -43,6 +60,12 @@ export default function Image() {
                 <h2>{imageObject.name}</h2>
                 <div className="image-text">
                     <p>{imageObject.description}</p>
+                    <button onClick={handleUpvote}>
+                        <ThumbUpAltRoundedIcon /> {imageObject.likes}
+                    </button>
+                    <div className="">
+                        <VisibilityRoundedIcon/> {imageObject.views}
+                    </div>
                     <Link to={"/artist/" + imageObject.artist}>@{imageObject.artist}</Link>
                     {currentUser?.id == imageObject.artistId && (
                         <>

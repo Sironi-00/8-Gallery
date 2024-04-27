@@ -1,16 +1,17 @@
 import { useContext } from "react";
-import { deleteImage } from "../../Api/Api";
+import { deleteImage, upvoteImage } from "../../Api/Api";
 import "./ImageItem.css";
 import { Link, useSearchParams } from "react-router-dom";
 import { AppContext } from "../../ContextProvider/ContextProvider";
 
 import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 
-export default function ImageItem({ data, deleteItem }) {
+export default function ImageItem({ data, deleteItem, upvoteItem }) {
     const [, setQueryString] = useSearchParams();
     const { currentUser } = useContext(AppContext);
 
-    const { id, name, url, artist, artistId, description, upload_date, likes } = data;
+    const { id, name, url, artist, artistId, description, upload_date, likes, views } = data;
 
     const handleDelete = async () => {
         const res = await deleteImage({ id, artistId: currentUser?.id });
@@ -18,6 +19,15 @@ export default function ImageItem({ data, deleteItem }) {
             deleteItem(id);
         } else {
             console.log("Error: could not delete image");
+        }
+    };
+
+    const handleUpvote = async () => {
+        const res = await upvoteImage({ id, userId: currentUser?.id });
+        if (res) {
+            upvoteItem(res)
+        } else {
+            console.log("Error: could not vote image");
         }
     };
 
@@ -44,9 +54,12 @@ export default function ImageItem({ data, deleteItem }) {
                                 minute: "2-digit",
                             })}
                     </p>
-                    <button>
+                    <button onClick={handleUpvote}>
                         <ThumbUpAltRoundedIcon /> {likes}
                     </button>
+                    <div className="">
+                        <VisibilityRoundedIcon/> {views}
+                    </div>
                     {currentUser?.id == artistId && (
                         <>
                             <button title="Edit Image" onClick={handleEditImage}>

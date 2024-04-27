@@ -1,5 +1,7 @@
+const BASE_URL = "http://localhost:3000";
+
 export const fetchImages = async () => {
-    let res = await fetch("http://localhost:3000/api/images", {
+    let res = await fetch(`${BASE_URL}/api/images`, {
         method: "GET",
         headers: {
             'content-type': 'application/json'
@@ -13,8 +15,23 @@ export const fetchImages = async () => {
     return false;
 };
 
+export const fetchSearch = async (searchString) => {
+    let res = await fetch(`${BASE_URL}/api/images/search/?q=${searchString}`, {
+        method: "GET",
+        headers: {
+            'content-type': 'application/json'
+        },
+    });
+
+    if (res.ok) {
+        let data = await res.json();
+        return data;
+    }
+    return [];
+};
+
 export const fetchImagesByAuthor = async (author) => {
-    let res = await fetch(`http://localhost:3000/api/images/by/${author}`, {
+    let res = await fetch(`${BASE_URL}/api/images/by/${author}`, {
         method: "GET",
         headers: {
             'content-type': 'application/json'
@@ -29,7 +46,7 @@ export const fetchImagesByAuthor = async (author) => {
 };
 
 export const fetchImageById = async (id) => {
-    let res = await fetch(`http://localhost:3000/api/images/id/${id}`, {
+    let res = await fetch(`${BASE_URL}/api/images/id/${id}`, {
         method: "GET",
         headers: {
             'content-type': 'application/json'
@@ -44,7 +61,7 @@ export const fetchImageById = async (id) => {
 };
 
 export const fetchAuthors = async () => {
-    let res = await fetch("http://localhost:3000/api/user", {
+    let res = await fetch(`${BASE_URL}/api/user`, {
         method: "GET",
         headers: {
             'content-type': 'application/json'
@@ -65,7 +82,7 @@ export const uploadImage = async (imageObject) => {
     formData.append("description", imageObject.description)
     formData.append("file", imageObject.file)
     
-    let res = await fetch("http://localhost:3000/api/upload", {
+    let res = await fetch(`${BASE_URL}/api/upload`, {
         method: "POST",
         headers: {
             // 'content-type': 'multipart/form-data'
@@ -80,7 +97,7 @@ export const uploadImage = async (imageObject) => {
 };
 
 export const updateImage = async (imageObject) => {
-    let res = await fetch(`http://localhost:3000/api/images/${imageObject.id}`, {
+    let res = await fetch(`${BASE_URL}/api/images/${imageObject.id}`, {
         method: "PATCH",
         headers: {
             'content-type': 'application/json'
@@ -96,7 +113,7 @@ export const updateImage = async (imageObject) => {
 
 
 export const deleteImage = async ({id, artistId}) => {
-    let res = await fetch(`http://localhost:3000/api/images/${id}?artistId=${artistId}`, {
+    let res = await fetch(`${BASE_URL}/api/images/${id}?artistId=${artistId}`, {
         method: "DELETE",
     });
 
@@ -107,7 +124,7 @@ export const deleteImage = async ({id, artistId}) => {
 };
 
 export const userLogin = async (user) => {
-    let res = await fetch(`http://localhost:3000/api/user/login`, {
+    let res = await fetch(`${BASE_URL}/api/user/login`, {
         method: "POST",
         headers: {
             'content-type': 'application/json'
@@ -122,7 +139,7 @@ export const userLogin = async (user) => {
 }
 
 export const userRegister = async (user) => {
-    let res = await fetch(`http://localhost:3000/api/user/register`, {
+    let res = await fetch(`${BASE_URL}/api/user/register`, {
         method: "POST",
         headers: {
             'content-type': 'application/json'
@@ -136,23 +153,8 @@ export const userRegister = async (user) => {
     return false;    
 }
 
-export const fetchSearch = async (searchString) => {
-    let res = await fetch(`http://localhost:3000/api/images/search/?q=${searchString}`, {
-        method: "GET",
-        headers: {
-            'content-type': 'application/json'
-        },
-    });
-
-    if (res.ok) {
-        let data = await res.json();
-        return data;
-    }
-    return [];
-}
-
 export const userEmail = async (emailObject) => {
-    let res = await fetch(`http://localhost:3000/api/user/email`, {
+    let res = await fetch(`${BASE_URL}/api/user/email`, {
         method: "POST",
         headers: {
             'content-type': 'application/json'
@@ -165,8 +167,9 @@ export const userEmail = async (emailObject) => {
     }
     return false;    
 }
+
 export const userName = async (artistId) => {
-    let res = await fetch(`http://localhost:3000/api/user/name?id=${artistId}`, {
+    let res = await fetch(`${BASE_URL}/api/user/name/id=${artistId}`, {
         method: "GET",
     });
 
@@ -176,3 +179,29 @@ export const userName = async (artistId) => {
     }
     return false;
 }
+
+export const incrementView = async (id) => {
+    let res = await fetch(`${BASE_URL}/api/images/views/${id}`, {
+        method: "PATCH",
+    });
+
+    if (res.ok) {
+        return true; 
+    }
+    return false;    
+}
+
+export const upvoteImage = async ({id, userId}) => {
+    let res = await fetch(`${BASE_URL}/api/images/vote/${id}?userId=${userId}`, {
+        method: "PATCH",
+        headers: {
+            'content-type': 'application/json'
+        },
+    });
+
+    if (res.ok) {
+        const data = await res.json();
+        return data;
+    }
+    return false;
+};

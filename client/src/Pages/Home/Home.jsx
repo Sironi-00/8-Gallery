@@ -35,12 +35,16 @@ export default function Home() {
         setItemsState(prev => prev.filter(item => item.id !== id))
     }
 
+    const upvoteItem = ({id, likes}) => {
+        setItemsState(prev => prev.map(item => (item.id === id) ? { ...item, likes }: item))
+    }
+
     return (
         <div className="home-page">
             <ViewOptions location="Home" />
             <div className="images">
                 {itemsState.map((item) => (
-                    <ImageItem key={item.id} data={item} deleteItem={deleteItem} />
+                    <ImageItem key={item.id} data={item} deleteItem={deleteItem} upvoteItem={upvoteItem} />
                 ))}
                 {
                     itemsState.length < 1 && <p>No Content</p>
