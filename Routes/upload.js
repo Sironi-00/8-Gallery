@@ -27,7 +27,8 @@ uploadRouter.post("/", upload.single("file"), async (req, res, next) => {
         artistId: req.body.author,
         name: req.body.name,
         description: req.body.description,
-        url: "http://localhost:3000/images/" + file.originalname
+        // url: "http://localhost:3000/images/" + file.originalname
+        url: "./images/" + file.originalname
     }
     
     let conn;
