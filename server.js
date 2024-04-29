@@ -42,5 +42,5 @@ app.use("/*", (req, res, next) => {
     res.sendFile(path.join(__dirname, "public/index.html"))
 });
 
-PORT = 3000;
+PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`listening on http://localhost:${PORT}`));
