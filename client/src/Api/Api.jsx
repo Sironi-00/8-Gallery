@@ -1,4 +1,5 @@
-const BASE_URL = "http://localhost:3000";
+// const BASE_URL = "http://localhost:3000";
+const BASE_URL = "";
 
 export const fetchImages = async () => {
     let res = await fetch(`${BASE_URL}/api/images`, {
