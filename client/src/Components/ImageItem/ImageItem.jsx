@@ -11,7 +11,7 @@ export default function ImageItem({ data, deleteItem, upvoteItem }) {
     const [, setQueryString] = useSearchParams();
     const { currentUser } = useContext(AppContext);
 
-    const { id, name, url, artist, artistId, description, upload_date, likes, views } = data;
+    const { id, name, url, artist, artistId, description, upload_date, likes, action, views } = data;
 
     const handleDelete = async () => {
         const res = await deleteImage({ id, artistId: currentUser?.id });
@@ -55,7 +55,7 @@ export default function ImageItem({ data, deleteItem, upvoteItem }) {
                             })}
                     </p>
                     <button onClick={handleUpvote}>
-                        <ThumbUpAltRoundedIcon /> {likes}
+                        <ThumbUpAltRoundedIcon /> {likes} {action}
                     </button>
                     <div className="">
                         <VisibilityRoundedIcon/> {views}

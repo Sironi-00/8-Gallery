@@ -18,7 +18,7 @@ CREATE TABLE images (
     views INT DEFAULT 0
 );
 
-CREATE TABLE votes (
+CREATE TABLE likedimages (
     imageId varchar(255),
     userId varchar(255),
     PRIMARY KEY (imageId, userId)

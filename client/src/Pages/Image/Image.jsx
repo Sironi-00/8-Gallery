@@ -30,7 +30,7 @@ export default function Image() {
         
         const res = await upvoteImage({ id, userId: currentUser?.id });
         if (res) {
-            setImageObject(prev => ({...prev, likes: res.likes}))
+            setImageObject(prev => ({...prev, ...res}))
         } else {
             console.log("Error: could not vote image");
         }
@@ -61,7 +61,7 @@ export default function Image() {
                 <div className="image-text">
                     <p>{imageObject.description}</p>
                     <button onClick={handleUpvote}>
-                        <ThumbUpAltRoundedIcon /> {imageObject.likes}
+                        <ThumbUpAltRoundedIcon /> {imageObject.likes} {imageObject.action}
                     </button>
                     <div className="">
                         <VisibilityRoundedIcon/> {imageObject.views}

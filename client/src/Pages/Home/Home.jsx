@@ -35,8 +35,8 @@ export default function Home() {
         setItemsState(prev => prev.filter(item => item.id !== id))
     }
 
-    const upvoteItem = ({id, likes}) => {
-        setItemsState(prev => prev.map(item => (item.id === id) ? { ...item, likes }: item))
+    const upvoteItem = ({id, likes, action}) => {
+        setItemsState(prev => prev.map(item => (item.id === id) ? { ...item, likes, action }: item))
     }
 
     return (
