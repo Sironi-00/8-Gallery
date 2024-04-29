@@ -3,10 +3,11 @@ const path = require("path");
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-app.use(cors({origin: "*"}));
+app.use(cors({origin: `*`}));
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
@@ -42,5 +43,5 @@ app.use("/*", (req, res, next) => {
     res.sendFile(path.join(__dirname, "public/index.html"))
 });
 
-PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => console.log(`listening on http://localhost:${PORT}`));
