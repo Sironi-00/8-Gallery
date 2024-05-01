@@ -6,3 +6,5 @@ Art sharing site
 - mariadb bigIntAsNumber
 - Node fs
 - Dump err to "ErrorLogs (Date).log"
+
+- use my `PHP` serve to store images
