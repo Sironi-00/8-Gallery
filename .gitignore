@@ -2,8 +2,8 @@
 .env
 public/
 
-images/*
-!images/**.txt
+image-server/images/*
+!image-server/images/**.txt
 
 Logs/*
 !Logs/**.txt

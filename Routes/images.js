@@ -2,7 +2,7 @@ const express = require("express");
 const Pool = require("./Database");
 const fs = require("fs");
 const path = require("path");
-const { nextTick } = require("process");
+const { v4: uuidv4 } = require('uuid');
 
 const ImagesRouter = express.Router();
 
@@ -159,5 +159,23 @@ ImagesRouter.patch("/:id", async (req, res, next) => {
         if (conn) return conn.end();
     }
 });
+
+ImagesRouter.post("/", async (req, res, next) => {
+    const id = uuidv4();
+    const { artistId, name, description, url } = req.body;
+
+    let conn;
+    try {
+        conn = await Pool.getConnection();
+        const curDateTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        const rows = await conn.query("INSERT INTO images (id, artistId, name, description, url, upload_date) VALUES (?, ?, ?, ?, ?, ?) RETURNING id", [id, artistId, name, description, url, curDateTime]);
+        res.send(rows[0]);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    } finally {
+        if (conn) return conn.end();
+    }
+})
 
 module.exports = ImagesRouter;

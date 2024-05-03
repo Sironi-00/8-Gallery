@@ -27,7 +27,7 @@ export default function UploadModal() {
         if (!currentUser || !currentUser.name) {
             return
         }
-        const res = await uploadImage({...imageObject, author: currentUser.id});
+        const res = await uploadImage({...imageObject, artistId: currentUser.id});
         
         if (res) {
             document.getElementById("upload-modal").close()

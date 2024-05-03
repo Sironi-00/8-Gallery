@@ -1,5 +1,5 @@
-// const BASE_URL = "http://localhost:3000";
-const BASE_URL = "";
+const BASE_URL = "http://localhost:3000";
+// const BASE_URL = "";
 
 export const fetchImages = async () => {
     let res = await fetch(`${BASE_URL}/api/images`, {
@@ -79,20 +79,39 @@ export const fetchAuthors = async () => {
 export const uploadImage = async (imageObject) => {
     const formData = new FormData();
     formData.append("name", imageObject.name)
-    formData.append("author", imageObject.author)
+    formData.append("artistId", imageObject.artistId)
     formData.append("description", imageObject.description)
     formData.append("file", imageObject.file)
     
-    let res = await fetch(`${BASE_URL}/api/upload`, {
+    let resUpload = await fetch(`http://localhost:3001/main.php`, {
         method: "POST",
         headers: {
             // 'content-type': 'multipart/form-data'
         }, body: formData
     });
 
-    if (res.ok) {
-        let data = await res.json();
-        return data; 
+    if (!resUpload.ok) {
+        return false;
+    }
+
+    let data = await resUpload.json();
+    console.log(data)
+    if (data.status.code !== "201") {
+        return data;
+    }
+
+    console.log("2nd fetch")
+
+    let resCreate = await fetch(`${BASE_URL}/api/images`, {
+        method: "POST",
+        headers: {
+            'content-type': 'application/json'
+        }, body: JSON.stringify({...imageObject, url: "http://localhost:3001/images/" + data.data.message})
+    });
+
+    if (resCreate.ok) {
+        let dataCreate = await resCreate.json();
+        return dataCreate; 
     }
     return false;
 };
