@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { fetchImageById, updateImage } from "../../Api/Api";
 import { AppContext } from "../../ContextProvider/ContextProvider";
 
 export default function EditImageModal() {
+    const navigate = useNavigate();
     const { currentUser } = useContext(AppContext)
     const [imageObject, setImageObject] = useState({
         name: "",
@@ -54,11 +55,9 @@ export default function EditImageModal() {
                 artistId: ""
             })
 
-            console.log(res)
-            console.log("Image Updated")
-
             setQueryString("")
             document.getElementById("edit-image-modal").close()
+            navigate(`/image/${res.id}`);
         } else {
             console.log("Failed to update image")
         }

@@ -1,6 +1,7 @@
-const BASE_URL = "http://localhost:3000";
-// const BASE_URL = "";
-const IMAGE_SERVER = "http://localhost:3001";
+// const BASE_URL = "http://localhost:3000";
+const BASE_URL = "";
+
+const IMAGE_SERVER = "https://image-server.fanisndou.co.uk/"
 
 export const fetchImages = async () => {
     let res = await fetch(`${BASE_URL}/api/images`, {

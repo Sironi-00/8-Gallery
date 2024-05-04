@@ -13,6 +13,7 @@ error_reporting(E_ALL);
 $executionStartTime = microtime(true);
 
 header('Content-Type: application/json; charset=UTF-8');
+header("Access-Control-Allow-Origin: *");
 
 include ("./upload.php");
 $save_image = uploadImage($_FILES["file"]);
