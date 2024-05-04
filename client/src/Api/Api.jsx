@@ -1,5 +1,6 @@
 const BASE_URL = "http://localhost:3000";
 // const BASE_URL = "";
+const IMAGE_SERVER = "http://localhost:3001";
 
 export const fetchImages = async () => {
     let res = await fetch(`${BASE_URL}/api/images`, {
@@ -76,42 +77,44 @@ export const fetchAuthors = async () => {
     return false;
 };
 
-export const uploadImage = async (imageObject) => {
+export const saveImage = async (imageObject) => {
     const formData = new FormData();
-    formData.append("name", imageObject.name)
-    formData.append("artistId", imageObject.artistId)
-    formData.append("description", imageObject.description)
-    formData.append("file", imageObject.file)
+    formData.append("artistId", imageObject.artistId);
+    formData.append("file", imageObject.file);
     
-    let resUpload = await fetch(`http://localhost:3001/main.php`, {
+    let res = await fetch(`${IMAGE_SERVER}/main.php`, {
         method: "POST",
         headers: {
             // 'content-type': 'multipart/form-data'
         }, body: formData
     });
 
-    if (!resUpload.ok) {
-        return false;
-    }
-
-    let data = await resUpload.json();
-    console.log(data)
-    if (data.status.code !== "201") {
+    if (res.ok) {
+        let data = await res.json();
         return data;
     }
+    return false;
+}
 
-    console.log("2nd fetch")
+export const uploadImage = async (imageObject) => {
+    // first upload to server then create DB entry
+    const saveImaged = await saveImage(imageObject);
 
-    let resCreate = await fetch(`${BASE_URL}/api/images`, {
+    if (!saveImaged) return false;
+    if (saveImaged.status.code !== "201") {
+        return saveImage.data;
+    }
+
+    let res = await fetch(`${BASE_URL}/api/images`, {
         method: "POST",
         headers: {
             'content-type': 'application/json'
-        }, body: JSON.stringify({...imageObject, url: "http://localhost:3001/images/" + data.data.message})
+        }, body: JSON.stringify({...imageObject, url: `${IMAGE_SERVER}/images/` + saveImaged.data.message})
     });
 
-    if (resCreate.ok) {
-        let dataCreate = await resCreate.json();
-        return dataCreate; 
+    if (res.ok) {
+        let data = await res.json();
+        return data; 
     }
     return false;
 };
