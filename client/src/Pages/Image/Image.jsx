@@ -1,4 +1,3 @@
-import "./Image.css";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { AppContext } from "../../ContextProvider/ContextProvider";

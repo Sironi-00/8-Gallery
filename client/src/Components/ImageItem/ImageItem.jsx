@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { deleteImage, upvoteImage } from "../../Api/Api";
-import "./ImageItem.css";
 import { Link, useSearchParams } from "react-router-dom";
 import { AppContext } from "../../ContextProvider/ContextProvider";
 
@@ -37,8 +36,8 @@ export default function ImageItem({ data, deleteItem, upvoteItem }) {
     };
 
     return (
-        <div id={id} className="image-item">
-            <div className="image-attr">
+        <div id={id} className="container w-25 border border-info">
+            <div className="row image-attr">
                 <div className="image-text">
                     <h3>
                         <Link to={"/artist/" + artist}>{artist}</Link>'s -<Link to={`/image/${id}`}> {name}</Link>
@@ -72,9 +71,13 @@ export default function ImageItem({ data, deleteItem, upvoteItem }) {
                     )}
                 </div>
             </div>
-            <Link to={`/image/${id}`}>
-                <img src={url} alt={"Image: " + name} loading="lazy" />
-            </Link>
+            <div className="row">
+                <div className="col">
+                    <Link to={`/image/${id}`}>
+                        <img src={url} alt={"Image: " + name} loading="lazy" />
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 }

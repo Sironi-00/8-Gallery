@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import "./SearchBar.css";
 import { SearchContext } from "../../ContextProvider/ContextProvider";
 
 export default function SearchBar() {

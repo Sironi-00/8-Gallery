@@ -1,4 +1,3 @@
-import "./Home.css";
 import { useContext, useEffect, useState } from "react";
 import { fetchImages, fetchImagesByAuthor, fetchSearch } from "../../Api/Api";
 import ImageItem from "../../Components/ImageItem/ImageItem";
@@ -42,7 +41,7 @@ export default function Home() {
     return (
         <div className="home-page">
             <ViewOptions location="Home" />
-            <div className="images">
+            <div className="border d-flex flex-wrap gap-1 justify-content-around">
                 {itemsState.map((item) => (
                     <ImageItem key={item.id} data={item} deleteItem={deleteItem} upvoteItem={upvoteItem} />
                 ))}
