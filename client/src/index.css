@@ -25,7 +25,40 @@ body {
   color: var(--fg-main) !important;
   background-color: var(--bg-main) !important;
 }
+
 img {
-  display: block;
-  max-width: 100%;
+  display: block !important;
+  max-width: 100% !important;
+  max-height: auto !important;
+} 
+
+.image-item img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: 50% 12% !important;
+}
+
+.image-full img {
+  width: auto !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  /* object-position: 50% 12% !important; */
+}
+
+.w-card {
+  width: 24% !important;
+}
+.h-card {
+  height: 360px !important;
+}
+.bg-opaque {
+  background-color: var(--bg-transparent) !important;
+}
+
+.border-ultra {
+  --bs-border-color: #0006 !important;
+}
+header {
+  border-bottom: 1px solid #DDD;
 }

@@ -39,9 +39,9 @@ export default function Home() {
     }
 
     return (
-        <div className="home-page">
+        <div className="h-100 overflow-auto">
             <ViewOptions location="Home" />
-            <div className="border d-flex flex-wrap gap-1 justify-content-around">
+            <div className="d-flex flex-wrap justify-content-evenly">
                 {itemsState.map((item) => (
                     <ImageItem key={item.id} data={item} deleteItem={deleteItem} upvoteItem={upvoteItem} />
                 ))}

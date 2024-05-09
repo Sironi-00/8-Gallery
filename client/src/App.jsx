@@ -12,6 +12,7 @@ import Image from "./Pages/Image/Image";
 
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap';
 
 const router = createBrowserRouter([
   {

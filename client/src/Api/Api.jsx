@@ -215,6 +215,21 @@ export const incrementView = async (id) => {
     return false;    
 }
 
+export const getImageUpvotes = async ({id, userId}) => {
+    let res = await fetch(`${BASE_URL}/api/images/vote/${id}?userId=${userId}`, {
+        method: "GET",
+        headers: {
+            'content-type': 'application/json'
+        },
+    });
+
+    if (res.ok) {
+        const data = await res.json();
+        return data;
+    }
+    return false;
+};
+
 export const upvoteImage = async ({id, userId}) => {
     let res = await fetch(`${BASE_URL}/api/images/vote/${id}?userId=${userId}`, {
         method: "PATCH",

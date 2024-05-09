@@ -16,7 +16,7 @@ export default function Header() {
     const { currentUser } = useContext(AppContext);
 
     return (
-        <header className="container">
+        <header className="container-fluid">
             <div className="row">
                 <div className="col">
                     <a href="/" className="logo">
@@ -25,18 +25,16 @@ export default function Header() {
                         </h1>
                     </a>
                 </div>
-                <div className="col">
+                <div className="col d-flex justify-content-center align-items-center">
                     <SearchBar />
                 </div>
-                <div className="col d-flex">
+                <div className="col d-flex justify-content-end align-items-center">
                     {currentUser?.name && (
                         <>
-                            <button
-                                title="Upload Image"
-                                onClick={() => document.querySelector("#upload-modal").showModal()}
-                            >
+                            <button type="button" className="" data-bs-toggle="modal" data-bs-target="#upload-modal">
                                 <AddCircleOutlineRoundedIcon />
                             </button>
+
                         </>
                     )}
                     <nav>
@@ -53,10 +51,7 @@ export default function Header() {
                                 </NavLink>
                             </>
                         )}
-                        <button
-                            title="Preference"
-                            onClick={() => document.querySelector("#preference-modal").showModal()}
-                        >
+                        <button type="button" className="" data-bs-toggle="modal" data-bs-target="#preference-modal">
                             <SettingsRoundedIcon />
                         </button>
                     </nav>

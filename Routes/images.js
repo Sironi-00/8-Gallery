@@ -10,7 +10,7 @@ ImagesRouter.get("/", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id ORDER BY upload_date DESC, views DESC, likes DESC;");
+        const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id ORDER BY upload_date DESC, likes DESC, views DESC;");
         res.json(rows);
     } catch (err) {
         console.error(err);
@@ -114,6 +114,32 @@ ImagesRouter.patch("/views/:id", async (req, res, next) => {
     }
 });
 
+ImagesRouter.get("/vote/:id", async (req, res, next) => {
+    const { id } = req.params;
+    const { userId } = req.query;
+
+    let conn;
+    try {
+        conn = await Pool.getConnection();
+        const dbLikes = await conn.query("SELECT imageId, userId FROM likedimages WHERE imageId = ? AND userId = ?", [id, userId]);
+        
+        let liked;
+        if (dbLikes.length > 0) {
+            liked = true;
+        } else {
+            liked = false;
+        }
+        const rows = await conn.query("SELECT id, likes FROM images WHERE id = ?", [id]);
+        
+        res.json({...rows[0], liked});
+    } catch (err) {
+        console.error(err);
+        next(err);
+    } finally {
+        if (conn) return conn.end();
+    }
+});
+
 ImagesRouter.patch("/vote/:id", async (req, res, next) => {
     const { id } = req.params;
     const { userId } = req.query;
@@ -123,18 +149,18 @@ ImagesRouter.patch("/vote/:id", async (req, res, next) => {
         conn = await Pool.getConnection();
         const dbLikes = await conn.query("SELECT imageId, userId FROM likedimages WHERE imageId = ? AND userId = ?", [id, userId]);
         
-        let action;
+        let liked;
         if (dbLikes.length > 0) {
             await conn.query("UPDATE images SET likes = likes - 1 WHERE (id = ?)", [id]);
             await conn.query("DELETE FROM likedimages WHERE imageId = ? AND userId = ?", [id, userId]);
-            action = "removed";
+            liked = false;
         } else {
             await conn.query("UPDATE images SET likes = likes + 1 WHERE (id = ?)", [id]);
             await conn.query("INSERT into likedimages (imageId, userId) VALUES (?, ?)", [id, userId]);
-            action = "added";
+            liked = true;
         }
         const rows = await conn.query("SELECT id, likes FROM images WHERE id = ?", [id])
-        res.json({...rows[0], action});
+        res.json({...rows[0], liked});
     } catch (err) {
         console.error(err);
         next(err);

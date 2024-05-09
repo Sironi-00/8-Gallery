@@ -6,24 +6,13 @@ import Modals from "../Modals/Modals";
 export default function Root() {
     return (
         <>
-            <div className="container">
-                <div className="row">
-                    <div className="col">
-                        <Header />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col">
-                        <main>
-                            <Outlet />
-                        </main>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col">
-                        <Modals />
-                    </div>
-                </div>
+            <div className="d-flex flex-column vh-100 vw-100" data-bs-theme="dark">
+                <Header />
+                <main className="flex-grow-1 overflow-hidden">
+                    <Outlet />
+                </main>
+                {/* <p>Sironi-00</p> */}
+                <Modals />
             </div>
         </>
     );

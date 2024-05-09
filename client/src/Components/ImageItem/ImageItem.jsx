@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { deleteImage, upvoteImage } from "../../Api/Api";
+import { deleteImage, } from "../../Api/Api";
 import { Link, useSearchParams } from "react-router-dom";
 import { AppContext } from "../../ContextProvider/ContextProvider";
 
-import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
-import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import ImageVotes from "../ImageVotes/ImageVotes";
 
 export default function ImageItem({ data, deleteItem, upvoteItem }) {
     const [, setQueryString] = useSearchParams();
@@ -21,47 +21,39 @@ export default function ImageItem({ data, deleteItem, upvoteItem }) {
         }
     };
 
-    const handleUpvote = async () => {
-        const res = await upvoteImage({ id, userId: currentUser?.id });
-        if (res) {
-            upvoteItem(res)
-        } else {
-            console.log("Error: could not vote image");
-        }
-    };
-
     const handleEditImage = () => {
         setQueryString(`iid=${id}`);
-        document.querySelector("#edit-image-modal").showModal();
     };
 
     return (
-        <div id={id} className="container w-25 border border-info">
-            <div className="row image-attr">
-                <div className="image-text">
-                    <h3>
+        <div id={id} className="d-flex w-card h-card m-1 position-relative border border-ultra">
+            <div className="image-item">
+                <Link to={`/image/${id}`}>
+                    <img className="" src={url} alt={"Image: " + name} loading="lazy" />
+                </Link>
+            </div>
+            <div className="position-absolute w-100 bottom-0 py-1 px-2 bg-opaque">
+                <div className="">
+                    <h3 className="m-0 p-0">
                         <Link to={"/artist/" + artist}>{artist}</Link>'s -<Link to={`/image/${id}`}> {name}</Link>
                     </h3>
-                    <p>{description}</p>
-                    <p>
-                        {upload_date &&
-                            new Date(upload_date).toLocaleTimeString([], {
-                                day: "numeric",
-                                month: "short",
-                                year: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                            })}
-                    </p>
-                    <button onClick={handleUpvote}>
-                        <ThumbUpAltRoundedIcon /> {likes} {action}
-                    </button>
+                    <p className="m-0 p-0">{description}</p>
+                </div>
+                <div className="d-flex justify-content-between">
+                    <ImageVotes id={id} />
                     <div className="">
-                        <VisibilityRoundedIcon/> {views}
+                        <VisibilityRoundedIcon /> {views}
                     </div>
                     {currentUser?.id == artistId && (
                         <>
-                            <button title="Edit Image" onClick={handleEditImage}>
+                            <button
+                                title="Edit Image"
+                                type="button"
+                                className=""
+                                data-bs-toggle="modal"
+                                data-bs-target="#edit-image-modal"
+                                onClick={handleEditImage}
+                            >
                                 Edit
                             </button>
                             <button title="Delete Image" onClick={handleDelete}>
@@ -69,13 +61,6 @@ export default function ImageItem({ data, deleteItem, upvoteItem }) {
                             </button>
                         </>
                     )}
-                </div>
-            </div>
-            <div className="row">
-                <div className="col">
-                    <Link to={`/image/${id}`}>
-                        <img src={url} alt={"Image: " + name} loading="lazy" />
-                    </Link>
                 </div>
             </div>
         </div>
