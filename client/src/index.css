@@ -24,12 +24,14 @@ body {
   color-scheme: light dark !important;
   color: var(--fg-main) !important;
   background-color: var(--bg-main) !important;
+  max-width: 100dvw;
+  max-height: 100dvh;
 }
 
 img {
   display: block !important;
   max-width: 100% !important;
-  max-height: auto !important;
+  max-height: 100% !important;
 } 
 
 .image-item img {
@@ -61,4 +63,7 @@ img {
 }
 header {
   border-bottom: 1px solid #DDD;
+}
+.btn:active {
+  scale: 0.9;
 }

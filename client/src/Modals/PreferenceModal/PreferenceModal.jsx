@@ -27,7 +27,7 @@ export default function PreferenceModal() {
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <button>Theme</button>
+                        <button className="btn border border-white">Theme</button>
                         <br />
 
                         {currentUser?.name && (
@@ -92,14 +92,14 @@ export default function PreferenceModal() {
                                         </p>
                                     </>
                                 )}
-                                <button onClick={() => setEditMode((prev) => !prev)}>
+                                <button className="btn border border-white" onClick={() => setEditMode((prev) => !prev)}>
                                     {editMode ? "Cancel Edit" : "Edit user"}
                                 </button>
                                 <br />
                             </>
                         )}
                         {currentUser?.name ? (
-                            <button onClick={handleLogout}>Logout</button>
+                            <button className="btn border border-white" onClick={handleLogout}>Logout</button>
                         ) : (
                             <>
                                 <br />

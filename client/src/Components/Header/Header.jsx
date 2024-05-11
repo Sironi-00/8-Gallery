@@ -31,7 +31,7 @@ export default function Header() {
                 <div className="col d-flex justify-content-end align-items-center">
                     {currentUser?.name && (
                         <>
-                            <button type="button" className="" data-bs-toggle="modal" data-bs-target="#upload-modal">
+                            <button type="button" className="btn" data-bs-toggle="modal" data-bs-target="#upload-modal">
                                 <AddCircleOutlineRoundedIcon />
                             </button>
 
@@ -51,7 +51,7 @@ export default function Header() {
                                 </NavLink>
                             </>
                         )}
-                        <button type="button" className="" data-bs-toggle="modal" data-bs-target="#preference-modal">
+                        <button type="button" className="btn" data-bs-toggle="modal" data-bs-target="#preference-modal">
                             <SettingsRoundedIcon />
                         </button>
                     </nav>

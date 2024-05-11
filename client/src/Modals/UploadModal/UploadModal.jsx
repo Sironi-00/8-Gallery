@@ -94,7 +94,17 @@ export default function UploadModal() {
                             Close
                         </button>
                         {/* imageObject.name.length > 0 && "disabled" */}
-                        <button type="submit" form="upload-modal-form" className={"btn btn-primary"}>
+                        <button
+                            type="submit"
+                            form="upload-modal-form"
+                            className={`btn btn-primary ${
+                                !(
+                                    imageObject.name.length > 1 &&
+                                    imageObject.description.length > 1 &&
+                                    imageObject.file
+                                ) && "disabled"
+                            }`}
+                        >
                             Submit
                         </button>
                     </div>

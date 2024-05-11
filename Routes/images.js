@@ -78,18 +78,7 @@ ImagesRouter.delete("/:id", async (req, res, next) => {
         conn = await Pool.getConnection();
         const rows = await conn.query("DELETE FROM images WHERE id = ? AND artistId = ? RETURNING name, url", [id, artistId]);
 
-        // Delete from server using FS
-        const urlToName = ({url}) => {
-            const urlArr = url.split("/");
-            return urlArr[urlArr.length - 1];
-        }
-        const deleteFileName = urlToName(rows[0]);
-        let deleteErr = null; 
-        fs.unlink(path.join("./images/", deleteFileName), (err) => deleteErr = err);
-
-        if (deleteErr) {
-            next(deleteErr);
-        } else res.sendStatus(204)
+        res.json(rows);
     } catch (err) {
         console.error(err);
         next(err);

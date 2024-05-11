@@ -66,7 +66,7 @@ export default function EditImageModal() {
                     </div>
                     <div className="modal-body">
                         <form id="edit-image-modal-form" onSubmit={handleImageUpdate}>
-                            {/* <p>Artist: {imageObject.artist}</p> */}
+                            <p>Artist: <strong>{currentUser.name}</strong></p>
                             <input
                                 type="text"
                                 value={imageObject.name}
@@ -85,8 +85,6 @@ export default function EditImageModal() {
                                 placeholder="Image description"
                             ></textarea>
                             <br />
-                            {/* <input type="file" name="image" />
-                            <br /> */}
                         </form>
                     </div>
                     <div className="modal-footer">

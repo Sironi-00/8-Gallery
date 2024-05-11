@@ -20,7 +20,7 @@ export default function AuthorItem({ data }) {
                 Images: {uploads}
                 <button
                     type="button"
-                    className=""
+                    className="btn border border-white"
                     data-bs-toggle="modal"
                     data-bs-target="#email-artist-modal"
                     onClick={handleEmail}

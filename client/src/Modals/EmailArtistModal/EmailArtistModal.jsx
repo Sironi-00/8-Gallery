@@ -69,6 +69,7 @@ export default function EmailArtistModal() {
                                 placeholder="Your Name(s)"
                                 value={emailObject.name}
                                 onChange={({ target }) => setEmailObject((prev) => ({ ...prev, name: target.value }))}
+                                required
                             />
                             <br />
                             <input
@@ -76,6 +77,7 @@ export default function EmailArtistModal() {
                                 placeholder="email"
                                 value={emailObject.email}
                                 onChange={({ target }) => setEmailObject((prev) => ({ ...prev, email: target.value }))}
+                                required
                             />
                             <br />
                             <textarea
@@ -86,6 +88,7 @@ export default function EmailArtistModal() {
                                 onChange={({ target }) =>
                                     setEmailObject((prev) => ({ ...prev, message: target.value }))
                                 }
+                                required
                             ></textarea>
                         </form>
                     </div>
@@ -93,7 +96,7 @@ export default function EmailArtistModal() {
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                         </button>
-                        <button type="submit" form="email-artist-modal-form" className={"btn btn-primary"}>
+                        <button type="submit" form="email-artist-modal-form" className={`btn btn-primary ${!(emailObject.name.length > 1 && emailObject.email.length > 1 && emailObject.message.length > 1) && "disabled"}`}>
                             Submit
                         </button>
                     </div>
