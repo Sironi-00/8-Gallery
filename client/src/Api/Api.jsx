@@ -193,7 +193,7 @@ export const userEmail = async (emailObject) => {
 }
 
 export const userName = async (artistId) => {
-    let res = await fetch(`${BASE_URL}/api/user/name/id=${artistId}`, {
+    let res = await fetch(`${BASE_URL}/api/user/name/${artistId}`, {
         method: "GET",
     });
 

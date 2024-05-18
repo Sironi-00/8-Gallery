@@ -25,8 +25,7 @@ export default function EmailArtistModal() {
                 message: "",
                 artistId: "",
             });
-            setQueryString("");
-            document.getElementById("email-artist-modal").close();
+            document.getElementById("email-artist-modal-dismiss").click();
         } else {
             console.log("Failed: to send email");
         }
@@ -34,6 +33,7 @@ export default function EmailArtistModal() {
 
     const artistId = queryString.get("aid");
     useEffect(() => {
+        setQueryString("");
         if (!artistId || artistId.length < 1) return;
         (async () => {
             const res = await userName(artistId);
@@ -93,7 +93,7 @@ export default function EmailArtistModal() {
                         </form>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                        <button id="email-artist-modal-dismiss" type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                         </button>
                         <button type="submit" form="email-artist-modal-form" className={`btn btn-primary ${!(emailObject.name.length > 1 && emailObject.email.length > 1 && emailObject.message.length > 1) && "disabled"}`}>

@@ -16,6 +16,7 @@ export default function PreferenceModal() {
 
     const handleLogout = () => {
         updateCurrentUser(null);
+        document.getElementById("preference-modal-dismiss").click();
     };
 
     return (
@@ -92,14 +93,19 @@ export default function PreferenceModal() {
                                         </p>
                                     </>
                                 )}
-                                <button className="btn border border-white" onClick={() => setEditMode((prev) => !prev)}>
+                                <button
+                                    className="btn border border-white"
+                                    onClick={() => setEditMode((prev) => !prev)}
+                                >
                                     {editMode ? "Cancel Edit" : "Edit user"}
                                 </button>
                                 <br />
                             </>
                         )}
                         {currentUser?.name ? (
-                            <button className="btn border border-white" onClick={handleLogout}>Logout</button>
+                            <button className="btn border border-white" onClick={handleLogout}>
+                                Logout
+                            </button>
                         ) : (
                             <>
                                 <br />
@@ -114,7 +120,7 @@ export default function PreferenceModal() {
                         </a>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                        <button id="preference-modal-dismiss" type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                         </button>
                     </div>

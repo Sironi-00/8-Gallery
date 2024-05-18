@@ -17,6 +17,7 @@ export default function EditImageModal() {
 
     const imageId = queryString.get("iid");
     useEffect(() => {
+        setQueryString("");
         if (!currentUser || !imageId || imageId.length < 1) return;
         (async () => {
             const res = await fetchImageById(imageId);
@@ -48,8 +49,7 @@ export default function EditImageModal() {
                 artist: "",
                 artistId: "",
             });
-
-            setQueryString("");
+            document.getElementById("edit-image-modal-dismiss").click();
             navigate(`/image/${res.id}`);
         } else {
             console.log("Failed to update image");
@@ -66,7 +66,9 @@ export default function EditImageModal() {
                     </div>
                     <div className="modal-body">
                         <form id="edit-image-modal-form" onSubmit={handleImageUpdate}>
-                            <p>Artist: <strong>{currentUser.name}</strong></p>
+                            <p>
+                                Artist: <strong>{currentUser?.name}</strong>
+                            </p>
                             <input
                                 type="text"
                                 value={imageObject.name}
@@ -88,7 +90,7 @@ export default function EditImageModal() {
                         </form>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                        <button id="edit-image-modal-dismiss" type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                         </button>
                         <button type="submit" form="edit-image-modal-form" className="btn btn-primary">

@@ -17,7 +17,7 @@ export default function Authors() {
     return (
         <div>
             <ViewOptions location="Authors" />
-            <div className="author-list">
+            <div className="container-fluid list-group-flush">
                 {authorState.map((item) => (
                     <AuthorItem key={item.id} data={item} />
                 ))}

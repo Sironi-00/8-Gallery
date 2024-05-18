@@ -29,6 +29,7 @@ export default function UploadModal() {
                 name: "",
                 description: "",
             });
+            document.getElementById("upload-modal-dismiss").click();
         } else {
             console.log("Failed to upload");
         }
@@ -51,7 +52,7 @@ export default function UploadModal() {
                         <form id="upload-modal-form" onSubmit={handleImageUpload}>
                             <input
                                 type="text"
-                                placeholder="Name"
+                                placeholder="Title"
                                 value={imageObject.name}
                                 onChange={({ target }) => setImageObject((prev) => ({ ...prev, name: target.value }))}
                                 minLength="3"
