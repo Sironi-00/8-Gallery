@@ -1,45 +1,13 @@
-import "./Image.css";
-import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { AppContext } from "../../ContextProvider/ContextProvider";
-import { fetchImageById, deleteImage, incrementView, upvoteImage } from "../../Api/Api";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { fetchImageById, incrementView } from "../../Api/Api";
 
-import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
-import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-
+import ImageAttributes from "../../Components/ImageAttributes/ImageAttributes";
 
 export default function Image() {
-    const navigate = useNavigate();
-    const [, setQueryString] = useSearchParams();
     const { id } = useParams();
-    const { currentUser } = useContext(AppContext);
 
     const [imageObject, setImageObject] = useState({});
-
-    const handleDelete = async () => {
-        const res = await deleteImage({ id, artistId: currentUser?.id });
-        if (res) {
-            navigate("/");
-        } else {
-            console.log("Error: could not delete image");
-        }
-    };
-
-    const handleUpvote = async () => {
-        if (!currentUser || !currentUser.id) return;
-        
-        const res = await upvoteImage({ id, userId: currentUser?.id });
-        if (res) {
-            setImageObject(prev => ({...prev, ...res}))
-        } else {
-            console.log("Error: could not vote image");
-        }
-    };
-
-    const handleEditImage = () => {
-        setQueryString(`iid=${id}`);
-        document.querySelector("#edit-image-modal").showModal();
-    };
 
     useEffect(() => {
         (async () => {
@@ -49,37 +17,36 @@ export default function Image() {
             } else {
                 console.log("Failed to display img obj");
             }
-            
+
             incrementView(id);
         })();
     }, [id]);
 
     return (
-        <div id={id} className="image-main">
-            <div className="image-attr">
-                <h2>{imageObject.name}</h2>
-                <div className="image-text">
-                    <p>{imageObject.description}</p>
-                    <button onClick={handleUpvote}>
-                        <ThumbUpAltRoundedIcon /> {imageObject.likes} {imageObject.action}
-                    </button>
-                    <div className="">
-                        <VisibilityRoundedIcon/> {imageObject.views}
+        <div className="container-fluid h-100 overflow-hidden">
+            <div className="row h-100 overflow-hidden">
+                <div className="col h-100 overflow-hidden">
+                    <div className="h-100 image-full d-flex justify-content-center overflow-hidden">
+                        <img className="" src={imageObject.url} alt={"Image: " + imageObject.name} loading="lazy" />
                     </div>
+                </div>
+                <div className="col-3">
+                    <h2 className="m-0 p-0">{imageObject.name}</h2>
+                    <p className="m-0 p-0">{imageObject.description}</p>
+                    <p className="m-0 p-0">
+                        {imageObject.upload_date &&
+                            new Date(imageObject.upload_date).toLocaleTimeString([], {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                            })}
+                    </p>
                     <Link to={"/artist/" + imageObject.artist}>@{imageObject.artist}</Link>
-                    {currentUser?.id == imageObject.artistId && (
-                        <>
-                            <button title="Edit Image" onClick={handleEditImage}>
-                                Edit
-                            </button>
-                            <button title="Delete Image" onClick={handleDelete}>
-                                Delete
-                            </button>
-                        </>
-                    )}
+                    <ImageAttributes data={imageObject} />
                 </div>
             </div>
-            <img src={imageObject.url} alt={"Image: " + imageObject.name} loading="lazy" />
         </div>
     );
 }

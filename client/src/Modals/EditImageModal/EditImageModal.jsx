@@ -5,19 +5,20 @@ import { AppContext } from "../../ContextProvider/ContextProvider";
 
 export default function EditImageModal() {
     const navigate = useNavigate();
-    const { currentUser } = useContext(AppContext)
+    const { currentUser } = useContext(AppContext);
     const [imageObject, setImageObject] = useState({
         name: "",
         description: "",
         artist: "",
         id: "",
-        artistId: ""
+        artistId: "",
     });
     const [queryString, setQueryString] = useSearchParams();
 
     const imageId = queryString.get("iid");
     useEffect(() => {
-        if (!currentUser || !imageId || imageId.length < 1) return
+        setQueryString("");
+        if (!currentUser || !imageId || imageId.length < 1) return;
         (async () => {
             const res = await fetchImageById(imageId);
             if (res) {
@@ -26,25 +27,19 @@ export default function EditImageModal() {
                     name: res.name,
                     description: res.description,
                     artist: res.artist,
-                    artistId: res.artistId
-                })
+                    artistId: res.artistId,
+                });
             } else {
-                console.log("Failed to get image")
+                console.log("Failed to get image");
             }
-        })()
+        })();
     }, [imageId, currentUser, currentUser?.id]);
-
-    const closeDialog = ({target}) => {
-        if (target.id === "edit-image-modal") {
-            target.close();
-        }
-    };
 
     const handleImageUpdate = async (e) => {
         e.preventDefault();
 
         if (currentUser?.id !== imageObject.artistId) return;
-        
+
         const res = await updateImage(imageObject);
         if (res) {
             setImageObject({
@@ -52,35 +47,58 @@ export default function EditImageModal() {
                 name: "",
                 description: "",
                 artist: "",
-                artistId: ""
-            })
-
-            setQueryString("")
-            document.getElementById("edit-image-modal").close()
+                artistId: "",
+            });
+            document.getElementById("edit-image-modal-dismiss").click();
             navigate(`/image/${res.id}`);
         } else {
-            console.log("Failed to update image")
+            console.log("Failed to update image");
         }
-    }
+    };
 
     return (
-        <dialog id="edit-image-modal" className="modal" onClick={closeDialog}>
-            <div className="dialog-body">
-                <h2>Edit Image Modal</h2>
-                <form onSubmit={handleImageUpdate}>
-                    {/* <p>Artist: {imageObject.artist}</p> */}
-                    <input type="text" value={imageObject.name} onChange={({target}) => setImageObject(prev => ({...prev, name: target.value }))} placeholder="Name" />
-                    <br />
-                    <textarea name="description" value={imageObject.description} onChange={({target}) => setImageObject(prev => ({...prev, description: target.value }))} cols="30" rows="10" placeholder="Image description"></textarea>
-                    <br />
-                    {/* <input type="file" name="image" />
-                    <br /> */}
-                    <input type="submit" value="Update" />
-                </form>
-                <form method="dialog">
-                    <button>Close</button>
-                </form>
+        <div id="edit-image-modal" className="modal" tabIndex="-1">
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title">Edit Image Modal</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div className="modal-body">
+                        <form id="edit-image-modal-form" onSubmit={handleImageUpdate}>
+                            <p>
+                                Artist: <strong>{currentUser?.name}</strong>
+                            </p>
+                            <input
+                                type="text"
+                                value={imageObject.name}
+                                onChange={({ target }) => setImageObject((prev) => ({ ...prev, name: target.value }))}
+                                placeholder="Name"
+                            />
+                            <br />
+                            <textarea
+                                name="description"
+                                value={imageObject.description}
+                                onChange={({ target }) =>
+                                    setImageObject((prev) => ({ ...prev, description: target.value }))
+                                }
+                                cols="30"
+                                rows="10"
+                                placeholder="Image description"
+                            ></textarea>
+                            <br />
+                        </form>
+                    </div>
+                    <div className="modal-footer">
+                        <button id="edit-image-modal-dismiss" type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="submit" form="edit-image-modal-form" className="btn btn-primary">
+                            Update
+                        </button>
+                    </div>
+                </div>
             </div>
-        </dialog>
+        </div>
     );
 }

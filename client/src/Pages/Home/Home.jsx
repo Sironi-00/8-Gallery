@@ -1,4 +1,3 @@
-import "./Home.css";
 import { useContext, useEffect, useState } from "react";
 import { fetchImages, fetchImagesByAuthor, fetchSearch } from "../../Api/Api";
 import ImageItem from "../../Components/ImageItem/ImageItem";
@@ -40,9 +39,9 @@ export default function Home() {
     }
 
     return (
-        <div className="home-page">
+        <div className="h-100 overflow-auto">
             <ViewOptions location="Home" />
-            <div className="images">
+            <div className="d-flex flex-wrap justify-content-evenly">
                 {itemsState.map((item) => (
                     <ImageItem key={item.id} data={item} deleteItem={deleteItem} upvoteItem={upvoteItem} />
                 ))}
