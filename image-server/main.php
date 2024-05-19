@@ -21,8 +21,7 @@ $save_image = uploadImage($_FILES["file"]);
 $output['status']['code'] = $save_image["code"];
 $output['status']['description'] = "serve upload image";
 $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-$output['data']["message"] = $save_image["message"];
+$output['data'] = $save_image["message"];
 
 echo json_encode($output);
 
-?>

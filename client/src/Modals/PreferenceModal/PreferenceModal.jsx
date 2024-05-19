@@ -30,83 +30,76 @@ export default function PreferenceModal() {
                     <div className="modal-body">
                         <button className="btn border border-white">Theme</button>
                         <br />
+                        {currentUser?.name && editMode && (
+                            <form>
+                                <input
+                                    type="text"
+                                    placeholder="Name"
+                                    value={currentUser?.name || user.name}
+                                    onChange={({ target }) => setUser((prev) => ({ ...prev, name: target.value }))}
+                                />
+                                <br />
+                                <input
+                                    type="email"
+                                    placeholder="Email"
+                                    value={currentUser?.email || user.email}
+                                    onChange={({ target }) => setUser((prev) => ({ ...prev, email: target.value }))}
+                                />
+                                <br />
+                                <input
+                                    type="password"
+                                    placeholder="Password"
+                                    value={user.password}
+                                    onChange={({ target }) => setUser((prev) => ({ ...prev, password: target.value }))}
+                                />
+                                {user.password.length > 0 && (
+                                    <>
+                                        <br />
+                                        <input
+                                            type="password"
+                                            placeholder="Confirm Password"
+                                            value={user.confirmPassword}
+                                            onChange={({ target }) =>
+                                                setUser((prev) => ({
+                                                    ...prev,
+                                                    confirmPassword: target.value,
+                                                }))
+                                            }
+                                        />
+                                    </>
+                                )}
+                                <br />
+                                <input type="submit" value="Update" />
+                            </form>
+                        )}
+                        {currentUser?.name && !editMode && (
+                            <>
+                                <p>
+                                    Name: <strong>{currentUser?.name || user.name}</strong>
+                                </p>
+                                <p>
+                                    Email: <strong>{currentUser?.email || user.email}</strong>
+                                </p>
+                            </>
+                        )}
 
                         {currentUser?.name && (
                             <>
-                                {editMode && (
-                                    <>
-                                        <form>
-                                            <input
-                                                type="text"
-                                                placeholder="Name"
-                                                value={currentUser?.name || user.name}
-                                                onChange={({ target }) =>
-                                                    setUser((prev) => ({ ...prev, name: target.value }))
-                                                }
-                                            />
-                                            <br />
-                                            <input
-                                                type="email"
-                                                placeholder="Email"
-                                                value={currentUser?.email || user.email}
-                                                onChange={({ target }) =>
-                                                    setUser((prev) => ({ ...prev, email: target.value }))
-                                                }
-                                            />
-                                            <br />
-                                            <input
-                                                type="password"
-                                                placeholder="Password"
-                                                value={user.password}
-                                                onChange={({ target }) =>
-                                                    setUser((prev) => ({ ...prev, password: target.value }))
-                                                }
-                                            />
-                                            {user.password.length > 0 && (
-                                                <>
-                                                    <br />
-                                                    <input
-                                                        type="password"
-                                                        placeholder="Confirm Password"
-                                                        value={user.confirmPassword}
-                                                        onChange={({ target }) =>
-                                                            setUser((prev) => ({
-                                                                ...prev,
-                                                                confirmPassword: target.value,
-                                                            }))
-                                                        }
-                                                    />
-                                                </>
-                                            )}
-                                            <br />
-                                            <input type="submit" value="Update" />
-                                        </form>
-                                    </>
-                                )}
-                                {!editMode && (
-                                    <>
-                                        <p>
-                                            Name: <strong>{currentUser?.name || user.name}</strong>
-                                        </p>
-                                        <p>
-                                            Email: <strong>{currentUser?.email || user.email}</strong>
-                                        </p>
-                                    </>
-                                )}
                                 <button
                                     className="btn border border-white"
                                     onClick={() => setEditMode((prev) => !prev)}
                                 >
                                     {editMode ? "Cancel Edit" : "Edit user"}
                                 </button>
-                                <br />
+                                <button className="btn border border-white" onClick={() => {}}>
+                                    Delete Account
+                                </button>
+                                <button className="btn border border-white" onClick={handleLogout}>
+                                    Logout
+                                </button>
                             </>
                         )}
-                        {currentUser?.name ? (
-                            <button className="btn border border-white" onClick={handleLogout}>
-                                Logout
-                            </button>
-                        ) : (
+                        {!currentUser?.name && (
                             <>
                                 <br />
                                 <Link to="/login" onClick={handleLogout}>
@@ -120,7 +113,12 @@ export default function PreferenceModal() {
                         </a>
                     </div>
                     <div className="modal-footer">
-                        <button id="preference-modal-dismiss" type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                        <button
+                            id="preference-modal-dismiss"
+                            type="button"
+                            className="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                        >
                             Close
                         </button>
                     </div>

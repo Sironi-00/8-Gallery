@@ -19,9 +19,12 @@ export default function Header() {
         <header className="container-fluid">
             <div className="row">
                 <div className="col">
-                    <a href="/" className="logo">
-                        <h1>
-                            <AllInclusiveRoundedIcon id="logo-icon" /> Gallery
+                    <a href="/" className="logo text-decoration-none text-body">
+                        <h1 className="fw-lighter">
+                            <AllInclusiveRoundedIcon id="logo-icon" /> 
+                            <span>
+                                Gallery
+                            </span>
                         </h1>
                     </a>
                 </div>
@@ -34,19 +37,18 @@ export default function Header() {
                             <button type="button" className="btn" data-bs-toggle="modal" data-bs-target="#upload-modal">
                                 <AddCircleOutlineRoundedIcon />
                             </button>
-
                         </>
                     )}
                     <nav>
-                        <NavLink to="/">
+                        <NavLink to="/" className="text-body">
                             <HomeRoundedIcon />
                         </NavLink>
-                        <NavLink to="/artist">
+                        <NavLink to="/artist" className="text-body">
                             <Person2RoundedIcon />
                         </NavLink>
                         {!currentUser?.name && (
                             <>
-                                <NavLink to="/login">
+                                <NavLink to="/login" className="text-body">
                                     <LockRoundedIcon />
                                 </NavLink>
                             </>

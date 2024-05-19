@@ -57,13 +57,29 @@ img {
 .bg-opaque {
   background-color: var(--bg-transparent) !important;
 }
-
 .border-ultra {
   --bs-border-color: #0006 !important;
 }
+
 header {
   border-bottom: 1px solid #DDD;
 }
 .btn:active {
   scale: 0.9;
+}
+
+#logo-icon {
+  font-size: 3.15rem;
+  margin: 0 0.25rem !important;
+}
+
+.shy {
+  opacity: 0.35 !important;
+}
+.shy:hover {
+  opacity: 1 !important;
+}
+
+nav .active {
+  border-bottom: 3px double;  
 }

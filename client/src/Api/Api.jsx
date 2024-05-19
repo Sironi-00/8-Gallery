@@ -1,7 +1,8 @@
-const BASE_URL = "http://localhost:3000";
-// const BASE_URL = "";
+// const BASE_URL = "http://localhost:3000";
+const BASE_URL = "";
 
-const IMAGE_SERVER = "https://image-server.fanisndou.co.uk/"
+const IMAGE_SERVER = "https://image-server.fanisndou.co.uk";
+// const IMAGE_SERVER = "http://localhost:3001";
 
 export const fetchImages = async () => {
     let res = await fetch(`${BASE_URL}/api/images`, {
@@ -110,7 +111,7 @@ export const uploadImage = async (imageObject) => {
         method: "POST",
         headers: {
             'content-type': 'application/json'
-        }, body: JSON.stringify({...imageObject, url: `${IMAGE_SERVER}/images/` + saveImaged.data.message})
+        }, body: JSON.stringify({...imageObject, url: saveImaged.data})
     });
 
     if (res.ok) {
@@ -142,6 +143,8 @@ export const deleteImage = async ({id, artistId}) => {
     });
 
     if (res.ok) {
+        const data = await res.json();
+        console.log(data);
         return true;
     }
     return false;

@@ -69,6 +69,25 @@ ImagesRouter.get("/by/:artist", async (req, res, next) => {
     }
 });
 
+
+const deleteServerImage = async (url) => {
+    const superUrl = new URL(url);
+    const serverUrl = process.env.IMAGE_SERVER || superUrl.origin;
+    const imagePath = url.replace(serverUrl, "");
+
+    console.log(serverUrl.pathname )
+
+    try {
+        const res = await fetch(`${serverUrl}/delete.php?path=${imagePath}`)
+        if (res.ok) {
+            const data = await res.json();
+            return data.data;
+        }
+        return false;
+    } catch (err) {
+        throw new Error(err);
+    }
+};
 ImagesRouter.delete("/:id", async (req, res, next) => {
     const { id } = req.params
     const { artistId } = req.query
@@ -77,8 +96,13 @@ ImagesRouter.delete("/:id", async (req, res, next) => {
     try {
         conn = await Pool.getConnection();
         const rows = await conn.query("DELETE FROM images WHERE id = ? AND artistId = ? RETURNING name, url", [id, artistId]);
+        // const rows = await conn.query("SELECT url FROM images WHERE id = ? AND artistId = ?", [id, artistId]);
+        const { url } = rows[0];
 
-        res.json(rows);
+        // get url & delete in php server
+        const serverDelete = await deleteServerImage(url);
+
+        res.json(serverDelete);
     } catch (err) {
         console.error(err);
         next(err);
