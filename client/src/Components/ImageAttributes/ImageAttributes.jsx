@@ -29,7 +29,7 @@ export default function ImageAttributes({ data }) {
     const handleDelete = async () => {
         const res = await deleteImage({ id, artistId: currentUser?.id });
         if (res) {
-            // deleteItem(id);
+            console.log(res);
         } else {
             console.log("Error: could not delete image");
         }

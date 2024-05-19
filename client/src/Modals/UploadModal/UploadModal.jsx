@@ -91,7 +91,7 @@ export default function UploadModal() {
                         </form>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                        <button id="upload-modal-dismiss" type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                         </button>
                         {/* imageObject.name.length > 0 && "disabled" */}
