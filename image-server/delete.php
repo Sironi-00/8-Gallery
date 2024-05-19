@@ -27,7 +27,7 @@ if (isset($_REQUEST["path"]) &&  file_exists($filePath)) {
 $output['status']['code'] = $success? 200: 400;
 $output['status']['description'] = "test delete";
 $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-$output['data'] = ["deleted" => $success, "message"=> $message, "s" => $_SERVER];
+$output['data'] = ["deleted" => $success, "message"=> $message];
 
 echo json_encode($output);
 
