@@ -1,5 +1,9 @@
-// const BASE_URL = "http://localhost:3000";
-const BASE_URL = "";
+let BASE_URL;
+if (window.process && (window.process?.env?.NODE_ENV === "production")) {
+    BASE_URL = "";
+} else {
+    BASE_URL = "http://localhost:3000";
+}
 
 const IMAGE_SERVER = "https://image-server.fanisndou.co.uk";
 // const IMAGE_SERVER = "http://localhost:3001";

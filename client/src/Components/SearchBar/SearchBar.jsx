@@ -9,13 +9,17 @@ export default function SearchBar() {
         if (searchText.length > 2) {
             setSearchString(searchText);
         } else if (searchText.length <= 2) {
-            setSearchString("")
+            setSearchString("");
         }
-    }, [searchText, setSearchString])
+    }, [searchText, setSearchString]);
 
     return (
-        <div className="search-bar">
-            <input type="text" placeholder="Search" value={searchText} onChange={({target}) => setSearchText(target.value)} />
-        </div>
+        <input
+            type="search"
+            className="form-control me-2 rounded"
+            placeholder="Search"
+            value={searchText}
+            onChange={({ target }) => setSearchText(target.value)}
+        />
     );
 }
