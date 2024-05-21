@@ -1,8 +1,8 @@
 let BASE_URL = "";
-
-// if (!window.process && (window.process?.env?.NODE_ENV !== "production")) {
-//     BASE_URL = "http://localhost:3000";
-// }
+if (import.meta.env.MODE !== "production") {
+    // API server url
+    BASE_URL = "http://localhost:3000";
+}
 
 const IMAGE_SERVER = "https://image-server.fanisndou.co.uk";
 // const IMAGE_SERVER = "http://localhost:3001";
