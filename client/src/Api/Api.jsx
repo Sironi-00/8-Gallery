@@ -1,8 +1,8 @@
 let BASE_URL;
-if (window.process && (window.process?.env?.NODE_ENV === "production")) {
-    BASE_URL = "";
-} else {
+if (!window.process && (window.process?.env?.NODE_ENV !== "production")) {
     BASE_URL = "http://localhost:3000";
+} else {
+    BASE_URL = "";
 }
 
 const IMAGE_SERVER = "https://image-server.fanisndou.co.uk";
