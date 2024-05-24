@@ -36,7 +36,7 @@ export default function Header() {
                 </button>
 
                 <div id="navbar-contents" className="collapse navbar-collapse">
-                    <ul className="navbar-nav nav-underline flex-row justify-content-between m-2">
+                    <ul className="navbar-nav nav-underline flex-row justify-content-between m-2 mt-0">
                         <li className="nav-item">
                             <NavLink to="/" className="nav-link text-body">
                                 {/* <HomeRoundedIcon /> */}
