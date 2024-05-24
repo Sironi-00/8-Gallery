@@ -9,7 +9,7 @@ export default function ImageItem({ data }) {
         <div id={id} className="d-flex w-card h-card position-relative overflow-hidden rounded shadow border">
             <div className="image-item">
                 <Link to={`/image/${id}`} title="view">
-                    <img className="" src={url} alt={"Image: " + name} loading="lazy" />
+                    <img className="bg-secondary" src={url} alt={"Image: " + name} loading="lazy" />
                 </Link>
             </div>
             {/* <div className="position-absolute w-100 bottom-0 border border-ultra p-1 bg-opaque shy"> */}

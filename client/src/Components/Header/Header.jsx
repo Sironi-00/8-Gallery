@@ -36,7 +36,7 @@ export default function Header() {
                 </button>
 
                 <div id="navbar-contents" className="collapse navbar-collapse">
-                    <ul className="navbar-nav nav-underline">
+                    <ul className="navbar-nav nav-underline flex-row justify-content-between m-2">
                         <li className="nav-item">
                             <NavLink to="/" className="nav-link text-body">
                                 {/* <HomeRoundedIcon /> */}
@@ -58,7 +58,7 @@ export default function Header() {
                     <form className="d-flex m-auto" role="search">
                         <SearchBar />
                     </form>
-                    <ul className="navbar-nav ms-auto">
+                    <ul className="navbar-nav ms-auto flex-row justify-content-between m-2">
                         <li className="nav-item">
                             {currentUser?.name ? (
                                 <>
