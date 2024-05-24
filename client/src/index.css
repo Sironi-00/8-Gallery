@@ -43,12 +43,22 @@ img {
   /* object-position: 50% 12% !important; */
 }
 
-@media screen and (width <= 800px) {
+@media screen and (width > 576px) {
+  .w-card {
+    width: 48% !important;
+  }
+}
+@media screen and (width > 768px) {
+  .w-card {
+    width: 32% !important;
+  }
+}
+@media screen and (width <= 992px) {
   .h-card {
     height: 430px !important;
   }
 }
-@media screen and (width > 800px) {
+@media screen and (width > 992px) {
   .w-card {
     width: 24% !important;
   }
