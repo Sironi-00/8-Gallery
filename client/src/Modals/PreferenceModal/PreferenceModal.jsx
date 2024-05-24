@@ -2,12 +2,9 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppContext, ThemeContext } from "../../ContextProvider/ContextProvider";
 
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
-
 export default function PreferenceModal() {
     const { currentUser, updateCurrentUser } = useContext(AppContext);
-    const { theme, toggleTheme } = useContext(ThemeContext);
+
 
     const [editMode, setEditMode] = useState(false);
 
@@ -32,13 +29,7 @@ export default function PreferenceModal() {
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <button className="btn border border shadow" onClick={toggleTheme}>
-                            {theme == "dark" ? <LightModeIcon /> : <DarkModeIcon />}
-                            &nbsp;
-                            {theme == "dark" ? "Light" : "Dark"}
-                            &nbsp; Theme
-                        </button>
-                        <br />
+                        
                         {currentUser?.name && editMode && (
                             <form className="my-2">
                                 <div className="input-group">

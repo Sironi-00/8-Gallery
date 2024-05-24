@@ -37,8 +37,8 @@ img {
 }
 
 .image-full img {
-  width: auto !important;
-  height: 100% !important;
+  /* width: auto !important; */
+  /* height: 100% !important; */
   object-fit: contain !important;
   /* object-position: 50% 12% !important; */
 }

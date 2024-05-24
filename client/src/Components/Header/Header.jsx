@@ -4,12 +4,15 @@ import { NavLink } from "react-router-dom";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import AllInclusiveRoundedIcon from "@mui/icons-material/AllInclusiveRounded";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 import SearchBar from "../SearchBar/SearchBar";
-import { AppContext } from "../../ContextProvider/ContextProvider";
+import { AppContext, ThemeContext } from "../../ContextProvider/ContextProvider";
 
 export default function Header() {
     const { currentUser } = useContext(AppContext);
+    const { theme, toggleTheme } = useContext(ThemeContext);
 
     return (
         <header className="navbar navbar-expand-lg m-0 p-0 shadow border-bottom border-black border-opacity-25">
@@ -74,6 +77,11 @@ export default function Header() {
                                     Login
                                 </NavLink>
                             )}
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn" onClick={toggleTheme}>
+                                {theme == "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+                            </button>
                         </li>
                         <li className="nav-item">
                             <button
