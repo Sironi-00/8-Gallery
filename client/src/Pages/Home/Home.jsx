@@ -41,7 +41,7 @@ export default function Home() {
     return (
         <div className="h-100 overflow-auto">
             <ViewOptions location="Home" />
-            <div className="d-flex flex-wrap justify-content-evenly py-1">
+            <div className="d-flex flex-wrap gap-2 justify-content-evenly py-2">
                 {itemsState.map((item) => (
                     <ImageItem key={item.id} data={item} deleteItem={deleteItem} upvoteItem={upvoteItem} />
                 ))}

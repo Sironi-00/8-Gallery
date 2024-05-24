@@ -6,7 +6,7 @@ export default function ImageItem({ data }) {
     const { id, name, url, artist, description } = data;
 
     return (
-        <div id={id} className="d-flex w-card h-card m-1 position-relative overflow-hidden rounded shadow border">
+        <div id={id} className="d-flex w-card h-card position-relative overflow-hidden rounded shadow border">
             <div className="image-item">
                 <Link to={`/image/${id}`} title="view">
                     <img className="" src={url} alt={"Image: " + name} loading="lazy" />
