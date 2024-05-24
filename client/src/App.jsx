@@ -5,10 +5,11 @@ import Home from "./Pages/Home/Home";
 import Authors from "./Pages/Authors/Authors";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
+import Image from "./Pages/Image/Image";
+import More from "./Pages/More/More";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ContextProvider from "./ContextProvider/ContextProvider";
-import Image from "./Pages/Image/Image";
 
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -37,6 +38,9 @@ const router = createBrowserRouter([
       }, {
         path: "image/:id",
         element: <Image />
+      }, {
+        path: "more",
+        element: <More />
       }
     ]
   }

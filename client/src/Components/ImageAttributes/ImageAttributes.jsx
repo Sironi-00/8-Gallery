@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from "react";
 
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import DownloadIcon from "@mui/icons-material/Download";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
 
 import { AppContext } from "../../ContextProvider/ContextProvider";
@@ -11,11 +11,11 @@ import { getImageUpvotes, upvoteImage, deleteImage } from "../../Api/Api";
 import { useSearchParams } from "react-router-dom";
 
 export default function ImageAttributes({ data }) {
-    const { id, url, artistId, views, likes, } = data;
+    const { id, url, artistId, views, likes } = data;
     const { currentUser } = useContext(AppContext);
     const [, setQueryString] = useSearchParams();
 
-    const [votesCount, setVotesCount] = useState({ likes: likes , liked: false });
+    const [votesCount, setVotesCount] = useState({ likes: likes, liked: false });
 
     const handleUpvote = async () => {
         const res = await upvoteImage({ id, userId: currentUser?.id });
@@ -57,23 +57,32 @@ export default function ImageAttributes({ data }) {
             <div className="d-flex align-items-center">
                 {currentUser?.id ? (
                     <>
-                        <button className="btn border border-white d-flex align-items-center" onClick={handleUpvote}>
-                            <ThumbUpAltRoundedIcon className={`${votesCount.liked && "text-primary"}`} />{" "}
+                        <button
+                            className="btn border d-flex align-items-center position-relative"
+                            onClick={handleUpvote}
+                        >
+                            <ThumbUpAltRoundedIcon className={`${votesCount.liked && "text"}`} />
+                            {votesCount.liked && (
+                                <ThumbUpAltRoundedIcon className="position-absolute scale-1 text-primary" />
+                            )}
+                            &nbsp;
                             {votesCount.likes}
                         </button>
                     </>
                 ) : (
                     <>
                         <div className="">
-                            <ThumbUpAltRoundedIcon /> {votesCount.likes}
+                            <ThumbUpAltRoundedIcon />
+                            &nbsp;{votesCount.likes}
                         </div>
                     </>
                 )}
             </div>
             <div className="d-flex align-items-center">
-                <VisibilityRoundedIcon /> {views}
+                <VisibilityRoundedIcon />
+                &nbsp;{views}
             </div>
-            <a href={url} download="" target="_blank" className="btn border border-white">
+            <a href={url} download="" target="_blank" className="btn border">
                 <DownloadIcon />
             </a>
             {currentUser?.id == artistId && (
@@ -81,14 +90,14 @@ export default function ImageAttributes({ data }) {
                     <button
                         title="Edit Image"
                         type="button"
-                        className="btn border border-white"
+                        className="btn border"
                         data-bs-toggle="modal"
                         data-bs-target="#edit-image-modal"
                         onClick={handleEditImage}
                     >
                         <EditIcon />
                     </button>
-                    <button title="Delete Image" className="btn border border-white" onClick={handleDelete}>
+                    <button title="Delete Image" className="btn border" onClick={handleDelete}>
                         <DeleteIcon />
                     </button>
                 </>

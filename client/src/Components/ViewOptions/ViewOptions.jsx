@@ -1,5 +1,6 @@
 export default function ViewOptions({ location }) {
     // document.title = location;
+    return;
     return (
         <div className="container-fluid">
             <div className="row align-items-center">

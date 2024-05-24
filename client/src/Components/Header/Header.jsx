@@ -1,22 +1,18 @@
-import SearchBar from "../SearchBar/SearchBar";
-
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import Person2RoundedIcon from "@mui/icons-material/Person2Rounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-import LockRoundedIcon from "@mui/icons-material/LockRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import AllInclusiveRoundedIcon from "@mui/icons-material/AllInclusiveRounded";
 
-import { useContext } from "react";
+import SearchBar from "../SearchBar/SearchBar";
 import { AppContext } from "../../ContextProvider/ContextProvider";
 
 export default function Header() {
     const { currentUser } = useContext(AppContext);
 
     return (
-        <header className="navbar navbar-expand-lg m-0 p-0">
+        <header className="navbar navbar-expand-lg m-0 p-0 shadow border-bottom border-black border-opacity-25">
             <div className="container-fluid">
                 <a href="/" className="navbar-brand logo me-5">
                     <h1 className="">

@@ -1,18 +1,11 @@
+[data-bs-theme="light"] {
+  --bs-body-bg: #EFEFEF !important;
+}
 :root {
-  --fg-main: #F4F8FA;
-  --bg-main: #031A33;
-  --bg-secondary: #4b5a63;
+  /* --bs-body-bg: #F4F8FA !important; */
   --bg-transparent: #0006;
-  --accent: #1ad;
-  --bg-dark: #000;
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: var(--fg-main);
-  background-color: var(--bg-main);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,10 +13,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  transition: all 0.5s ease-in;
+}
 body {
-  color-scheme: light dark !important;
-  color: var(--fg-main) !important;
-  background-color: var(--bg-main) !important;
+  /* color: var(--fg-main) !important; */
+  /* background-color: var(--bg-main) !important; */
   max-width: 100dvw;
   max-height: 100dvh;
 }
@@ -48,11 +43,18 @@ img {
   /* object-position: 50% 12% !important; */
 }
 
-.w-card {
-  width: 24% !important;
+@media screen and (width <= 800px) {
+  .h-card {
+    height: 430px !important;
+  }
 }
-.h-card {
-  height: 360px !important;
+@media screen and (width > 800px) {
+  .w-card {
+    width: 24% !important;
+  }
+  .h-card {
+    height: 360px !important;
+  }
 }
 .bg-opaque {
   background-color: var(--bg-transparent) !important;
@@ -71,8 +73,11 @@ img {
 }
 
 .shy {
-  opacity: 0.5 !important;
+  opacity: 0.65 !important;
 }
 .shy:hover {
   opacity: 1 !important;
+}
+.scale-1 {
+  scale: 0.8;
 }

@@ -2,11 +2,16 @@ import Header from "../Components/Header/Header";
 import { Outlet } from "react-router-dom";
 
 import Modals from "../Modals/Modals";
+import { useContext } from "react";
+import { ThemeContext } from "../ContextProvider/ContextProvider";
 
 export default function Root() {
+    const { theme } = useContext(ThemeContext);
+    document.body.setAttribute("data-bs-theme", theme);
+    
     return (
         <>
-            <div className="d-flex flex-column vh-100 vw-100" data-bs-theme="dark">
+            <div className="d-flex flex-column vh-100 vw-100">
                 <Header />
                 <main className="flex-grow-1 overflow-hidden">
                     <Outlet />

@@ -57,6 +57,7 @@ export default function UploadModal() {
                                 onChange={({ target }) => setImageObject((prev) => ({ ...prev, name: target.value }))}
                                 minLength="3"
                                 autoFocus
+                                required
                             />
                             <br />
                             <textarea
@@ -101,7 +102,6 @@ export default function UploadModal() {
                             className={`btn btn-primary ${
                                 !(
                                     imageObject.name.length > 1 &&
-                                    imageObject.description.length > 1 &&
                                     imageObject.file
                                 ) && "disabled"
                             }`}

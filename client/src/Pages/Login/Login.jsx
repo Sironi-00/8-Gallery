@@ -5,12 +5,12 @@ import { AppContext } from "../../ContextProvider/ContextProvider";
 
 export default function Login() {
     const navigate = useNavigate();
-    
+
     const { updateCurrentUser } = useContext(AppContext);
 
     const [user, setUser] = useState({
         name: "",
-        password: ""
+        password: "",
     });
 
     const handleLogin = async (e) => {
@@ -19,23 +19,37 @@ export default function Login() {
         if (res) {
             updateCurrentUser(res);
             navigate("/");
-        }
-         else {
+        } else {
             console.log("Login failed");
         }
         setUser({
             name: "",
-            password: ""
+            password: "",
         });
-    }
+    };
 
     return (
         <div>
             <h2>Login</h2>
             <form onSubmit={handleLogin}>
-                <input type="text" placeholder="name" value={user.name} onChange={({target}) => setUser(prev => ({...prev, name: target.value}))} minLength="3" pattern="\S{3,30}"/>
+                <input
+                    type="text"
+                    placeholder="name"
+                    value={user.name}
+                    onChange={({ target }) => setUser((prev) => ({ ...prev, name: target.value }))}
+                    minLength="3"
+                    pattern="\S{3,30}"
+                    required
+                />
                 <br />
-                <input type="password" placeholder="password" value={user.password} onChange={({target}) => setUser(prev => ({...prev, password: target.value}))} minLength="4"/>
+                <input
+                    type="password"
+                    placeholder="password"
+                    value={user.password}
+                    onChange={({ target }) => setUser((prev) => ({ ...prev, password: target.value }))}
+                    minLength="4"
+                    required
+                />
                 <br />
                 <input type="submit" value="Submit" />
             </form>
