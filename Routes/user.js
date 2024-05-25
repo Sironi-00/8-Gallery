@@ -1,6 +1,8 @@
 const express = require("express");
 const Pool = require("./Database");
 const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcrypt');
+const saltRound = 10;
 
 const UserRouter = express.Router();
 
@@ -37,7 +39,10 @@ UserRouter.post("/login", async (req, res, next) => {
             email: rows[0].email
 
         }
-        if (rows[0].password === password) {
+        const hashCompare = async (password, hashedPass) => {
+            return await bcrypt.compare(password, hashedPass);
+        } 
+        if (await hashCompare(password, rows[0].password)) {
             res.json(activeUser);
         } else {
             res.sendStatus(401);
@@ -53,11 +58,66 @@ UserRouter.post("/login", async (req, res, next) => {
 
 UserRouter.post("/register", async (req, res, next) => {
     const { name, password, email, } = req.body;
+    
+    const hashPass = async (password) => {
+        const salt = await bcrypt.genSalt(saltRound);
+        const hashed = await bcrypt.hash(password, salt);
+        return hashed;
+    } 
+    const hashedPassword = await hashPass(password);
 
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("INSERT INTO users (id, name, password, email) VALUES (?, ?, ?, ?) RETURNING  id, name, email", [uuidv4(), name, password, email]);
+        const rows = await conn.query("INSERT INTO users (id, name, password, email) VALUES (?, ?, ?, ?) RETURNING  id, name, email", [uuidv4(), name, hashedPassword, email]);
+        
+        const activeUser = {
+            id: rows[0].id,
+            name: rows[0].name,
+            email: rows[0].email
+
+        }
+        res.json(activeUser);
+        
+    } catch (err) {
+        console.error(err);
+        next(err);
+    } finally {
+        if (conn) return conn.end();
+    }
+});
+
+UserRouter.delete("/:userId", async (req, res, next) => {
+    const { userId } = req.params;
+
+    let conn;
+    try {
+        conn = await Pool.getConnection();
+        await conn.query("DELETE FROM users WHERE id = ?", [userId]);
+        
+        res.sendStatus(200);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    } finally {
+        if (conn) return conn.end();
+    }
+});
+
+UserRouter.patch("/:userId", async (req, res, next) => {
+    const { name, password, email, } = req.body;
+    const { userId } = req.params;
+
+    let conn;
+    try {
+        conn = await Pool.getConnection();
+        if (password && password.length > 0) {
+            await conn.query("UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?", [name, email, password, userId]);
+        } else {
+            await conn.query("UPDATE users SET name = ?, email = ? WHERE id = ?", [name, email, userId]);
+        }
+        
+        const rows = await conn.query("SELECT id, name, email FROM users WHERE id = ?", [userId]);
         
         const activeUser = {
             id: rows[0].id,

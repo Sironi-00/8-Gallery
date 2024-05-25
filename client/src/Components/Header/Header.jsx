@@ -13,6 +13,7 @@ import { AppContext, ThemeContext } from "../../ContextProvider/ContextProvider"
 export default function Header() {
     const { currentUser } = useContext(AppContext);
     const { theme, toggleTheme } = useContext(ThemeContext);
+    document.body.setAttribute("data-bs-theme", theme);
 
     return (
         <header className="navbar navbar-expand-lg m-0 p-0 shadow border-bottom border-black border-opacity-25">

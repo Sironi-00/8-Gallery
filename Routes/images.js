@@ -10,7 +10,7 @@ ImagesRouter.get("/", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id ORDER BY upload_date DESC, likes DESC, views DESC;");
+        const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id ORDER BY upload_date DESC, likes DESC, downloads DESC;");
         res.json(rows);
     } catch (err) {
         console.error(err);
@@ -111,13 +111,13 @@ ImagesRouter.delete("/:id", async (req, res, next) => {
     }
 });
 
-ImagesRouter.patch("/views/:id", async (req, res, next) => {
+ImagesRouter.patch("/download/:id", async (req, res, next) => {
     const { id } = req.params;
 
     let conn;
     try {
         conn = await Pool.getConnection();
-        await conn.query("UPDATE images SET views = views + 1 WHERE id = ?", [id]);
+        await conn.query("UPDATE images SET downloads = downloads + 1 WHERE id = ?", [id]);
         res.sendStatus(200);
     } catch (err) {
         console.error(err);

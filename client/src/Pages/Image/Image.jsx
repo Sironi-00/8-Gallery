@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { fetchImageById, incrementView } from "../../Api/Api";
+import { fetchImageById, } from "../../Api/Api";
 
 import ImageAttributes from "../../Components/ImageAttributes/ImageAttributes";
 
@@ -11,14 +11,12 @@ export default function Image() {
 
     useEffect(() => {
         (async () => {
-            const res = await fetchImageById(id);
-            if (res) {
-                setImageObject(res);
+            const data = await fetchImageById(id);
+            if (data) {
+                setImageObject(data);
             } else {
                 console.log("Failed to display img obj");
             }
-
-            incrementView(id);
         })();
     }, [id]);
 
@@ -31,7 +29,7 @@ export default function Image() {
                     </div>
                 </div>
                 <div className="col-lg-3 col-md-4 py-5 mt-auto">
-                    <div className="border rounded p-1">
+                    <div className="border rounded p-2">
                         <h2 className="m-0 p-0">{imageObject.name}</h2>
                         <p className="m-0 p-0">{imageObject.description}</p>
                         <p className="m-0 p-0">

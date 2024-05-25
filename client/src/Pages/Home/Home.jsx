@@ -23,6 +23,7 @@ export default function Home() {
             } else {
                 data = await fetchImages();
             }
+            if (!data) return;
             setItemsState(data);
         };
         loadData();

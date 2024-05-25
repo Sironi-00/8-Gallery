@@ -66,31 +66,44 @@ export default function EditImageModal() {
                     </div>
                     <div className="modal-body">
                         <form id="edit-image-modal-form" onSubmit={handleImageUpdate}>
-                            <p>
+                            <p className="m-0 mb-1 p-0">
                                 Artist: <strong>{currentUser?.name}</strong>
                             </p>
-                            <input
-                                type="text"
-                                value={imageObject.name}
-                                onChange={({ target }) => setImageObject((prev) => ({ ...prev, name: target.value }))}
-                                placeholder="Name"
-                            />
-                            <br />
-                            <textarea
-                                name="description"
-                                value={imageObject.description}
-                                onChange={({ target }) =>
-                                    setImageObject((prev) => ({ ...prev, description: target.value }))
-                                }
-                                cols="30"
-                                rows="10"
-                                placeholder="Image description"
-                            ></textarea>
-                            <br />
+                            <div className="input-group mb-2">
+                                <span className="input-group-text">Name</span>
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    value={imageObject.name}
+                                    onChange={({ target }) =>
+                                        setImageObject((prev) => ({ ...prev, name: target.value }))
+                                    }
+                                    placeholder="Name"
+                                    autoFocus
+                                />
+                            </div>
+                            <div className="input-group mb-2">
+                                <span className="input-group-text">Description</span>
+                                <textarea
+                                    className="form-control"
+                                    name="description"
+                                    value={imageObject.description}
+                                    onChange={({ target }) =>
+                                        setImageObject((prev) => ({ ...prev, description: target.value }))
+                                    }
+                                    rows="10"
+                                    placeholder="Image description"
+                                ></textarea>
+                            </div>
                         </form>
                     </div>
                     <div className="modal-footer">
-                        <button id="edit-image-modal-dismiss" type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                        <button
+                            id="edit-image-modal-dismiss"
+                            type="button"
+                            className="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                        >
                             Close
                         </button>
                         <button type="submit" form="edit-image-modal-form" className="btn btn-primary">

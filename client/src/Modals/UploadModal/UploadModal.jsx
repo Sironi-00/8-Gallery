@@ -50,38 +50,49 @@ export default function UploadModal() {
                             </p>
                         )}
                         <form id="upload-modal-form" onSubmit={handleImageUpload}>
-                            <input
-                                type="text"
-                                placeholder="Title"
-                                value={imageObject.name}
-                                onChange={({ target }) => setImageObject((prev) => ({ ...prev, name: target.value }))}
-                                minLength="3"
-                                autoFocus
-                                required
-                            />
-                            <br />
-                            <textarea
-                                name="description"
-                                cols="30"
-                                rows="10"
-                                placeholder="Image description"
-                                value={imageObject.description}
-                                onChange={({ target }) =>
-                                    setImageObject((prev) => ({ ...prev, description: target.value }))
-                                }
-                                minLength="3"
-                            ></textarea>
-                            <br />
-                            <input
-                                id="file-uploader"
-                                name="image"
-                                type="file"
-                                accept="image/*"
-                                onChange={({ target }) =>
-                                    setImageObject((prev) => ({ ...prev, file: target.files[0] }))
-                                }
-                                required
-                            />
+                            <div className="input-group mb-2">
+                                <span className="input-group-text">Title</span>
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    placeholder="Title"
+                                    value={imageObject.name}
+                                    onChange={({ target }) =>
+                                        setImageObject((prev) => ({ ...prev, name: target.value }))
+                                    }
+                                    minLength="3"
+                                    autoFocus
+                                    required
+                                />
+                            </div>
+                            <div className="input-group mb-2">
+                                <span className="input-group-text">Description</span>
+                                <textarea
+                                    className="form-control"
+                                    name="description"
+                                    rows="7"
+                                    placeholder="Image description"
+                                    value={imageObject.description}
+                                    onChange={({ target }) =>
+                                        setImageObject((prev) => ({ ...prev, description: target.value }))
+                                    }
+                                    minLength="3"
+                                ></textarea>
+                            </div>
+
+                            <div className="input-group mb-2">
+                                <input
+                                    className="form-control"
+                                    id="file-uploader"
+                                    name="image"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={({ target }) =>
+                                        setImageObject((prev) => ({ ...prev, file: target.files[0] }))
+                                    }
+                                    required
+                                />
+                            </div>
                             {imageObject.file && (
                                 <img
                                     className="img-sm"
@@ -92,7 +103,12 @@ export default function UploadModal() {
                         </form>
                     </div>
                     <div className="modal-footer">
-                        <button id="upload-modal-dismiss" type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                        <button
+                            id="upload-modal-dismiss"
+                            type="button"
+                            className="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                        >
                             Close
                         </button>
                         {/* imageObject.name.length > 0 && "disabled" */}
@@ -100,10 +116,7 @@ export default function UploadModal() {
                             type="submit"
                             form="upload-modal-form"
                             className={`btn btn-primary ${
-                                !(
-                                    imageObject.name.length > 1 &&
-                                    imageObject.file
-                                ) && "disabled"
+                                !(imageObject.name.length > 1 && imageObject.file) && "disabled"
                             }`}
                         >
                             Submit

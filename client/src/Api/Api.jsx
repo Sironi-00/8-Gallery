@@ -11,13 +11,13 @@ export const fetchImages = async () => {
     let res = await fetch(`${BASE_URL}/api/images`, {
         method: "GET",
         headers: {
-            'content-type': 'application/json'
-        }
+            "content-type": "application/json",
+        },
     });
 
     if (res.ok) {
         let data = await res.json();
-        return data; 
+        return data;
     }
     return false;
 };
@@ -26,7 +26,7 @@ export const fetchSearch = async (searchString) => {
     let res = await fetch(`${BASE_URL}/api/images/search/?q=${searchString}`, {
         method: "GET",
         headers: {
-            'content-type': 'application/json'
+            "content-type": "application/json",
         },
     });
 
@@ -34,20 +34,20 @@ export const fetchSearch = async (searchString) => {
         let data = await res.json();
         return data;
     }
-    return [];
+    return false;
 };
 
 export const fetchImagesByAuthor = async (author) => {
     let res = await fetch(`${BASE_URL}/api/images/by/${author}`, {
         method: "GET",
         headers: {
-            'content-type': 'application/json'
+            "content-type": "application/json",
         },
     });
 
     if (res.ok) {
         let data = await res.json();
-        return data; 
+        return data;
     }
     return false;
 };
@@ -56,13 +56,13 @@ export const fetchImageById = async (id) => {
     let res = await fetch(`${BASE_URL}/api/images/id/${id}`, {
         method: "GET",
         headers: {
-            'content-type': 'application/json'
+            "content-type": "application/json",
         },
     });
 
     if (res.ok) {
         let data = await res.json();
-        return data; 
+        return data;
     }
     return false;
 };
@@ -71,13 +71,13 @@ export const fetchAuthors = async () => {
     let res = await fetch(`${BASE_URL}/api/user`, {
         method: "GET",
         headers: {
-            'content-type': 'application/json'
-        }
+            "content-type": "application/json",
+        },
     });
 
     if (res.ok) {
         let data = await res.json();
-        return data; 
+        return data;
     }
     return false;
 };
@@ -86,12 +86,13 @@ export const saveImage = async (imageObject) => {
     const formData = new FormData();
     formData.append("artistId", imageObject.artistId);
     formData.append("file", imageObject.file);
-    
+
     let res = await fetch(`${IMAGE_SERVER}/main.php`, {
         method: "POST",
         headers: {
             // 'content-type': 'multipart/form-data'
-        }, body: formData
+        },
+        body: formData,
     });
 
     if (res.ok) {
@@ -99,7 +100,7 @@ export const saveImage = async (imageObject) => {
         return data;
     }
     return false;
-}
+};
 
 export const uploadImage = async (imageObject) => {
     // first upload to server then create DB entry
@@ -113,13 +114,14 @@ export const uploadImage = async (imageObject) => {
     let res = await fetch(`${BASE_URL}/api/images`, {
         method: "POST",
         headers: {
-            'content-type': 'application/json'
-        }, body: JSON.stringify({...imageObject, url: saveImaged.data})
+            "content-type": "application/json",
+        },
+        body: JSON.stringify({ ...imageObject, url: saveImaged.data }),
     });
 
     if (res.ok) {
         let data = await res.json();
-        return data; 
+        return data;
     }
     return false;
 };
@@ -128,19 +130,19 @@ export const updateImage = async (imageObject) => {
     let res = await fetch(`${BASE_URL}/api/images/${imageObject.id}`, {
         method: "PATCH",
         headers: {
-            'content-type': 'application/json'
-        }, body: JSON.stringify(imageObject)
+            "content-type": "application/json",
+        },
+        body: JSON.stringify(imageObject),
     });
 
     if (res.ok) {
         let data = await res.json();
-        return data; 
+        return data;
     }
     return false;
 };
 
-
-export const deleteImage = async ({id, artistId}) => {
+export const deleteImage = async ({ id, artistId }) => {
     let res = await fetch(`${BASE_URL}/api/images/${id}?artistId=${artistId}`, {
         method: "DELETE",
     });
@@ -156,46 +158,76 @@ export const userLogin = async (user) => {
     let res = await fetch(`${BASE_URL}/api/user/login`, {
         method: "POST",
         headers: {
-            'content-type': 'application/json'
-        }, body: JSON.stringify(user)
+            "content-type": "application/json",
+        },
+        body: JSON.stringify(user),
     });
 
     if (res.ok) {
         let data = await res.json();
-        return data; 
+        return data;
     }
-    return false;    
-}
+    return false;
+};
 
 export const userRegister = async (user) => {
     let res = await fetch(`${BASE_URL}/api/user/register`, {
         method: "POST",
         headers: {
-            'content-type': 'application/json'
-        }, body: JSON.stringify(user)
+            "content-type": "application/json",
+        },
+        body: JSON.stringify(user),
     });
 
     if (res.ok) {
         let data = await res.json();
-        return data; 
+        return data;
     }
-    return false;    
-}
+    return false;
+};
+
+export const userDelete = async (id) => {
+    let res = await fetch(`${BASE_URL}/api/user/${id}`, {
+        method: "DELETE",
+    });
+
+    if (res.ok) {
+        return true;
+    }
+    return false;
+};
+
+export const userUpdate = async (user) => {
+    let res = await fetch(`${BASE_URL}/api/user/${user.id}`, {
+        method: "PATCH",
+        headers: {
+            "content-type": "application/json",
+        },
+        body: JSON.stringify(user),
+    });
+
+    if (res.ok) {
+        let data = await res.json();
+        return data;
+    }
+    return false;
+};
 
 export const userEmail = async (emailObject) => {
     let res = await fetch(`${BASE_URL}/api/user/email`, {
         method: "POST",
         headers: {
-            'content-type': 'application/json'
-        }, body: JSON.stringify(emailObject)
+            "content-type": "application/json",
+        },
+        body: JSON.stringify(emailObject),
     });
 
     if (res.ok) {
         let data = await res.json();
-        return data; 
+        return data;
     }
-    return false;    
-}
+    return false;
+};
 
 export const userName = async (artistId) => {
     let res = await fetch(`${BASE_URL}/api/user/name/${artistId}`, {
@@ -207,24 +239,24 @@ export const userName = async (artistId) => {
         return data;
     }
     return false;
-}
+};
 
-export const incrementView = async (id) => {
-    let res = await fetch(`${BASE_URL}/api/images/views/${id}`, {
+export const incrementDownloads = async (id) => {
+    let res = await fetch(`${BASE_URL}/api/images/download/${id}`, {
         method: "PATCH",
     });
 
     if (res.ok) {
-        return true; 
+        return true;
     }
-    return false;    
-}
+    return false;
+};
 
-export const getImageUpvotes = async ({id, userId}) => {
+export const getImageUpvotes = async ({ id, userId }) => {
     let res = await fetch(`${BASE_URL}/api/images/vote/${id}?userId=${userId}`, {
         method: "GET",
         headers: {
-            'content-type': 'application/json'
+            "content-type": "application/json",
         },
     });
 
@@ -235,11 +267,11 @@ export const getImageUpvotes = async ({id, userId}) => {
     return false;
 };
 
-export const upvoteImage = async ({id, userId}) => {
+export const upvoteImage = async ({ id, userId }) => {
     let res = await fetch(`${BASE_URL}/api/images/vote/${id}?userId=${userId}`, {
         method: "PATCH",
         headers: {
-            'content-type': 'application/json'
+            "content-type": "application/json",
         },
     });
 

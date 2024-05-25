@@ -8,50 +8,56 @@ export default function Login() {
 
     const { updateCurrentUser } = useContext(AppContext);
 
-    const [user, setUser] = useState({
+    const [ userState, setUserState ] = useState({
         name: "",
         password: "",
     });
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const res = await userLogin(user);
+        const res = await userLogin(userState);
         if (res) {
             updateCurrentUser(res);
             navigate("/");
         } else {
             console.log("Login failed");
         }
-        setUser({
+        setUserState({
             name: "",
             password: "",
         });
     };
 
     return (
-        <div>
+        <div className="m-2">
             <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <input
-                    type="text"
-                    placeholder="name"
-                    value={user.name}
-                    onChange={({ target }) => setUser((prev) => ({ ...prev, name: target.value }))}
-                    minLength="3"
-                    pattern="\S{3,30}"
-                    required
-                />
-                <br />
-                <input
-                    type="password"
-                    placeholder="password"
-                    value={user.password}
-                    onChange={({ target }) => setUser((prev) => ({ ...prev, password: target.value }))}
-                    minLength="4"
-                    required
-                />
-                <br />
-                <input type="submit" value="Submit" />
+            <form className="w-50" onSubmit={handleLogin}>
+                <div className="input-group mb-2">
+                    <span className="input-group-text">Name</span>
+                    <input
+                        className="form-control"
+                        type="text"
+                        placeholder="name"
+                        value={userState.name}
+                        onChange={({ target }) => setUserState((prev) => ({ ...prev, name: target.value }))}
+                        minLength="3"
+                        pattern="\S{3,30}"
+                        required
+                    />
+                </div>
+                <div className="input-group mb-2">
+                    <span className="input-group-text">Password</span>
+                    <input
+                        className="form-control"
+                        type="password"
+                        placeholder="password"
+                        value={userState.password}
+                        onChange={({ target }) => setUserState((prev) => ({ ...prev, password: target.value }))}
+                        minLength="4"
+                        required
+                    />
+                </div>
+                <button type="submit" className="btn btn-primary">Login</button>
             </form>
             <p>
                 Don't have an account? <Link to="/register">Register</Link>

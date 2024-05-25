@@ -59,44 +59,75 @@ export default function EmailArtistModal() {
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>To ensure our user's privacy we will send an email on your behalf</p>
+                        <p className="m-0 mb-1 p-0">
+                            To ensure our user's privacy we will send an email on your behalf
+                        </p>
                         <form id="email-artist-modal-form" onSubmit={handleSendEmail}>
-                            <p>
+                            <p className="m-0 mb-1 p-0">
                                 Sending to <strong>{emailObject.artist}</strong>
                             </p>
-                            <input
-                                type="text"
-                                placeholder="Your Name(s)"
-                                value={emailObject.name}
-                                onChange={({ target }) => setEmailObject((prev) => ({ ...prev, name: target.value }))}
-                                required
-                            />
-                            <br />
-                            <input
-                                type="email"
-                                placeholder="email"
-                                value={emailObject.email}
-                                onChange={({ target }) => setEmailObject((prev) => ({ ...prev, email: target.value }))}
-                                required
-                            />
-                            <br />
-                            <textarea
-                                cols="30"
-                                rows="10"
-                                placeholder="Message"
-                                value={emailObject.message}
-                                onChange={({ target }) =>
-                                    setEmailObject((prev) => ({ ...prev, message: target.value }))
-                                }
-                                required
-                            ></textarea>
+                            <div className="input-group mb-2">
+                                <span className="input-group-text">Name</span>
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    placeholder="Sender's Name"
+                                    value={emailObject.name}
+                                    onChange={({ target }) =>
+                                        setEmailObject((prev) => ({ ...prev, name: target.value }))
+                                    }
+                                    required
+                                />
+                            </div>
+                            <div className="input-group mb-2">
+                                <span className="input-group-text">Email</span>
+                                <input
+                                    className="form-control"
+                                    type="email"
+                                    placeholder="Sender's email"
+                                    value={emailObject.email}
+                                    onChange={({ target }) =>
+                                        setEmailObject((prev) => ({ ...prev, email: target.value }))
+                                    }
+                                    required
+                                />
+                            </div>
+                            <div className="input-group mb-2">
+                                <span className="input-group-text">Message</span>
+                                <textarea
+                                    className="form-control"
+                                    cols="30"
+                                    rows="10"
+                                    placeholder="Message"
+                                    value={emailObject.message}
+                                    onChange={({ target }) =>
+                                        setEmailObject((prev) => ({ ...prev, message: target.value }))
+                                    }
+                                    required
+                                ></textarea>
+                            </div>
                         </form>
                     </div>
                     <div className="modal-footer">
-                        <button id="email-artist-modal-dismiss" type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                        <button
+                            id="email-artist-modal-dismiss"
+                            type="button"
+                            className="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                        >
                             Close
                         </button>
-                        <button type="submit" form="email-artist-modal-form" className={`btn btn-primary ${!(emailObject.name.length > 1 && emailObject.email.length > 1 && emailObject.message.length > 1) && "disabled"}`}>
+                        <button
+                            type="submit"
+                            form="email-artist-modal-form"
+                            className={`btn btn-primary ${
+                                !(
+                                    emailObject.name.length > 1 &&
+                                    emailObject.email.length > 1 &&
+                                    emailObject.message.length > 1
+                                ) && "disabled"
+                            }`}
+                        >
                             Submit
                         </button>
                     </div>
