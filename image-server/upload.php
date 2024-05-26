@@ -41,7 +41,7 @@ function uploadImage($cur_file)
 
   // Check if $uploadOk is set to 0 by an error
   if (move_uploaded_file($cur_file["tmp_name"], $target_file)) {
-    $output["message"] = "https://". $_SERVER["HTTP_HOST"] . substr($target_file, 1);
+    $output["message"] = "http://". $_SERVER["HTTP_HOST"] . substr($target_file, 1);
     $output["code"] = "201";
   } else {
     $output["message"] = "Process Failed, there was an error uploading your file.";

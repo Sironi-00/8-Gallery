@@ -8,7 +8,7 @@ const IMAGE_SERVER = "https://image-server.fanisndou.co.uk";
 // const IMAGE_SERVER = "http://localhost:3001";
 
 export const fetchImages = async () => {
-    let res = await fetch(`${BASE_URL}/api/images`, {
+    const res = await fetch(`${BASE_URL}/api/images`, {
         method: "GET",
         headers: {
             "content-type": "application/json",
@@ -23,7 +23,7 @@ export const fetchImages = async () => {
 };
 
 export const fetchSearch = async (searchString) => {
-    let res = await fetch(`${BASE_URL}/api/images/search/?q=${searchString}`, {
+    const res = await fetch(`${BASE_URL}/api/images/search/?q=${searchString}`, {
         method: "GET",
         headers: {
             "content-type": "application/json",
@@ -38,7 +38,7 @@ export const fetchSearch = async (searchString) => {
 };
 
 export const fetchImagesByAuthor = async (author) => {
-    let res = await fetch(`${BASE_URL}/api/images/by/${author}`, {
+    const res = await fetch(`${BASE_URL}/api/images/by/${author}`, {
         method: "GET",
         headers: {
             "content-type": "application/json",
@@ -53,7 +53,7 @@ export const fetchImagesByAuthor = async (author) => {
 };
 
 export const fetchImageById = async (id) => {
-    let res = await fetch(`${BASE_URL}/api/images/id/${id}`, {
+    const res = await fetch(`${BASE_URL}/api/images/id/${id}`, {
         method: "GET",
         headers: {
             "content-type": "application/json",
@@ -68,7 +68,7 @@ export const fetchImageById = async (id) => {
 };
 
 export const fetchAuthors = async () => {
-    let res = await fetch(`${BASE_URL}/api/user`, {
+    const res = await fetch(`${BASE_URL}/api/user`, {
         method: "GET",
         headers: {
             "content-type": "application/json",
@@ -87,7 +87,7 @@ export const saveImage = async (imageObject) => {
     formData.append("artistId", imageObject.artistId);
     formData.append("file", imageObject.file);
 
-    let res = await fetch(`${IMAGE_SERVER}/main.php`, {
+    const res = await fetch(`${IMAGE_SERVER}/main.php`, {
         method: "POST",
         headers: {
             // 'content-type': 'multipart/form-data'
@@ -111,7 +111,7 @@ export const uploadImage = async (imageObject) => {
         return saveImage.data;
     }
 
-    let res = await fetch(`${BASE_URL}/api/images`, {
+    const res = await fetch(`${BASE_URL}/api/images`, {
         method: "POST",
         headers: {
             "content-type": "application/json",
@@ -127,7 +127,7 @@ export const uploadImage = async (imageObject) => {
 };
 
 export const updateImage = async (imageObject) => {
-    let res = await fetch(`${BASE_URL}/api/images/${imageObject.id}`, {
+    const res = await fetch(`${BASE_URL}/api/images/${imageObject.id}`, {
         method: "PATCH",
         headers: {
             "content-type": "application/json",
@@ -143,7 +143,7 @@ export const updateImage = async (imageObject) => {
 };
 
 export const deleteImage = async ({ id, artistId }) => {
-    let res = await fetch(`${BASE_URL}/api/images/${id}?artistId=${artistId}`, {
+    const res = await fetch(`${BASE_URL}/api/images/${id}?artistId=${artistId}`, {
         method: "DELETE",
     });
 
@@ -155,7 +155,7 @@ export const deleteImage = async ({ id, artistId }) => {
 };
 
 export const userLogin = async (user) => {
-    let res = await fetch(`${BASE_URL}/api/user/login`, {
+    const res = await fetch(`${BASE_URL}/api/user/login`, {
         method: "POST",
         headers: {
             "content-type": "application/json",
@@ -171,7 +171,7 @@ export const userLogin = async (user) => {
 };
 
 export const userRegister = async (user) => {
-    let res = await fetch(`${BASE_URL}/api/user/register`, {
+    const res = await fetch(`${BASE_URL}/api/user/register`, {
         method: "POST",
         headers: {
             "content-type": "application/json",
@@ -187,7 +187,7 @@ export const userRegister = async (user) => {
 };
 
 export const userDelete = async (id) => {
-    let res = await fetch(`${BASE_URL}/api/user/${id}`, {
+    const res = await fetch(`${BASE_URL}/api/user/${id}`, {
         method: "DELETE",
     });
 
@@ -198,7 +198,7 @@ export const userDelete = async (id) => {
 };
 
 export const userUpdate = async (user) => {
-    let res = await fetch(`${BASE_URL}/api/user/${user.id}`, {
+    const res = await fetch(`${BASE_URL}/api/user/${user.id}`, {
         method: "PATCH",
         headers: {
             "content-type": "application/json",
@@ -214,7 +214,7 @@ export const userUpdate = async (user) => {
 };
 
 export const userEmail = async (emailObject) => {
-    let res = await fetch(`${BASE_URL}/api/user/email`, {
+    const res = await fetch(`${BASE_URL}/api/user/email`, {
         method: "POST",
         headers: {
             "content-type": "application/json",
@@ -230,7 +230,7 @@ export const userEmail = async (emailObject) => {
 };
 
 export const userName = async (artistId) => {
-    let res = await fetch(`${BASE_URL}/api/user/name/${artistId}`, {
+    const res = await fetch(`${BASE_URL}/api/user/name/${artistId}`, {
         method: "GET",
     });
 
@@ -242,7 +242,7 @@ export const userName = async (artistId) => {
 };
 
 export const incrementDownloads = async (id) => {
-    let res = await fetch(`${BASE_URL}/api/images/download/${id}`, {
+    const res = await fetch(`${BASE_URL}/api/images/download/${id}`, {
         method: "PATCH",
     });
 
@@ -253,7 +253,7 @@ export const incrementDownloads = async (id) => {
 };
 
 export const getImageUpvotes = async ({ id, userId }) => {
-    let res = await fetch(`${BASE_URL}/api/images/vote/${id}?userId=${userId}`, {
+    const res = await fetch(`${BASE_URL}/api/images/vote/${id}?userId=${userId}`, {
         method: "GET",
         headers: {
             "content-type": "application/json",
@@ -268,7 +268,7 @@ export const getImageUpvotes = async ({ id, userId }) => {
 };
 
 export const upvoteImage = async ({ id, userId }) => {
-    let res = await fetch(`${BASE_URL}/api/images/vote/${id}?userId=${userId}`, {
+    const res = await fetch(`${BASE_URL}/api/images/vote/${id}?userId=${userId}`, {
         method: "PATCH",
         headers: {
             "content-type": "application/json",

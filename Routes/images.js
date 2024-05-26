@@ -2,7 +2,7 @@ const express = require("express");
 const Pool = require("./Database");
 const fs = require("fs");
 const path = require("path");
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 const ImagesRouter = express.Router();
 
@@ -10,7 +10,9 @@ ImagesRouter.get("/", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id ORDER BY upload_date DESC, likes DESC, downloads DESC;");
+        const rows = await conn.query(
+            "SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id ORDER BY upload_date DESC, likes DESC, downloads DESC;"
+        );
         res.json(rows);
     } catch (err) {
         console.error(err);
@@ -24,7 +26,10 @@ ImagesRouter.get("/id/:id", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id WHERE images.id = ?", [req.params.id]);
+        const rows = await conn.query(
+            "SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id WHERE images.id = ?",
+            [req.params.id]
+        );
         res.json(rows[0]);
     } catch (err) {
         console.error(err);
@@ -36,7 +41,7 @@ ImagesRouter.get("/id/:id", async (req, res, next) => {
 
 ImagesRouter.get("/search", async (req, res, next) => {
     const { q } = req.query;
-    
+
     if (!q || q.length < 3) {
         res.sendStatus(404);
         return;
@@ -45,7 +50,10 @@ ImagesRouter.get("/search", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id WHERE users.name LIKE ? OR images.id LIKE ? OR images.name LIKE ? OR images.description LIKE ? OR images.url LIKE ?", [`%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`,]);
+        const rows = await conn.query(
+            "SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id WHERE users.name LIKE ? OR images.id LIKE ? OR images.name LIKE ? OR images.description LIKE ? OR images.url LIKE ?",
+            [`%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`]
+        );
         res.json(rows);
     } catch (err) {
         console.error(err);
@@ -59,7 +67,10 @@ ImagesRouter.get("/by/:artist", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id WHERE users.name = ?", [req.params.artist]);
+        const rows = await conn.query(
+            "SELECT images.*, users.name AS artist FROM `images` JOIN users ON images.artistId = users.id WHERE users.name = ?",
+            [req.params.artist]
+        );
         res.json(rows);
     } catch (err) {
         console.error(err);
@@ -69,16 +80,13 @@ ImagesRouter.get("/by/:artist", async (req, res, next) => {
     }
 });
 
-
 const deleteServerImage = async (url) => {
     const superUrl = new URL(url);
-    const serverUrl = process.env.IMAGE_SERVER || superUrl.origin;
+    const serverUrl = superUrl.origin;
     const imagePath = url.replace(serverUrl, "");
 
-    console.log(serverUrl.pathname )
-
     try {
-        const res = await fetch(`${serverUrl}/delete.php?path=${imagePath}`)
+        const res = await fetch(`${serverUrl}/delete.php?path=${imagePath}`, { method: "DELETE" });
         if (res.ok) {
             const data = await res.json();
             return data.data;
@@ -89,13 +97,16 @@ const deleteServerImage = async (url) => {
     }
 };
 ImagesRouter.delete("/:id", async (req, res, next) => {
-    const { id } = req.params
-    const { artistId } = req.query
-    
+    const { id } = req.params;
+    const { artistId } = req.query;
+
     let conn;
     try {
         conn = await Pool.getConnection();
-        const rows = await conn.query("DELETE FROM images WHERE id = ? AND artistId = ? RETURNING name, url", [id, artistId]);
+        const rows = await conn.query("DELETE FROM images WHERE id = ? AND artistId = ? RETURNING name, url", [
+            id,
+            artistId,
+        ]);
         // const rows = await conn.query("SELECT url FROM images WHERE id = ? AND artistId = ?", [id, artistId]);
         const { url } = rows[0];
 
@@ -134,8 +145,11 @@ ImagesRouter.get("/vote/:id", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const dbLikes = await conn.query("SELECT imageId, userId FROM likedimages WHERE imageId = ? AND userId = ?", [id, userId]);
-        
+        const dbLikes = await conn.query("SELECT imageId, userId FROM likedimages WHERE imageId = ? AND userId = ?", [
+            id,
+            userId,
+        ]);
+
         let liked;
         if (dbLikes.length > 0) {
             liked = true;
@@ -143,8 +157,8 @@ ImagesRouter.get("/vote/:id", async (req, res, next) => {
             liked = false;
         }
         const rows = await conn.query("SELECT id, likes FROM images WHERE id = ?", [id]);
-        
-        res.json({...rows[0], liked});
+
+        res.json({ ...rows[0], liked });
     } catch (err) {
         console.error(err);
         next(err);
@@ -160,8 +174,11 @@ ImagesRouter.patch("/vote/:id", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const dbLikes = await conn.query("SELECT imageId, userId FROM likedimages WHERE imageId = ? AND userId = ?", [id, userId]);
-        
+        const dbLikes = await conn.query("SELECT imageId, userId FROM likedimages WHERE imageId = ? AND userId = ?", [
+            id,
+            userId,
+        ]);
+
         let liked;
         if (dbLikes.length > 0) {
             await conn.query("UPDATE images SET likes = likes - 1 WHERE (id = ?)", [id]);
@@ -172,8 +189,8 @@ ImagesRouter.patch("/vote/:id", async (req, res, next) => {
             await conn.query("INSERT into likedimages (imageId, userId) VALUES (?, ?)", [id, userId]);
             liked = true;
         }
-        const rows = await conn.query("SELECT id, likes FROM images WHERE id = ?", [id])
-        res.json({...rows[0], liked});
+        const rows = await conn.query("SELECT id, likes FROM images WHERE id = ?", [id]);
+        res.json({ ...rows[0], liked });
     } catch (err) {
         console.error(err);
         next(err);
@@ -183,14 +200,14 @@ ImagesRouter.patch("/vote/:id", async (req, res, next) => {
 });
 
 ImagesRouter.patch("/:id", async (req, res, next) => {
-    const {name, description, id} = req.body;
+    const { name, description, id } = req.body;
 
     let conn;
     try {
         conn = await Pool.getConnection();
         await conn.query("UPDATE images SET name = ?, description = ? WHERE (id = ?);", [name, description, id]);
         const rows = await conn.query("SELECT * FROM images WHERE (id = ?);", [id]);
-        res.json(rows[0])
+        res.json(rows[0]);
     } catch (err) {
         console.error(err);
         next(err);
@@ -206,8 +223,11 @@ ImagesRouter.post("/", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
-        const curDateTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
-        const rows = await conn.query("INSERT INTO images (id, artistId, name, description, url, upload_date) VALUES (?, ?, ?, ?, ?, ?) RETURNING id", [id, artistId, name, description, url, curDateTime]);
+        const curDateTime = new Date().toISOString().slice(0, 19).replace("T", " ");
+        const rows = await conn.query(
+            "INSERT INTO images (id, artistId, name, description, url, upload_date) VALUES (?, ?, ?, ?, ?, ?) RETURNING id",
+            [id, artistId, name, description, url, curDateTime]
+        );
         res.send(rows[0]);
     } catch (err) {
         console.error(err);
@@ -215,6 +235,6 @@ ImagesRouter.post("/", async (req, res, next) => {
     } finally {
         if (conn) return conn.end();
     }
-})
+});
 
 module.exports = ImagesRouter;
