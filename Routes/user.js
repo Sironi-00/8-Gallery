@@ -11,8 +11,8 @@ UserRouter.get("/", async (req, res, next) => {
     try {
         conn = await Pool.getConnection();
         const rows = await conn.query(
-            // "SELECT users.id AS id, users.name AS name, COUNT(images.name) AS uploads FROM users JOIN images ON users.id = images.artistId GROUP By images.artistId HAVING COUNT(images.id) > 0;"
-            "SELECT users.id AS id, users.name AS name, COUNT(images.name) AS uploads FROM users JOIN images ON users.id = images.artistId GROUP By images.artistId;"
+            // "SELECT users.id AS id, users.name AS name, COUNT(images.name) AS uploads FROM users JOIN images ON users.id = images.artistId GROUP By images.artistId HAVING COUNT(images.id) > 0 ORDER BY name"
+            "SELECT users.id AS id, users.name AS name, COUNT(images.id) AS uploads FROM users LEFT JOIN images ON users.id = images.artistId GROUP By images.artistId ORDER BY name"
         );
 
         res.send(rows);

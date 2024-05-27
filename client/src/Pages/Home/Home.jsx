@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { fetchImages, fetchImagesByAuthor, fetchSearch } from "../../Api/Api";
+import { fetchImages, fetchImagesByArtist, fetchSearch } from "../../Api/Api";
 import ImageItem from "../../Components/ImageItem/ImageItem";
 import ViewOptions from "../../Components/ViewOptions/ViewOptions";
 import { useParams } from "react-router-dom";
@@ -10,7 +10,7 @@ export default function Home() {
 
     const { searchString, } = useContext(SearchContext);
 
-    const { author } = useParams();
+    const { artist } = useParams();
 
     useEffect(() => {
         const loadData = async () => {
@@ -18,8 +18,8 @@ export default function Home() {
 
             if (searchString && searchString.length > 2) {
                 data = await fetchSearch(searchString);
-            } else if (author) {
-                data = await fetchImagesByAuthor(author);
+            } else if (artist) {
+                data = await fetchImagesByArtist(artist);
             } else {
                 data = await fetchImages();
             }
@@ -29,7 +29,7 @@ export default function Home() {
         loadData();
 
         return setItemsState([]);
-    }, [author, searchString]);
+    }, [artist, searchString]);
 
     const deleteItem = (id) => {
         setItemsState(prev => prev.filter(item => item.id !== id))

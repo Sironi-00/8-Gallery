@@ -37,8 +37,8 @@ export const fetchSearch = async (searchString) => {
     return false;
 };
 
-export const fetchImagesByAuthor = async (author) => {
-    const res = await fetch(`${BASE_URL}/api/images/by/${author}`, {
+export const fetchImagesByArtist = async (artist) => {
+    const res = await fetch(`${BASE_URL}/api/images/by/${artist}`, {
         method: "GET",
         headers: {
             "content-type": "application/json",
@@ -67,7 +67,7 @@ export const fetchImageById = async (id) => {
     return false;
 };
 
-export const fetchAuthors = async () => {
+export const fetchArtists = async () => {
     const res = await fetch(`${BASE_URL}/api/user`, {
         method: "GET",
         headers: {

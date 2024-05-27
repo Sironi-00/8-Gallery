@@ -2,7 +2,7 @@ import { Link, useSearchParams } from "react-router-dom";
 
 import EmailIcon from "@mui/icons-material/Email";
 
-export default function AuthorItem({ data }) {
+export default function ArtistItem({ data }) {
     const { id, name, uploads } = data;
 
     const [, setQueryString] = useSearchParams();

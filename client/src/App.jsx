@@ -2,7 +2,7 @@ import './index.css';
 
 import Root from "./Root/Root";
 import Home from "./Pages/Home/Home";
-import Authors from "./Pages/Authors/Authors";
+import Artists from "./Pages/Artists/Artists";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import Image from "./Pages/Image/Image";
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
         element: <Home/>
       }, {
         path: "artist", 
-        element: <Authors />
+        element: <Artists />
       }, {
         path: "login", 
         element: <Login />
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         path: "register", 
         element: <Register />
       }, {
-        path: "artist/:author",
+        path: "artist/:artist",
         element: <Home/>
       }, {
         path: "image/:id",

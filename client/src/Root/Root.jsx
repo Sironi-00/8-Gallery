@@ -17,6 +17,7 @@ export default function Root() {
             }
             const checkUser = await userName(currentUser.id);
             if (!checkUser || checkUser.id !== currentUser.id) {
+                console.log(checkUser)
                 updateCurrentUser();
             }
         })();
