@@ -26,10 +26,11 @@ export default function Artists() {
     return (
         <div>
             <ViewOptions location="Artists" />
-            <div className="container-fluid list-group-flush">
+            <div className="container-fluid text-center">
                 {artistState.map((item) => (
                     <ArtistItem key={item.id} data={item} />
                 ))}
+                {artistState.length < 1 && <p>No Content found {(searchString.length > 2) && <span className="fst-italic fw-bold">: Try a different search term</span> }</p>}
             </div>
         </div>
     );

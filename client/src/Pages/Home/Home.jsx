@@ -44,7 +44,7 @@ export default function Home() {
                 {itemsState.map((item) => (
                     <ImageItem key={item.id} data={item} deleteItem={deleteItem} upvoteItem={upvoteItem} />
                 ))}
-                {itemsState.length < 1 && <p>No Content</p>}
+                {itemsState.length < 1 && <p>No Content found {(searchString.length > 2) && <span className="fst-italic fw-bold">: Try a different search term</span> }</p>}
             </div>
         </div>
     );

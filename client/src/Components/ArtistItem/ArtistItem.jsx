@@ -18,7 +18,7 @@ export default function ArtistItem({ data }) {
                     <strong>{name}</strong>
                 </p>
             </div>
-            <div className="col text-center">
+            <div className="col">
                 <p className="m-0 p-0">
                     <Link to={"/artist/" + name}>Images: {uploads}</Link>
                 </p>
