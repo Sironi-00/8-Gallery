@@ -13,7 +13,8 @@ export default function PreferenceModal() {
         id: currentUser?.id,
         name: currentUser?.name || "",
         email: currentUser?.email || "",
-        password: "",
+        oldPassword: "",
+        newPassword: "",
         confirmPassword: "",
     });
 
@@ -25,7 +26,7 @@ export default function PreferenceModal() {
     const handleUpdateUser = async (e) => {
         e.preventDefault();
 
-        if (userState.password !== userState.confirmPassword) return;
+        if (userState.newPassword !== userState.confirmPassword) return;
 
         const data = await userUpdate(userState);
         if (data) {
@@ -51,7 +52,8 @@ export default function PreferenceModal() {
             id: currentUser?.id,
             name: currentUser?.name || "",
             email: currentUser?.email || "",
-            password: "",
+            oldPassword: "",
+            newPassword: "",
             confirmPassword: "",
         });
     }, [currentUser?.name, currentUser?.id, currentUser?.email]);
@@ -91,38 +93,67 @@ export default function PreferenceModal() {
                                         }
                                     />
                                 </div>
+
                                 <div className="input-group mb-2">
-                                    <span className="input-group-text">Password</span>
+                                    <span className="input-group-text">New Password</span>
                                     <input
                                         className="form-control"
                                         type="password"
                                         placeholder="Password"
-                                        value={userState.password}
+                                        value={userState.newPassword}
                                         onChange={({ target }) =>
-                                            setUserState((prev) => ({ ...prev, password: target.value }))
+                                            setUserState((prev) => ({ ...prev, newPassword: target.value }))
                                         }
                                     />
                                 </div>
-                                {userState.password.length > 0 && (
+
+                                {userState.newPassword.length > 0 && (
                                     <>
+                                        <div className="mb-2">
+                                            <div className="input-group">
+                                                <span className="input-group-text">Confirm Password</span>
+                                                <input
+                                                    className="form-control"
+                                                    type="password"
+                                                    placeholder="Confirm Password"
+                                                    value={userState.confirmPassword}
+                                                    onChange={({ target }) =>
+                                                        setUserState((prev) => ({
+                                                            ...prev,
+                                                            confirmPassword: target.value,
+                                                        }))
+                                                    }
+                                                />
+                                            </div>
+                                            {userState.confirmPassword.length > 0 &&
+                                                userState.newPassword !== userState.confirmPassword && (
+                                                    <div className="form-text text-end text-danger">
+                                                        Passwords don't match
+                                                    </div>
+                                                )}
+                                        </div>
                                         <div className="input-group mb-2">
-                                            <span className="input-group-text">Password</span>
+                                            <span className="input-group-text">Old Password</span>
                                             <input
                                                 className="form-control"
                                                 type="password"
-                                                placeholder="Confirm Password"
-                                                value={userState.confirmPassword}
+                                                placeholder="Password"
+                                                value={userState.oldPassword}
                                                 onChange={({ target }) =>
-                                                    setUserState((prev) => ({
-                                                        ...prev,
-                                                        confirmPassword: target.value,
-                                                    }))
+                                                    setUserState((prev) => ({ ...prev, oldPassword: target.value }))
                                                 }
                                             />
                                         </div>
                                     </>
                                 )}
-                                <button className="btn btn-primary border" type="submit">
+                                <button
+                                    className="btn btn-primary border"
+                                    type="submit"
+                                    disabled={
+                                        userState.newPassword.length > 0 &&
+                                        userState.newPassword !== userState.confirmPassword
+                                    }
+                                >
                                     Update
                                 </button>
                             </form>
