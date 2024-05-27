@@ -13,13 +13,14 @@ export default function Root() {
         (async () => {
             if (!currentUser.id) {
                 updateCurrentUser();
+                return;
             }
             const checkUser = await userName(currentUser.id);
             if (!checkUser || checkUser.id !== currentUser.id) {
                 updateCurrentUser();
             }
         })();
-    }, [currentUser.id, updateCurrentUser]);
+    }, [currentUser?.id, updateCurrentUser]);
 
     return (
         <>
