@@ -258,17 +258,6 @@ export const userName = async (artistId) => {
     return false;
 };
 
-export const incrementDownloads = async (id) => {
-    const res = await fetch(`${BASE_URL}/api/images/download/${id}`, {
-        method: "PATCH",
-    });
-
-    if (res.ok) {
-        return true;
-    }
-    return false;
-};
-
 export const getImageUpvotes = async ({ id, userId }) => {
     const res = await fetch(`${BASE_URL}/api/images/vote/${id}?userId=${userId}`, {
         method: "GET",

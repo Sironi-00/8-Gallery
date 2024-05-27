@@ -1,17 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 
-import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
 
 import { AppContext } from "../../ContextProvider/ContextProvider";
-import { getImageUpvotes, upvoteImage, deleteImage, incrementDownloads } from "../../Api/Api";
+import { getImageUpvotes, upvoteImage, deleteImage, } from "../../Api/Api";
 import { useSearchParams } from "react-router-dom";
 
 export default function ImageAttributes({ data }) {
-    const { id, url, artistId, downloads, likes } = data;
+    const { id, url, artistId, likes } = data;
     const { currentUser } = useContext(AppContext);
     const [, setQueryString] = useSearchParams();
 
@@ -94,9 +93,8 @@ export default function ImageAttributes({ data }) {
                 </>
             )}
             <div className="d-flex align-items-center">
-                <a href={url} download="" target="_blank" className="btn border" onClick={() => incrementDownloads(id)}>
+                <a href={url} download="" target="_blank" className="btn border">
                     <DownloadIcon />
-                    &nbsp;{downloads}
                 </a>
             </div>
         </div>

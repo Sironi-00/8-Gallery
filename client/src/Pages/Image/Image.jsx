@@ -21,7 +21,7 @@ export default function Image() {
     }, [id]);
 
     return (
-        <div className="container-fluid h-100 w-100 overflow-hidden m-0 p-0">
+        <div className="container-fluid h-100 w-100 overflow-hidden m-0 p-">
             <div className="row h-100 w-100 overflow-auto m-0 p-0">
                 <div className="col image-full d-flex justify-content-center overflow-hidden m-1 p-0">
                     <img
