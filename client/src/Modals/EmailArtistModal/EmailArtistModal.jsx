@@ -35,6 +35,7 @@ export default function EmailArtistModal() {
     useEffect(() => {
         setQueryString("");
         if (!artistId || artistId.length < 1) return;
+        
         (async () => {
             const res = await userName(artistId);
             if (res) {

@@ -17,8 +17,6 @@ export default function ContextProvider({ children }) {
     };
 
     const [currentUser, setCurrentUser] = useState(localUser);
-    const [searchString, setSearchString] = useState("");
-
     const updateCurrentUser = (user = null) => {
         if (!user) {
             setLocalUser(null);
@@ -28,6 +26,14 @@ export default function ContextProvider({ children }) {
         setCurrentUser(user);
         setLocalUser(user);
     };
+    const [searchString, setSearchString] = useState("");
+    const updateSearchString = (txt) => {
+        if (txt.length > 2 && (txt.trim())) {
+            setSearchString(txt);
+        } else {
+            setSearchString("");
+        }
+    }
 
     return (
         <>
@@ -38,7 +44,7 @@ export default function ContextProvider({ children }) {
                 }}
             >
                 <ThemeContext.Provider value={{ theme, toggleTheme }}>
-                    <SearchContext.Provider value={{ searchString, setSearchString }}>
+                    <SearchContext.Provider value={{ searchString, updateSearchString }}>
                         {children}
                     </SearchContext.Provider>
                 </ThemeContext.Provider>

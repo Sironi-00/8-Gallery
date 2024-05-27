@@ -2,16 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { SearchContext } from "../../ContextProvider/ContextProvider";
 
 export default function SearchBar() {
-    const { setSearchString } = useContext(SearchContext);
+    const { updateSearchString } = useContext(SearchContext);
     const [searchText, setSearchText] = useState("");
 
     useEffect(() => {
-        if (searchText.length > 2) {
-            setSearchString(searchText);
-        } else if (searchText.length <= 2) {
-            setSearchString("");
-        }
-    }, [searchText, setSearchString]);
+        updateSearchString(searchText);
+    }, [searchText, updateSearchString]);
 
     return (
         <input

@@ -56,6 +56,30 @@ UserRouter.post("/login", async (req, res, next) => {
     }
 });
 
+UserRouter.get("/search", async (req, res, next) => {
+    const { q } = req.query;
+
+    if (!q || q.length < 3) {
+        res.sendStatus(404);
+        return;
+    }
+
+    let conn;
+    try {
+        conn = await Pool.getConnection();
+        const rows = await conn.query(
+            "SELECT users.id AS id, users.name AS name, COUNT(images.name) AS uploads FROM users LEFT JOIN images ON users.id = images.artistId WHERE users.name LIKE ? OR users.email LIKE ?  GROUP BY users.id, users.name ORDER BY users.name",
+            [`%${q}%`, `%${q}%`]
+        );
+        res.json(rows);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    } finally {
+        if (conn) return conn.end();
+    }
+});
+
 UserRouter.post("/register", async (req, res, next) => {
     const { name, password, email } = req.body;
 

@@ -20,10 +20,14 @@ cd 8-Gallery
 npm run build
 ```
 
-## Feature
+## Feature [implemented & upcoming]
 - File Upload
 - mariadb bigIntAsNumber
 - Node fs
 - Dump err to "ErrorLogs (Date).log"
-
 - use my `PHP` serve to store images
+- Email Artist 
+- Search on images and artists 
+
+- deleting user also deletes user's image directory
+- deleting user on a different session will force logout on initial load of other active sessions
