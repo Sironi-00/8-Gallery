@@ -28,4 +28,15 @@ CREATE TABLE likedimages (
 --     REFERENCES users (id)
 --     ON DELETE CASCADE;
 
--- END;
+
+ALTER TABLE likedimages
+    ADD FOREIGN KEY (userId)
+    REFERENCES users (id)
+    ON DELETE CASCADE;
+
+ALTER TABLE likedimages
+    ADD FOREIGN KEY (imageId)
+    REFERENCES images (id)
+    ON DELETE CASCADE;
+
+END;
