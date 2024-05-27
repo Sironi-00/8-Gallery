@@ -10,14 +10,14 @@ export default function Root() {
     const { currentUser, updateCurrentUser } = useContext(AppContext);
 
     useEffect(() => {
+        if (!currentUser) {
+            return;
+        }
         (async () => {
-            if (!currentUser.id) {
-                updateCurrentUser();
-                return;
-            }
-            const checkUser = await userName(currentUser.id);
-            if (!checkUser || checkUser.id !== currentUser.id) {
-                console.log(checkUser)
+            const checkUser = await userName(currentUser?.id);
+            
+            if (!checkUser || checkUser?.id !== currentUser?.id) {
+                console.log(checkUser);
                 updateCurrentUser();
             }
         })();

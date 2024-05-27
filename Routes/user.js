@@ -186,7 +186,11 @@ UserRouter.get("/name/:id", async (req, res, next) => {
         conn = await Pool.getConnection();
         const rows = await conn.query("SELECT id, name FROM users WHERE id = ?", [id]);
 
-        res.send(rows[0]);
+        if (rows.length > 0) {
+            res.send(rows[0]);
+        } else {
+            res.sendStatus(404);
+        }
     } catch (err) {
         console.error(err);
         next(err);
