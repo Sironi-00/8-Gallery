@@ -23,6 +23,30 @@ UserRouter.get("/", async (req, res, next) => {
     }
 });
 
+UserRouter.get("/search", async (req, res, next) => {
+    const { q } = req.query;
+
+    if (!q || q.length < 3) {
+        res.sendStatus(404);
+        return;
+    }
+
+    let conn;
+    try {
+        conn = await Pool.getConnection();
+        const rows = await conn.query(
+            "SELECT users.id AS id, users.name AS name, COUNT(images.name) AS uploads FROM users LEFT JOIN images ON users.id = images.artistId WHERE users.name LIKE ? OR users.email LIKE ?  GROUP BY users.id, users.name ORDER BY users.name",
+            [`%${q}%`, `%${q}%`]
+        );
+        res.json(rows);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    } finally {
+        if (conn) return conn.end();
+    }
+});
+
 UserRouter.post("/login", async (req, res, next) => {
     const { name: username, password } = req.body;
 
@@ -56,30 +80,6 @@ UserRouter.post("/login", async (req, res, next) => {
     }
 });
 
-UserRouter.get("/search", async (req, res, next) => {
-    const { q } = req.query;
-
-    if (!q || q.length < 3) {
-        res.sendStatus(404);
-        return;
-    }
-
-    let conn;
-    try {
-        conn = await Pool.getConnection();
-        const rows = await conn.query(
-            "SELECT users.id AS id, users.name AS name, COUNT(images.name) AS uploads FROM users LEFT JOIN images ON users.id = images.artistId WHERE users.name LIKE ? OR users.email LIKE ?  GROUP BY users.id, users.name ORDER BY users.name",
-            [`%${q}%`, `%${q}%`]
-        );
-        res.json(rows);
-    } catch (err) {
-        console.error(err);
-        next(err);
-    } finally {
-        if (conn) return conn.end();
-    }
-});
-
 UserRouter.post("/register", async (req, res, next) => {
     const { name, password, email } = req.body;
 
@@ -93,11 +93,17 @@ UserRouter.post("/register", async (req, res, next) => {
     let conn;
     try {
         conn = await Pool.getConnection();
+        
+        const existUser = await conn.query("SELECT name FROM users WHERE name = ?", [name]);
+        if (existUser.length > 0) {
+            res.status(409).json({"message": "Error: name already exists"})
+            return
+        } 
+
         const rows = await conn.query(
             "INSERT INTO users (id, name, password, email) VALUES (?, ?, ?, ?) RETURNING  id, name, email",
             [uuidv4(), name, hashedPassword, email]
         );
-
         const activeUser = {
             id: rows[0].id,
             name: rows[0].name,
@@ -144,8 +150,8 @@ UserRouter.delete("/:userId", async (req, res, next) => {
         }
         const { url } = rows[0];
         const deletedDirectory = await deleteServerDirectory(userId, url);
-
-        if (deletedDirectory.delete) {
+        console.log(deletedDirectory)
+        if (deletedDirectory && deletedDirectory.delete) {
             res.json(deletedDirectory);
         } else {
             res.sendStatus(400);

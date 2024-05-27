@@ -13,20 +13,23 @@ export default function PreferenceModal() {
         id: currentUser?.id,
         name: currentUser?.name || "",
         email: currentUser?.email || "",
-        oldPassword: "",
-        newPassword: "",
+        password: "",
         confirmPassword: "",
     });
 
+    const closePreferenceModal = () => {
+        document.getElementById("preference-modal-dismiss").click();
+    };
+
     const handleLogout = () => {
         updateCurrentUser(null);
-        document.getElementById("preference-modal-dismiss").click();
+        closePreferenceModal();
     };
 
     const handleUpdateUser = async (e) => {
         e.preventDefault();
 
-        if (userState.newPassword !== userState.confirmPassword) return;
+        if (userState.password !== userState.confirmPassword) return;
 
         const data = await userUpdate(userState);
         if (data) {
@@ -41,7 +44,7 @@ export default function PreferenceModal() {
         if (data) {
             updateCurrentUser();
             setEditMode(false);
-            document.getElementById("preference-modal-dismiss").click();
+            closePreferenceModal();
         } else {
             console.log("Failed to Delete user");
         }
@@ -52,8 +55,7 @@ export default function PreferenceModal() {
             id: currentUser?.id,
             name: currentUser?.name || "",
             email: currentUser?.email || "",
-            oldPassword: "",
-            newPassword: "",
+            password: "",
             confirmPassword: "",
         });
     }, [currentUser?.name, currentUser?.id, currentUser?.email]);
@@ -100,14 +102,14 @@ export default function PreferenceModal() {
                                         className="form-control"
                                         type="password"
                                         placeholder="Password"
-                                        value={userState.newPassword}
+                                        value={userState.password}
                                         onChange={({ target }) =>
-                                            setUserState((prev) => ({ ...prev, newPassword: target.value }))
+                                            setUserState((prev) => ({ ...prev, password: target.value }))
                                         }
                                     />
                                 </div>
 
-                                {userState.newPassword.length > 0 && (
+                                {userState.password.length > 0 && (
                                     <>
                                         <div className="mb-2">
                                             <div className="input-group">
@@ -126,23 +128,11 @@ export default function PreferenceModal() {
                                                 />
                                             </div>
                                             {userState.confirmPassword.length > 0 &&
-                                                userState.newPassword !== userState.confirmPassword && (
+                                                userState.password !== userState.confirmPassword && (
                                                     <div className="form-text text-end text-danger">
                                                         Passwords don't match
                                                     </div>
                                                 )}
-                                        </div>
-                                        <div className="input-group mb-2">
-                                            <span className="input-group-text">Old Password</span>
-                                            <input
-                                                className="form-control"
-                                                type="password"
-                                                placeholder="Password"
-                                                value={userState.oldPassword}
-                                                onChange={({ target }) =>
-                                                    setUserState((prev) => ({ ...prev, oldPassword: target.value }))
-                                                }
-                                            />
                                         </div>
                                     </>
                                 )}
@@ -150,8 +140,8 @@ export default function PreferenceModal() {
                                     className="btn btn-primary border"
                                     type="submit"
                                     disabled={
-                                        userState.newPassword.length > 0 &&
-                                        userState.newPassword !== userState.confirmPassword
+                                        userState.password.length > 0 &&
+                                        userState.password !== userState.confirmPassword
                                     }
                                 >
                                     Update
@@ -188,9 +178,12 @@ export default function PreferenceModal() {
                         )}
                         {!currentUser?.name && (
                             <>
-                                <br />
-                                <Link to="/login" onClick={handleLogout}>
+                                <Link to="/login" onClick={closePreferenceModal}>
                                     Login
+                                </Link>
+                                <br />
+                                <Link to="/register" onClick={closePreferenceModal}>
+                                    Register
                                 </Link>
                             </>
                         )}

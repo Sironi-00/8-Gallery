@@ -18,7 +18,7 @@ export default function Header() {
     return (
         <header className="navbar navbar-expand-lg m-0 p-0 shadow border-bottom border-black border-opacity-25">
             <div className="container-fluid">
-                <a href="/" className="navbar-brand logo me-5">
+                <a href="/" className="navbar-brand logo me-5 m-0 p-0">
                     <h1 className="">
                         <AllInclusiveRoundedIcon id="logo-icon" />
                         <span className="fs-3"> Gallery</span>
@@ -40,13 +40,11 @@ export default function Header() {
                     <ul className="navbar-nav nav-underline flex-row justify-content-between m-2 mt-0">
                         <li className="nav-item">
                             <NavLink to="/" className="nav-link text-body">
-                                {/* <HomeRoundedIcon /> */}
                                 Home
                             </NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink to="/artist" className="nav-link text-body">
-                                {/* <Person2RoundedIcon /> */}
                                 Artists
                             </NavLink>
                         </li>

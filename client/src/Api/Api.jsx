@@ -197,8 +197,10 @@ export const userRegister = async (user) => {
     if (res.ok) {
         let data = await res.json();
         return data;
+    } else {
+        let data = await res.json();
+        return data
     }
-    return false;
 };
 
 export const userDelete = async (id) => {

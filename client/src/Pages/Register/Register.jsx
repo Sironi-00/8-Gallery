@@ -14,18 +14,19 @@ export default function Register() {
         password: "",
         confirmPassword: "",
     });
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleRegister = async (e) => {
         e.preventDefault();
 
-        if (userState.password !== userState.confirmPassword) return
+        if (userState.password !== userState.confirmPassword) return;
 
         const res = await userRegister(userState);
-        if (res) {
+        if (res && res?.id) {
             updateCurrentUser(res);
             navigate("/");
         } else {
-            console.log("Register failed");
+            setErrorMessage(res?.message || "And error has occurred");
         }
     };
 
@@ -33,6 +34,7 @@ export default function Register() {
         <div className="m-2">
             <h2>Register</h2>
             <form className="w-50" onSubmit={handleRegister}>
+                {errorMessage.length > 0 && <p className="text-danger fw-bold">{errorMessage}</p>}
                 <div className="input-group mb-2">
                     <span className="input-group-text">Name</span>
                     <input
@@ -72,19 +74,25 @@ export default function Register() {
 
                 {userState.password.length > 0 && (
                     <>
-                        <div className="input-group mb-2">
-                            <span className="input-group-text">Confirm Password:</span>
-                            <input
-                                className="form-control"
-                                type="password"
-                                placeholder="Confirm Password"
-                                value={userState.confirmPassword}
-                                onChange={({ target }) =>
-                                    setUserState((prev) => ({ ...prev, confirmPassword: target.value }))
-                                }
-                                minLength="4"
-                                required
-                            />
+                        <div className="mb-2">
+                            <div className="input-group">
+                                <span className="input-group-text">Confirm Password:</span>
+                                <input
+                                    className="form-control"
+                                    type="password"
+                                    placeholder="Confirm Password"
+                                    value={userState.confirmPassword}
+                                    onChange={({ target }) =>
+                                        setUserState((prev) => ({ ...prev, confirmPassword: target.value }))
+                                    }
+                                    minLength="4"
+                                    required
+                                />
+                            </div>
+                            {userState.confirmPassword.length > 0 &&
+                                userState.password !== userState.confirmPassword && (
+                                    <div className="form-text text-end text-warning">Passwords don't match</div>
+                                )}
                         </div>
                     </>
                 )}
