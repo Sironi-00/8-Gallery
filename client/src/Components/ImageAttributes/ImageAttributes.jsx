@@ -5,13 +5,16 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
 
-import { AppContext } from "../../ContextProvider/ContextProvider";
+import { AppContext, ImagesContext } from "../../ContextProvider/ContextProvider";
 import { getImageUpvotes, upvoteImage, deleteImage, } from "../../Api/Api";
 import { useSearchParams } from "react-router-dom";
 
 export default function ImageAttributes({ data }) {
     const { id, url, artistId, likes } = data;
+
+    const { setImagesArray } = useContext(ImagesContext); 
     const { currentUser } = useContext(AppContext);
+
     const [, setQueryString] = useSearchParams();
 
     const [votesCount, setVotesCount] = useState({ likes: likes, liked: false });
@@ -28,7 +31,7 @@ export default function ImageAttributes({ data }) {
     const handleDelete = async () => {
         const res = await deleteImage({ id, artistId: currentUser?.id });
         if (res) {
-            console.log(res);
+            setImagesArray(prev => prev.filter((item) => item.id !== id))
         } else {
             console.log("Error: could not delete image");
         }

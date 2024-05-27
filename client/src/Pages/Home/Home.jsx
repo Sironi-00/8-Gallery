@@ -1,13 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { fetchImages, fetchImagesByArtist, fetchSearchImages } from "../../Api/Api";
 import ImageItem from "../../Components/ImageItem/ImageItem";
 import ViewOptions from "../../Components/ViewOptions/ViewOptions";
 import { useParams } from "react-router-dom";
-import { SearchContext } from "../../ContextProvider/ContextProvider";
+import { ImagesContext, SearchContext } from "../../ContextProvider/ContextProvider";
 
 export default function Home() {
-    const [itemsState, setItemsState] = useState([]);
-
+    const { imagesArray, setImagesArray } = useContext(ImagesContext);
     const { searchString } = useContext(SearchContext);
 
     const { artist } = useParams();
@@ -23,28 +22,35 @@ export default function Home() {
             } else {
                 data = await fetchImages();
             }
-            setItemsState(data || []);
+            setImagesArray(data || []);
         })();
 
-        return setItemsState([]);
+        return setImagesArray([]);
     }, [artist, searchString]);
 
     const deleteItem = (id) => {
-        setItemsState((prev) => prev.filter((item) => item.id !== id));
+        setImagesArray((prev) => prev.filter((item) => item.id !== id));
     };
 
     const upvoteItem = ({ id, likes, action }) => {
-        setItemsState((prev) => prev.map((item) => (item.id === id ? { ...item, likes, action } : item)));
+        setImagesArray((prev) => prev.map((item) => (item.id === id ? { ...item, likes, action } : item)));
     };
 
     return (
         <div className="h-100 overflow-auto">
             <ViewOptions location="Home" />
             <div className="d-flex flex-wrap gap-2 justify-content-evenly py-2 px-1">
-                {itemsState.map((item) => (
+                {imagesArray.map((item) => (
                     <ImageItem key={item.id} data={item} deleteItem={deleteItem} upvoteItem={upvoteItem} />
                 ))}
-                {itemsState.length < 1 && <p>No Content found {(searchString.length > 2) && <span className="fst-italic fw-bold">: Try a different search term</span> }</p>}
+                {imagesArray.length < 1 && (
+                    <p>
+                        No Content found{" "}
+                        {searchString.length > 2 && (
+                            <span className="fst-italic fw-bold">: Try a different search term</span>
+                        )}
+                    </p>
+                )}
             </div>
         </div>
     );

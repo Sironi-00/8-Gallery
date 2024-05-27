@@ -13,7 +13,7 @@ export default function ImageItem({ data }) {
             <div className="position-absolute w-100 bottom-0 bg-body-tertiary bg-opacity-75 shy p-2 shadow">
                 <h3 className="fs-4 fw-bold m-0 p-0">{name}</h3>
                 <p className="m-0 p-0 fst-italic">
-                    :{description} -{" "}
+                    {description && <>{description}&nbsp;-&nbsp;</>}
                     <Link to={"/artist/" + artist} className="fst-normal">
                         {artist}
                     </Link>
