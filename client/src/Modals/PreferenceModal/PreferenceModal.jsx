@@ -1,10 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../ContextProvider/ContextProvider";
-
 import { userUpdate, userDelete } from "../../Api/Api";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
 export default function PreferenceModal() {
+    const [loadingState, setLoadingState] = useState(false);
+
     const { currentUser, updateCurrentUser } = useContext(AppContext);
 
     const [editMode, setEditMode] = useState(false);
@@ -28,8 +31,8 @@ export default function PreferenceModal() {
 
     const handleUpdateUser = async (e) => {
         e.preventDefault();
-
         if (userState.password !== userState.confirmPassword) return;
+        setLoadingState(true);
 
         const data = await userUpdate(userState);
         if (data) {
@@ -38,8 +41,11 @@ export default function PreferenceModal() {
         } else {
             console.log("Failed to update user");
         }
+        setLoadingState(false);
     };
     const handleDeleteUser = async () => {
+        setLoadingState(true);
+
         const data = await userDelete(currentUser.id);
         if (data) {
             updateCurrentUser();
@@ -48,6 +54,7 @@ export default function PreferenceModal() {
         } else {
             console.log("Failed to Delete user");
         }
+        setLoadingState(false);
     };
 
     useEffect(() => {
@@ -128,24 +135,21 @@ export default function PreferenceModal() {
                                                 />
                                             </div>
                                             {userState.confirmPassword.length > 0 &&
-                                                userState.password !== userState.confirmPassword && (
-                                                    <div className="form-text text-end text-danger">
+                                                !userState.password.startsWith(userState.confirmPassword) && (
+                                                    <div className="form-text text-end text-warning">
                                                         Passwords don't match
                                                     </div>
                                                 )}
                                         </div>
                                     </>
                                 )}
-                                <button
-                                    className="btn btn-primary border"
-                                    type="submit"
-                                    disabled={
-                                        userState.password.length > 0 &&
-                                        userState.password !== userState.confirmPassword
-                                    }
-                                >
-                                    Update
-                                </button>
+                                {loadingState ? (
+                                    <CircularProgress />
+                                ) : (
+                                    <button className="btn btn-primary border" type="submit">
+                                        Update
+                                    </button>
+                                )}
                             </form>
                         )}
                         {currentUser?.name && !editMode && (
@@ -165,12 +169,19 @@ export default function PreferenceModal() {
 
                         {currentUser?.name && (
                             <>
-                                <button className="btn border " onClick={() => setEditMode((prev) => !prev)}>
+                                <button
+                                    className={`btn border ${editMode && "btn-secondary"}`}
+                                    onClick={() => setEditMode((prev) => !prev)}
+                                >
                                     {editMode ? "Cancel Edit" : "Edit user"}
                                 </button>
-                                <button className="btn border" onClick={handleDeleteUser}>
-                                    Delete Account
-                                </button>
+                                {loadingState ? (
+                                    <CircularProgress />
+                                ) : (
+                                    <button className="btn border" onClick={handleDeleteUser}>
+                                        Delete Account
+                                    </button>
+                                )}
                                 <button className="btn border" onClick={handleLogout}>
                                     Logout
                                 </button>

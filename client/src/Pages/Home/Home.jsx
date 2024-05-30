@@ -1,18 +1,22 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { fetchImages, fetchImagesByArtist, fetchSearchImages } from "../../Api/Api";
 import ImageItem from "../../Components/ImageItem/ImageItem";
 import ViewOptions from "../../Components/ViewOptions/ViewOptions";
 import { useParams } from "react-router-dom";
 import { ImagesContext, SearchContext } from "../../ContextProvider/ContextProvider";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function Home() {
     const { imagesArray, setImagesArray } = useContext(ImagesContext);
     const { searchString } = useContext(SearchContext);
 
+    const [loadingState, setLoadingState] = useState(false);
+
     const { artist } = useParams();
 
     useEffect(() => {
         (async () => {
+            setLoadingState(true);
             let data;
 
             if (searchString && searchString.length > 2) {
@@ -22,6 +26,7 @@ export default function Home() {
             } else {
                 data = await fetchImages();
             }
+            setLoadingState(false);
             setImagesArray(data || []);
         })();
 
@@ -29,11 +34,9 @@ export default function Home() {
     }, [artist, searchString]);
 
     const deleteItem = (id) => {
+        setLoadingState(true);
         setImagesArray((prev) => prev.filter((item) => item.id !== id));
-    };
-
-    const upvoteItem = ({ id, likes, action }) => {
-        setImagesArray((prev) => prev.map((item) => (item.id === id ? { ...item, likes, action } : item)));
+        setLoadingState(false);
     };
 
     return (
@@ -41,15 +44,21 @@ export default function Home() {
             <ViewOptions location="Home" />
             <div className="d-flex flex-wrap gap-2 justify-content-evenly py-2 px-1">
                 {imagesArray.map((item) => (
-                    <ImageItem key={item.id} data={item} deleteItem={deleteItem} upvoteItem={upvoteItem} />
+                    <ImageItem key={item.id} data={item} deleteItem={deleteItem} />
                 ))}
-                {imagesArray.length < 1 && (
+
+                {imagesArray.length < 1 && !loadingState && (
                     <p>
                         No Content found{" "}
                         {searchString.length > 2 && (
                             <span className="fst-italic fw-bold">: Try a different search term</span>
                         )}
                     </p>
+                )}
+                {loadingState && (
+                    <>
+                        <CircularProgress />
+                    </>
                 )}
             </div>
         </div>

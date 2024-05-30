@@ -3,18 +3,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { userLogin } from "../../Api/Api";
 import { AppContext } from "../../ContextProvider/ContextProvider";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
 export default function Login() {
     const navigate = useNavigate();
-
     const { updateCurrentUser } = useContext(AppContext);
+    const [loadingState, setLoadingState] = useState(false);
 
-    const [ userState, setUserState ] = useState({
+    const [userState, setUserState] = useState({
         name: "",
         password: "",
     });
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setLoadingState(true);
         const res = await userLogin(userState);
         if (res) {
             updateCurrentUser(res);
@@ -26,6 +29,7 @@ export default function Login() {
             name: "",
             password: "",
         });
+        setLoadingState(false);
     };
 
     return (
@@ -57,7 +61,13 @@ export default function Login() {
                         required
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">Login</button>
+                {loadingState ? (
+                    <CircularProgress />
+                ) : (
+                    <button type="submit" className="btn btn-primary">
+                        Login
+                    </button>
+                )}
             </form>
             <p>
                 Don't have an account? <Link to="/register">Register</Link>

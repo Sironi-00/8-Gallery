@@ -4,13 +4,17 @@ import { fetchArtists, fetchSearchArtists } from "../../Api/Api";
 import ArtistItem from "../../Components/ArtistItem/ArtistItem";
 import { SearchContext } from "../../ContextProvider/ContextProvider";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
 export default function Artists() {
     const [artistState, setArtistState] = useState([]);
+    const [loadingState, setLoadingState] = useState(false);
 
     const { searchString } = useContext(SearchContext);
 
     useEffect(() => {
         (async () => {
+            setLoadingState(true);
             let data;
 
             if (searchString && searchString.length > 2) {
@@ -18,6 +22,7 @@ export default function Artists() {
             } else {
                 data = await fetchArtists();
             }
+            setLoadingState(false);
             setArtistState(data || []);
         })();
         return setArtistState([]);
@@ -30,7 +35,15 @@ export default function Artists() {
                 {artistState.map((item) => (
                     <ArtistItem key={item.id} data={item} />
                 ))}
-                {artistState.length < 1 && <p>No Content found {(searchString.length > 2) && <span className="fst-italic fw-bold">: Try a different search term</span> }</p>}
+                {artistState.length < 1 && !loadingState && (
+                    <p>
+                        No Content found{" "}
+                        {searchString.length > 2 && (
+                            <span className="fst-italic fw-bold">: Try a different search term</span>
+                        )}
+                    </p>
+                )}
+                {loadingState && <CircularProgress className="m-5" />}
             </div>
         </div>
     );

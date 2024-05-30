@@ -3,9 +3,14 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { fetchImageById, updateImage } from "../../Api/Api";
 import { AppContext } from "../../ContextProvider/ContextProvider";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
 export default function EditImageModal() {
     const navigate = useNavigate();
+    const [loadingState, setLoadingState] = useState(false);
+
     const { currentUser } = useContext(AppContext);
+
     const [imageObject, setImageObject] = useState({
         name: "",
         description: "",
@@ -20,6 +25,7 @@ export default function EditImageModal() {
         setQueryString("");
         if (!currentUser || !imageId || imageId.length < 1) return;
         (async () => {
+            setLoadingState(true);
             const res = await fetchImageById(imageId);
             if (res) {
                 setImageObject({
@@ -32,11 +38,13 @@ export default function EditImageModal() {
             } else {
                 console.log("Failed to get image");
             }
+            setLoadingState(false);
         })();
     }, [imageId, currentUser, currentUser?.id]);
 
     const handleImageUpdate = async (e) => {
         e.preventDefault();
+        setLoadingState(true);
 
         if (currentUser?.id !== imageObject.artistId) return;
 
@@ -54,6 +62,7 @@ export default function EditImageModal() {
         } else {
             console.log("Failed to update image");
         }
+        setLoadingState(false);
     };
 
     return (
@@ -106,9 +115,13 @@ export default function EditImageModal() {
                         >
                             Close
                         </button>
-                        <button type="submit" form="edit-image-modal-form" className="btn btn-primary">
-                            Update
-                        </button>
+                        {loadingState ? (
+                            <CircularProgress />
+                        ) : (
+                            <button type="submit" form="edit-image-modal-form" className="btn btn-primary">
+                                Update
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

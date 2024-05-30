@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { userEmail, userName } from "../../Api/Api";
 import { useSearchParams } from "react-router-dom";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
 export default function EmailArtistModal() {
+    const [loadingState, setLoadingState] = useState(false);
+
     const [queryString, setQueryString] = useSearchParams();
 
     const [emailObject, setEmailObject] = useState({
@@ -14,6 +18,10 @@ export default function EmailArtistModal() {
 
     const handleSendEmail = async (e) => {
         e.preventDefault();
+        if (emailObject.name.length < 1 && emailObject.email.length < 1 && emailObject.message.length < 1) {
+            return;
+        }
+        setLoadingState(true);
 
         const res = await userEmail(emailObject);
         if (res) {
@@ -29,14 +37,16 @@ export default function EmailArtistModal() {
         } else {
             console.log("Failed: to send email");
         }
+        setLoadingState(false);
     };
 
     const artistId = queryString.get("aid");
     useEffect(() => {
         setQueryString("");
         if (!artistId || artistId.length < 1) return;
-        
+
         (async () => {
+            setLoadingState(true);
             const res = await userName(artistId);
             if (res) {
                 setEmailObject({
@@ -48,6 +58,7 @@ export default function EmailArtistModal() {
             } else {
                 console.log("Failed to get username");
             }
+            setLoadingState(false);
         })();
     }, [artistId]);
 
@@ -60,9 +71,6 @@ export default function EmailArtistModal() {
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p className="m-0 mb-1 p-0">
-                            To ensure our user's privacy we will send an email on your behalf
-                        </p>
                         <form id="email-artist-modal-form" onSubmit={handleSendEmail}>
                             <p className="m-0 mb-1 p-0">
                                 Sending to <strong>{emailObject.artist}</strong>
@@ -118,19 +126,13 @@ export default function EmailArtistModal() {
                         >
                             Close
                         </button>
-                        <button
-                            type="submit"
-                            form="email-artist-modal-form"
-                            className={`btn btn-primary ${
-                                !(
-                                    emailObject.name.length > 1 &&
-                                    emailObject.email.length > 1 &&
-                                    emailObject.message.length > 1
-                                ) && "disabled"
-                            }`}
-                        >
-                            Submit
-                        </button>
+                        {loadingState ? (
+                            <CircularProgress />
+                        ) : (
+                            <button type="submit" className="btn btn-primary">
+                                Login
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

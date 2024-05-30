@@ -2,7 +2,17 @@ const express = require("express");
 const Pool = require("./Database");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
+
+// bcrypt Password functions
 const saltRound = 10;
+const hashCompare = async (password, hashedPass) => {
+    return await bcrypt.compare(password, hashedPass);
+};
+const hashPass = async (password) => {
+    const salt = await bcrypt.genSalt(saltRound);
+    const hashed = await bcrypt.hash(password, salt);
+    return hashed;
+};
 
 const UserRouter = express.Router();
 
@@ -64,9 +74,7 @@ UserRouter.post("/login", async (req, res, next) => {
             name: rows[0].name,
             email: rows[0].email,
         };
-        const hashCompare = async (password, hashedPass) => {
-            return await bcrypt.compare(password, hashedPass);
-        };
+
         if (await hashCompare(password, rows[0].password)) {
             res.json(activeUser);
         } else {
@@ -83,11 +91,6 @@ UserRouter.post("/login", async (req, res, next) => {
 UserRouter.post("/register", async (req, res, next) => {
     const { name, password, email } = req.body;
 
-    const hashPass = async (password) => {
-        const salt = await bcrypt.genSalt(saltRound);
-        const hashed = await bcrypt.hash(password, salt);
-        return hashed;
-    };
     const hashedPassword = await hashPass(password);
 
     let conn;
@@ -172,10 +175,12 @@ UserRouter.patch("/:userId", async (req, res, next) => {
     try {
         conn = await Pool.getConnection();
         if (password && password.length > 0) {
+            const hashedPassword = await hashPass(password);
+            
             await conn.query("UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?", [
                 name,
                 email,
-                password,
+                hashedPassword,
                 userId,
             ]);
         } else {

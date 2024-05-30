@@ -3,8 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { userRegister } from "../../Api/Api";
 import { AppContext } from "../../ContextProvider/ContextProvider";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
 export default function Register() {
     const navigate = useNavigate();
+
+    const [loadingState, setLoadingState] = useState(false);
 
     const { updateCurrentUser } = useContext(AppContext);
 
@@ -18,6 +22,7 @@ export default function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        setLoadingState(true);
 
         if (userState.password !== userState.confirmPassword) return;
 
@@ -28,6 +33,7 @@ export default function Register() {
         } else {
             setErrorMessage(res?.message || "And error has occurred");
         }
+        setLoadingState(false);
     };
 
     return (
@@ -90,15 +96,19 @@ export default function Register() {
                                 />
                             </div>
                             {userState.confirmPassword.length > 0 &&
-                                userState.password !== userState.confirmPassword && (
+                                !userState.password.startsWith(userState.confirmPassword) && (
                                     <div className="form-text text-end text-warning">Passwords don't match</div>
                                 )}
                         </div>
                     </>
                 )}
-                <button type="submit" className="btn btn-primary">
-                    Register
-                </button>
+                {loadingState ? (
+                    <CircularProgress />
+                ) : (
+                    <button type="submit" className="btn btn-primary">
+                        Register
+                    </button>
+                )}
             </form>
             <p>
                 Already have an account? <Link to="/login">Login</Link>
