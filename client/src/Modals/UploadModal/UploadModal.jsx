@@ -37,7 +37,7 @@ export default function UploadModal() {
         } else {
             console.log("Failed to upload");
         }
-        // setLoadingState(false);
+        setLoadingState(false);
     };
 
     return (
