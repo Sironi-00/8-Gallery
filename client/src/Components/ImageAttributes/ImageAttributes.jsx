@@ -1,40 +1,44 @@
 import { useContext, useEffect, useState } from "react";
+import { AppContext, ImagesContext } from "../../ContextProvider/ContextProvider";
+import { getImageUpvotes, upvoteImage, deleteImage } from "../../Api/Api";
+import { useSearchParams } from "react-router-dom";
 
 import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
-
-import { AppContext, ImagesContext } from "../../ContextProvider/ContextProvider";
-import { getImageUpvotes, upvoteImage, deleteImage, } from "../../Api/Api";
-import { useSearchParams } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function ImageAttributes({ data }) {
     const { id, url, artistId, likes } = data;
+    const [loadingState, setLoadingState] = useState(false);
+    const [votesCount, setVotesCount] = useState({ likes: likes, liked: false });
 
-    const { setImagesArray } = useContext(ImagesContext); 
+    const { setImagesArray } = useContext(ImagesContext);
     const { currentUser } = useContext(AppContext);
 
     const [, setQueryString] = useSearchParams();
 
-    const [votesCount, setVotesCount] = useState({ likes: likes, liked: false });
-
     const handleUpvote = async () => {
+        setLoadingState(true);
         const res = await upvoteImage({ id, userId: currentUser?.id });
         if (res) {
             setVotesCount(res);
         } else {
             console.log("Error: could not vote image");
         }
+        setLoadingState(false);
     };
 
     const handleDelete = async () => {
+        setLoadingState(true);
         const res = await deleteImage({ id, artistId: currentUser?.id });
         if (res) {
-            setImagesArray(prev => prev.filter((item) => item.id !== id))
+            setImagesArray((prev) => prev.filter((item) => item.id !== id));
         } else {
             console.log("Error: could not delete image");
         }
+        setLoadingState(false);
     };
 
     const handleEditImage = () => {
@@ -59,15 +63,19 @@ export default function ImageAttributes({ data }) {
             <div className="d-flex align-items-center">
                 {currentUser?.id ? (
                     <>
-                        <button
-                            className="btn border d-flex align-items-center position-relative"
-                            onClick={handleUpvote}
-                        >
-                            <ThumbUpAltRoundedIcon className={`${votesCount.liked && "text-primary"}`} />
-                            {votesCount.liked && <ThumbUpAltRoundedIcon className="position-absolute scale-1 " />}
-                            &nbsp;
-                            {votesCount.likes}
-                        </button>
+                        {loadingState ? (
+                            <CircularProgress />
+                        ) : (
+                            <button
+                                className="btn border d-flex align-items-center position-relative"
+                                onClick={handleUpvote}
+                            >
+                                <ThumbUpAltRoundedIcon className={`${votesCount.liked && "text-primary"}`} />
+                                {votesCount.liked && <ThumbUpAltRoundedIcon className="position-absolute scale-1 " />}
+                                &nbsp;
+                                {votesCount.likes}
+                            </button>
+                        )}
                     </>
                 ) : (
                     <>
@@ -90,9 +98,13 @@ export default function ImageAttributes({ data }) {
                     >
                         <EditIcon />
                     </button>
-                    <button title="Delete Image" className="btn border" onClick={handleDelete}>
-                        <DeleteIcon />
-                    </button>
+                    {loadingState ? (
+                        <CircularProgress />
+                    ) : (
+                        <button title="Delete Image" className="btn border" onClick={handleDelete}>
+                            <DeleteIcon />
+                        </button>
+                    )}
                 </>
             )}
             <div className="d-flex align-items-center">

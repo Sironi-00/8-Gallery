@@ -26,25 +26,19 @@ export default function Home() {
             } else {
                 data = await fetchImages();
             }
-            setLoadingState(false);
             setImagesArray(data || []);
+            setLoadingState(false);
         })();
 
         return setImagesArray([]);
     }, [artist, searchString]);
-
-    const deleteItem = (id) => {
-        setLoadingState(true);
-        setImagesArray((prev) => prev.filter((item) => item.id !== id));
-        setLoadingState(false);
-    };
 
     return (
         <div className="h-100 overflow-auto">
             <ViewOptions location="Home" />
             <div className="d-flex flex-wrap gap-2 justify-content-evenly py-2 px-1">
                 {imagesArray.map((item) => (
-                    <ImageItem key={item.id} data={item} deleteItem={deleteItem} />
+                    <ImageItem key={item.id} data={item} />
                 ))}
 
                 {imagesArray.length < 1 && !loadingState && (

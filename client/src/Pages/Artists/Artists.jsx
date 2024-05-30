@@ -22,8 +22,8 @@ export default function Artists() {
             } else {
                 data = await fetchArtists();
             }
-            setLoadingState(false);
             setArtistState(data || []);
+            setLoadingState(false);
         })();
         return setArtistState([]);
     }, [searchString]);

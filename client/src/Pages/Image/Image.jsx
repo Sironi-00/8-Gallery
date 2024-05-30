@@ -17,8 +17,8 @@ export default function Image() {
             const data = await fetchImageById(id);
             if (data) {
                 setImageObject(data);
-                setLoadingState(false);
             } else {
+                setLoadingState(false);
                 console.log("Failed to display img obj");
             }
         })();

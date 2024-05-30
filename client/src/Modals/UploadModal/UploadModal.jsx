@@ -1,11 +1,13 @@
 import { useContext, useState } from "react";
 import { uploadImage } from "../../Api/Api";
 import { useNavigate } from "react-router-dom";
-
 import { AppContext } from "../../ContextProvider/ContextProvider";
+
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function UploadModal() {
     const navigate = useNavigate();
+    const [loadingState, setLoadingState] = useState(false);
 
     const { currentUser } = useContext(AppContext);
 
@@ -18,9 +20,11 @@ export default function UploadModal() {
     const handleImageUpload = async (e) => {
         e.preventDefault();
 
-        if (!currentUser || !currentUser.name) {
+        if (!currentUser || !currentUser.id) {
             return;
         }
+        setLoadingState(true);
+
         const res = await uploadImage({ ...imageObject, artistId: currentUser.id });
 
         if (res) {
@@ -33,6 +37,7 @@ export default function UploadModal() {
         } else {
             console.log("Failed to upload");
         }
+        // setLoadingState(false);
     };
 
     return (
@@ -44,63 +49,69 @@ export default function UploadModal() {
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        {currentUser?.name && (
-                            <p>
-                                Artist: <strong>{currentUser.name}</strong>
-                            </p>
-                        )}
-                        <form id="upload-modal-form" onSubmit={handleImageUpload}>
-                            <div className="input-group mb-2">
-                                <span className="input-group-text">Title</span>
-                                <input
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="Title"
-                                    value={imageObject.name}
-                                    onChange={({ target }) =>
-                                        setImageObject((prev) => ({ ...prev, name: target.value }))
-                                    }
-                                    minLength="3"
-                                    autoFocus
-                                    required
-                                />
-                            </div>
-                            <div className="input-group mb-2">
-                                <span className="input-group-text">Description</span>
-                                <textarea
-                                    className="form-control"
-                                    name="description"
-                                    rows="7"
-                                    placeholder="Image description"
-                                    value={imageObject.description}
-                                    onChange={({ target }) =>
-                                        setImageObject((prev) => ({ ...prev, description: target.value }))
-                                    }
-                                    minLength="3"
-                                ></textarea>
-                            </div>
+                        {loadingState ? (
+                            <CircularProgress />
+                        ) : (
+                            <>
+                                {currentUser?.name && (
+                                    <p>
+                                        Artist: <strong>{currentUser.name}</strong>
+                                    </p>
+                                )}
+                                <form id="upload-modal-form" onSubmit={handleImageUpload}>
+                                    <div className="input-group mb-2">
+                                        <span className="input-group-text">Title</span>
+                                        <input
+                                            className="form-control"
+                                            type="text"
+                                            placeholder="Title"
+                                            value={imageObject.name}
+                                            onChange={({ target }) =>
+                                                setImageObject((prev) => ({ ...prev, name: target.value }))
+                                            }
+                                            minLength="3"
+                                            autoFocus
+                                            required
+                                        />
+                                    </div>
+                                    <div className="input-group mb-2">
+                                        <span className="input-group-text">Description</span>
+                                        <textarea
+                                            className="form-control"
+                                            name="description"
+                                            rows="7"
+                                            placeholder="Image description"
+                                            value={imageObject.description}
+                                            onChange={({ target }) =>
+                                                setImageObject((prev) => ({ ...prev, description: target.value }))
+                                            }
+                                            minLength="3"
+                                        ></textarea>
+                                    </div>
 
-                            <div className="input-group mb-2">
-                                <input
-                                    className="form-control"
-                                    id="file-uploader"
-                                    name="image"
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={({ target }) =>
-                                        setImageObject((prev) => ({ ...prev, file: target.files[0] }))
-                                    }
-                                    required
-                                />
-                            </div>
-                            {imageObject.file && (
-                                <img
-                                    className="img-sm"
-                                    src={URL.createObjectURL(imageObject.file)}
-                                    alt={"Image: " + imageObject.name}
-                                />
-                            )}
-                        </form>
+                                    <div className="input-group mb-2">
+                                        <input
+                                            className="form-control"
+                                            id="file-uploader"
+                                            name="image"
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={({ target }) =>
+                                                setImageObject((prev) => ({ ...prev, file: target.files[0] }))
+                                            }
+                                            required
+                                        />
+                                    </div>
+                                    {imageObject.file && (
+                                        <img
+                                            className="img-sm"
+                                            src={URL.createObjectURL(imageObject.file)}
+                                            alt={"Image: " + imageObject.name}
+                                        />
+                                    )}
+                                </form>
+                            </>
+                        )}
                     </div>
                     <div className="modal-footer">
                         <button
@@ -111,16 +122,13 @@ export default function UploadModal() {
                         >
                             Close
                         </button>
-                        {/* imageObject.name.length > 0 && "disabled" */}
-                        <button
-                            type="submit"
-                            form="upload-modal-form"
-                            className={`btn btn-primary ${
-                                !(imageObject.name.length > 1 && imageObject.file) && "disabled"
-                            }`}
-                        >
-                            Submit
-                        </button>
+                        {loadingState ? (
+                            <CircularProgress />
+                        ) : (
+                            <button type="submit" form="upload-modal-form" className="btn btn-primary">
+                                Submit
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
