@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { fetchImages, fetchImagesByArtist, fetchSearchImages } from "../../Api/Api";
 import ImageItem from "../../Components/ImageItem/ImageItem";
-import ViewOptions from "../../Components/ViewOptions/ViewOptions";
 import { useParams } from "react-router-dom";
 import { ImagesContext, SearchContext } from "../../ContextProvider/ContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -34,9 +33,7 @@ export default function Home() {
     }, [artist, searchString]);
 
     return (
-        <div className="h-100 overflow-auto">
-            <ViewOptions location="Home" />
-            <div className="d-flex flex-wrap gap-2 justify-content-evenly py-2 px-1">
+            <div className="h-100 overflow-auto d-flex flex-wrap gap-2 justify-content-evenly py-2 px-1">
                 {imagesArray.map((item) => (
                     <ImageItem key={item.id} data={item} />
                 ))}
@@ -55,6 +52,5 @@ export default function Home() {
                     </>
                 )}
             </div>
-        </div>
     );
 }
