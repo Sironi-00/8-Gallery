@@ -76,7 +76,7 @@ img {
   --bs-border-color: #0006 !important;
 }
 
-.btn:active {
+.btn:active, a:active {
   scale: 0.9;
 }
 
