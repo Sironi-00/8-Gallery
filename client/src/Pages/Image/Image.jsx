@@ -51,7 +51,7 @@ export default function Image() {
                                         minute: "2-digit",
                                     })}
                             </p>
-                            <Link to={"/artist/" + imageObject.artist}>@{imageObject.artist}</Link>
+                            <Link to={"/artist/" + imageObject.artist}>{imageObject.artist}</Link>
                             <ImageAttributes data={imageObject} />
                         </div>
                     </div>
