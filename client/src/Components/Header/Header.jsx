@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
@@ -11,6 +11,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import { AppContext, ThemeContext } from "../../ContextProvider/ContextProvider";
 
 export default function Header() {
+    const navigate = useNavigate();
     const { currentUser } = useContext(AppContext);
     const { theme, toggleTheme } = useContext(ThemeContext);
     document.body.setAttribute("data-bs-theme", theme);

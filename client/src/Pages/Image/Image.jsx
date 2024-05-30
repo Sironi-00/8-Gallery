@@ -18,9 +18,9 @@ export default function Image() {
             if (data) {
                 setImageObject(data);
             } else {
-                setLoadingState(false);
                 console.log("Failed to display img obj");
             }
+            setLoadingState(false);
         })();
     }, [id]);
 
