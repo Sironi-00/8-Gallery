@@ -20,6 +20,15 @@ cd 8-Gallery
 npm run build
 ```
 
+## dot.env
+.env values are required to run the server
+```
+DB_DATABASE = ""
+DB_USER = ""
+DB_PASSWORD = ""
+DB_HOST = ""
+```
+
 ## Feature [implemented & upcoming]
 - File Upload
 - mariadb bigIntAsNumber
@@ -31,3 +40,4 @@ npm run build
 
 - deleting user also deletes user's image directory
 - deleting user on a different session will force logout on initial load of other active sessions
+
