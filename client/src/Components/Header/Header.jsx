@@ -11,7 +11,6 @@ import SearchBar from "../SearchBar/SearchBar";
 import { AppContext, ThemeContext } from "../../ContextProvider/ContextProvider";
 
 export default function Header() {
-    const navigate = useNavigate();
     const { currentUser } = useContext(AppContext);
     const { theme, toggleTheme } = useContext(ThemeContext);
     document.body.setAttribute("data-bs-theme", theme);

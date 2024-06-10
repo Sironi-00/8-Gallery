@@ -41,7 +41,7 @@ export default function Image() {
                         <div className="border rounded p-2 m-0">
                             <h2 className="m-0 p-0 text-break">{imageObject.name}</h2>
                             {imageObject.description && <p className="m-0 p-0">{imageObject.description}</p>}
-                            <p className="m-0 p-0">
+                            <p className="m-0 p-0 fst-italic">
                                 {imageObject.upload_date &&
                                     new Date(imageObject.upload_date).toLocaleTimeString([], {
                                         day: "numeric",
