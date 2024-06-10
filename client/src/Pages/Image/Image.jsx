@@ -39,7 +39,7 @@ export default function Image() {
                     </div>
                     <div className="col-lg-3 col-md-4 m-0 p-0 px-1 pb-md-3 mb-md-5 mt-md-auto">
                         <div className="border rounded p-2 m-0">
-                            <h2 className="m-0 p-0">{imageObject.name}</h2>
+                            <h2 className="m-0 p-0 text-break">{imageObject.name}</h2>
                             {imageObject.description && <p className="m-0 p-0">{imageObject.description}</p>}
                             <p className="m-0 p-0">
                                 {imageObject.upload_date &&

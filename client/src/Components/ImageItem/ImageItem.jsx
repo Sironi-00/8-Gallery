@@ -11,7 +11,7 @@ export default function ImageItem({ data }) {
                 <img className="bg-secondary" src={url} alt={"Image: " + name} loading="lazy" />
             </Link>
             <div className="position-absolute w-100 bottom-0 bg-body-tertiary bg-opacity-75 shy p-2 shadow">
-                <h3 className="fs-4 fw-bold m-0 p-0">{name}</h3>
+                <h3 className="fs-4 fw-bold m-0 p-0 text-break">{name}</h3>
                 <p className="m-0 p-0 fst-italic">
                     {description && <>{description}&nbsp;-&nbsp;</>}
                     <Link to={"/artist/" + artist} className="fst-normal">
